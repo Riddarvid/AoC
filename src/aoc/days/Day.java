@@ -7,10 +7,10 @@ import java.net.URL;
 import java.util.List;
 
 public abstract class Day {
-    List<String> lines;
+    protected List<String> lines;
 
     public Day() {
-        URL url = getClass().getResource("input.txt");
+        URL url = getClass().getResource("input");
         File f = new File(url.getPath());
         lines = FileUtilities.getLines(f);
         setup();
