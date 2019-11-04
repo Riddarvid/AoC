@@ -1,8 +1,8 @@
 package aoc.days.day10;
 
-import aoc.FileUtilities;
+import aoc.utils.InputUtilities;
 import aoc.days.Day;
-import aoc.days.KnotHash;
+import aoc.utils.KnotHash;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class Day10 extends Day {
     @Override
     protected void setup() {
         lengths = new ArrayList<>();
-        for (String s : FileUtilities.getTokens(lines.get(0), ',')) {
+        for (String s : InputUtilities.getTokens(lines.get(0), ',')) {
             lengths.add(Integer.parseInt(s));
         }
         StringBuilder sb = new StringBuilder();

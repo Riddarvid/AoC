@@ -1,7 +1,7 @@
 package aoc.days.day14;
 
 import aoc.days.Day;
-import aoc.days.KnotHash;
+import aoc.utils.KnotHash;
 
 public class Day14 extends Day {
     boolean[][] disk;

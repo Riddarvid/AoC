@@ -1,6 +1,6 @@
 package aoc.days.day8;
 
-import aoc.FileUtilities;
+import aoc.utils.InputUtilities;
 import aoc.days.Day;
 import aoc.days.day8.Instructions.Condition;
 import aoc.days.day8.Instructions.Instruction;
@@ -54,14 +54,14 @@ public class Day8 extends Day {
     protected void setup() {
         registers = new HashMap<>();
         for (String s : lines) {
-            List<String> tokens = FileUtilities.getTokens(s, ' ');
+            List<String> tokens = InputUtilities.getTokens(s, ' ');
             registers.put(tokens.get(0), 0);
             registers.put(tokens.get(4), 0);
         }
         instructions = new Instruction[lines.size()];
         for (int i = 0; i < lines.size(); i++) {
             String s = lines.get(i);
-            List<String> tokens = FileUtilities.getTokens(s, ' ');
+            List<String> tokens = InputUtilities.getTokens(s, ' ');
             Condition condition = new Condition(tokens.get(4), Integer.parseInt(tokens.get(6)), getConditionOperator(tokens.get(5)));
             Operator operator = getOperator(tokens.get(1));
             Instruction instruction = new Instruction(tokens.get(0), Integer.parseInt(tokens.get(2)), operator, condition);

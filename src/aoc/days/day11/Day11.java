@@ -1,6 +1,6 @@
 package aoc.days.day11;
 
-import aoc.FileUtilities;
+import aoc.utils.InputUtilities;
 import aoc.days.Day;
 
 import java.util.ArrayList;
@@ -75,7 +75,7 @@ public class Day11 extends Day {
     @Override
     protected void setup() {
         String input = lines.get(0);
-        List<String> tokens = FileUtilities.getTokens(input, ',');
+        List<String> tokens = InputUtilities.getTokens(input, ',');
         directions = new ArrayList<>();
         for (String direction : tokens) {
             switch (direction) {

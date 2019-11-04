@@ -1,14 +1,12 @@
 package aoc.days.day13;
 
-import aoc.FileUtilities;
+import aoc.utils.InputUtilities;
 import aoc.days.Day;
-import aoc.days.day13.view.View;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 public class Day13 extends Day {
     private Map<Integer, Layer> layerMap;
@@ -103,9 +101,9 @@ public class Day13 extends Day {
     @Override
     protected void setup() {
         layerMap = new HashMap<>();
-        deepestLayer = FileUtilities.getInts(lines.get(0)).get(0);
+        deepestLayer = InputUtilities.getInts(lines.get(0)).get(0);
         for (String s : lines) {
-            List<Integer> ints = FileUtilities.getInts(s);
+            List<Integer> ints = InputUtilities.getInts(s);
             Layer current = new Layer(ints.get(0), ints.get(1));
             layerMap.put(current.getDepth(), current);
             if (current.getDepth() > deepestLayer) {

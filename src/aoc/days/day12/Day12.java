@@ -1,9 +1,8 @@
 package aoc.days.day12;
 
-import aoc.FileUtilities;
+import aoc.utils.InputUtilities;
 import aoc.days.Day;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,12 +40,12 @@ public class Day12 extends Day {
     protected void setup() {
         programMap = new HashMap<>();
         for (String s : lines) {
-            List<Integer> ints = FileUtilities.getInts(s);
+            List<Integer> ints = InputUtilities.getInts(s);
             Program program = new Program(ints.get(0));
             programMap.put(program.getId(), program);
         }
         for (String s : lines) {
-            List<Integer> ints = FileUtilities.getInts(s);
+            List<Integer> ints = InputUtilities.getInts(s);
             Program program = programMap.get(ints.get(0));
             for (int i = 1; i < ints.size(); i++) {
                 program.addConnection(programMap.get(ints.get(i)));

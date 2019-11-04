@@ -1,6 +1,6 @@
 package aoc.days.day6;
 
-import aoc.FileUtilities;
+import aoc.utils.InputUtilities;
 import aoc.days.Day;
 
 import java.util.ArrayList;
@@ -74,7 +74,7 @@ public class Day6 extends Day {
 
     @Override
     protected void setup() {
-        List<String> initValues = FileUtilities.getTokens(lines.get(0), '\t');
+        List<String> initValues = InputUtilities.getTokens(lines.get(0), '\t');
         banks = new int[initValues.size()];
         for (int i = 0; i < initValues.size(); i++) {
             banks[i] = Integer.parseInt(initValues.get(i));

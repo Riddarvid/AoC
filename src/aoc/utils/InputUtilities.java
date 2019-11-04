@@ -1,4 +1,4 @@
-package aoc;
+package aoc.utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,7 +7,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileUtilities {
+public class InputUtilities {
     public static List<String> getLines(File f) {
         try {
             return Files.readAllLines(f.toPath());

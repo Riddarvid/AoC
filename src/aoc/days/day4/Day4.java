@@ -1,6 +1,6 @@
 package aoc.days.day4;
 
-import aoc.FileUtilities;
+import aoc.utils.InputUtilities;
 import aoc.days.Day;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class Day4 extends Day {
     }
 
     private boolean isValidPart1(String passPhrase) {
-        List<String> words = FileUtilities.getTokens(passPhrase, ' ');
+        List<String> words = InputUtilities.getTokens(passPhrase, ' ');
         List<String> unique = new ArrayList<>();
         for (String word : words) {
             if (unique.contains(word)) {
@@ -47,7 +47,7 @@ public class Day4 extends Day {
     }
 
     private boolean isValidPart2(String passPhrase) {
-        List<String> words = FileUtilities.getTokens(passPhrase, ' ');
+        List<String> words = InputUtilities.getTokens(passPhrase, ' ');
         for (int i = 0; i < words.size() - 1; i++) {
             for (int j = i + 1; j < words.size(); j++) {
                 if (areAnagrams(words.get(i), words.get(j))) {

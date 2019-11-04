@@ -1,4 +1,4 @@
-package aoc.days;
+package aoc.utils;
 
 import java.util.ArrayList;
 import java.util.List;

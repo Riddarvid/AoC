@@ -1,6 +1,6 @@
 package aoc.days.day2;
 
-import aoc.FileUtilities;
+import aoc.utils.InputUtilities;
 import aoc.days.Day;
 
 import java.util.ArrayList;
@@ -66,7 +66,7 @@ public class Day2 extends Day {
     protected void setup() {
         rows = new ArrayList<>();
         for (String string : lines) {
-            List<String> tokens = FileUtilities.getTokens(string, '\t');
+            List<String> tokens = InputUtilities.getTokens(string, '\t');
             List<Integer> row = new ArrayList<>();
             for (String token : tokens) {
                 row.add(Integer.parseInt(token));

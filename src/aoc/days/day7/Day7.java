@@ -1,6 +1,6 @@
 package aoc.days.day7;
 
-import aoc.FileUtilities;
+import aoc.utils.InputUtilities;
 import aoc.days.Day;
 
 import java.util.HashMap;
@@ -43,14 +43,14 @@ public class Day7 extends Day {
     protected void setup() {
         programs = new HashMap<>();
         for (String s : lines) {
-            List<String> tokens = FileUtilities.getTokens(s, ' ');
+            List<String> tokens = InputUtilities.getTokens(s, ' ');
             String name = tokens.get(0);
             String weight = tokens.get(1);
             weight = weight.substring(1, weight.length() - 1);
             programs.put(name, new Program(name, Integer.parseInt(weight)));
         }
         for (String s : lines) {
-            List<String> tokens = FileUtilities.getTokens(s, ' ');
+            List<String> tokens = InputUtilities.getTokens(s, ' ');
             if (tokens.size() > 2) {
                 Program parent = programs.get(tokens.get(0));
                 for (int i = 3; i < tokens.size(); i++) {
