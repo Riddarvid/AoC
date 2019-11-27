@@ -14,8 +14,13 @@ public class Mul extends Instruction {
     @Override
     public void execute(VM vm) {
         long value = valueOf(source, vm);
-        long earlier = vm.getRegister(destination);
-        vm.setRegister(destination, earlier * value);
+        long earlier = vm.get(destination);
+        vm.put(destination, earlier * value);
         vm.incInstructionPointer();
+    }
+
+    @Override
+    public String toString() {
+        return "Multiply " + destination + " by " + source;
     }
 }

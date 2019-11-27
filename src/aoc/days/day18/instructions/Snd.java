@@ -12,8 +12,12 @@ public class Snd extends Instruction{
     @Override
     public void execute(VM vm) {
         long sound = valueOf(frequency, vm);
-        synchronized (vm) {
-            vm.sendMessage(sound);
-        }
+        vm.send(sound);
+        vm.incInstructionPointer();
+    }
+
+    @Override
+    public String toString() {
+        return "Send " + frequency;
     }
 }

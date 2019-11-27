@@ -13,11 +13,16 @@ public class Jgz extends Instruction {
 
     @Override
     public void execute(VM vm) {
-        if (valueOf(condition, vm) != 0) {
+        if (valueOf(condition, vm) > 0) {
             int earlierIP = vm.getInstructionPointer();
             vm.setInstructionPointer(earlierIP + (int)valueOf(destination, vm));
         } else {
             vm.incInstructionPointer();
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Jump " + destination + " if " + condition + " > 0";
     }
 }

@@ -1,85 +1,86 @@
 package aoc.days.day18;
 
-import aoc.days.day18.instructions.Instruction;
-
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 
-public class VM implements Runnable {
+public class VM {
     private Map<Character, Long> registers;
-    private long lastPlayedSound;
+    private LinkedList<Long> messages;
     private int instructionPointer;
-    private List<Instruction> instructions;
     private boolean isRunning;
     private VM other;
-    private LinkedList<Long> messages;
+    private int id;
+    private int sendCount;
 
-    public void run() {
-        isRunning = true;
-        while (isRunning) {
-            execute();
-        }
-    }
-
-    public void execute() {
-        instructions.get(instructionPointer).execute(this);
-    }
-
-    public void setInstructionPointer(int newIP) {
-        instructionPointer = newIP;
-    }
-
-    public void incInstructionPointer() {
-        instructionPointer++;
-    }
-
-    public VM(Map<Character, Long> registers, List<Instruction> instructions) {
+    public VM(Map<Character, Long> registers, int id) {
         this.registers = registers;
-        this.instructions = instructions;
-        lastPlayedSound = 0;
-        instructionPointer = 0;
+        sendCount = 0;
         messages = new LinkedList<>();
+        instructionPointer = 0;
+        isRunning = true;
+        this.id = id;
     }
 
-    public void setRegister(char register, long value) {
-        registers.put(register, value);
+    public void setOther(VM other) {
+        this.other = other;
     }
 
-    public long getRegister(char register) {
+    public long get(char register) {
         return registers.get(register);
     }
 
-    public void playSound(long frequency) {
-        lastPlayedSound = frequency;
-    }
-
-    public long getLastPlayedSound() {
-        return lastPlayedSound;
+    public void put(char register, long value) {
+        registers.put(register, value);
     }
 
     public int getInstructionPointer() {
         return instructionPointer;
     }
 
-    public void stop() {
-        isRunning = false;
+    public void setInstructionPointer(int instructionPointer) {
+        this.instructionPointer = instructionPointer;
     }
 
-    public void addMessage(long message) {
-        messages.addLast(message);
+    public void incInstructionPointer() {
+        instructionPointer++;
     }
 
-    public void sendMessage(long message) {
-        other.addMessage(message);
+    public void send(long message) {
+        sendCount++;
+        synchronized (other) {
+            other.messages.addLast(message);
+            other.notifyAll();
+        }
     }
 
-    public boolean hasMessage() {
-        return !messages.isEmpty();
+    public boolean isRunning() {
+        return isRunning;
     }
 
-    public long getLastMessage() {
-        return messages.removeLast();
+    public void receive(char register) {
+        synchronized (this) {
+            while (messages.isEmpty()) {
+                try {
+                    //System.out.println("Waiting for " + other);
+                    wait(100);
+                    if (messages.isEmpty()) {
+                        System.out.println(this + "timed out");
+                        isRunning = false;
+                        System.out.println(this + " send count: " + sendCount);
+                        return;
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            System.out.println(this + " received " + messages.getFirst() + " from " + other);
+            registers.put(register, messages.getFirst());
+            messages.removeFirst();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "VM" + id;
     }
 }

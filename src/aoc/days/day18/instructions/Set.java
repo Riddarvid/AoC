@@ -14,7 +14,12 @@ public class Set extends Instruction {
     @Override
     public void execute(VM vm) {
         long source = valueOf(value, vm);
-        vm.setRegister(destination, source);
+        vm.put(destination, source);
         vm.incInstructionPointer();
+    }
+
+    @Override
+    public String toString() {
+        return "Set " + destination + " to " + value;
     }
 }

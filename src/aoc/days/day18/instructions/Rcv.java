@@ -11,11 +11,12 @@ public class Rcv extends Instruction {
 
     @Override
     public void execute(VM vm) {
-        synchronized (vm) {
-            if (vm.hasMessage()) {
-                vm.setRegister(register, vm.getLastMessage());
-                vm.incInstructionPointer();
-            }
-        }
+        vm.receive(register);
+        vm.incInstructionPointer();
+    }
+
+    @Override
+    public String toString() {
+        return "Recieve if " + register + " != 0";
     }
 }

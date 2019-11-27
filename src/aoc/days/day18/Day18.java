@@ -8,7 +8,8 @@ import aoc.utils.InputUtilities;
 import java.util.*;
 
 public class Day18 extends Day {
-    private VM vm;
+    private Executer executer0;
+    private Executer executer1;
 
     public static void main(String[] args) {
         new Day18();
@@ -16,7 +17,10 @@ public class Day18 extends Day {
 
     @Override
     protected void part1() {
-        vm.run();
+        Thread a = new Thread(executer0);
+        Thread b = new Thread(executer1);
+        a.start();
+        b.start();
     }
 
     @Override
@@ -26,12 +30,14 @@ public class Day18 extends Day {
 
     @Override
     protected void setup() {
-        Map<Character, Long> registers = new HashMap<>();
+        Map<Character, Long> registers0 = new HashMap<>();
+        Map<Character, Long> registers1 = new HashMap<>();
         for (String s : lines) {
             List<String> tokens = InputUtilities.getTokens(s, ' ');
             for (int i = 1; i < tokens.size(); i++) {
                 if (Character.isAlphabetic(tokens.get(i).charAt(0))) {
-                    registers.put(tokens.get(i).charAt(0), 0L);
+                    registers0.put(tokens.get(i).charAt(0), 0L);
+                    registers1.put(tokens.get(i).charAt(0), 0L);
                 }
             }
         }
@@ -64,6 +70,13 @@ public class Day18 extends Day {
                     throw new InputMismatchException("Invalid instruction");
             }
         }
-        vm = new VM(registers, instructions);
+        VM vm0 = new VM(registers0, 0);
+        vm0.put('p', 0);
+        VM vm1 = new VM(registers1, 1);
+        vm1.put('p', 1);
+        vm0.setOther(vm1);
+        vm1.setOther(vm0);
+        executer0 = new Executer(vm0, instructions);
+        executer1 = new Executer(vm1, instructions);
     }
 }
