@@ -1,6 +1,7 @@
 package aoc.days.day19;
 
 import aoc.days.Day;
+import aoc.utils.Vector;
 
 import java.util.ArrayList;
 import java.util.List;

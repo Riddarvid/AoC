@@ -1,4 +1,6 @@
-package aoc.days.day19;
+package aoc.utils;
+
+import java.util.Objects;
 
 public class Vector {
     private final int x;
@@ -31,6 +33,20 @@ public class Vector {
 
     public int getY() {
         return y;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vector vector = (Vector) o;
+        return x == vector.x &&
+                y == vector.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 
     @Override
