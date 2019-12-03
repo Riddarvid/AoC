@@ -1,7 +1,6 @@
 package aoc.days.day23.instructions;
 
-import aoc.days.day18.VM;
-import aoc.days.day18.instructions.Instruction;
+import aoc.days.day23.VM;
 
 public class Mul extends Instruction {
     private char destination;
@@ -18,6 +17,7 @@ public class Mul extends Instruction {
         long earlier = vm.get(destination);
         vm.put(destination, earlier * value);
         vm.incInstructionPointer();
+        vm.incMulCount();
     }
 
     @Override

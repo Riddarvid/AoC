@@ -1,7 +1,6 @@
 package aoc.days.day23.instructions;
 
-import aoc.days.day18.VM;
-import aoc.days.day18.instructions.Instruction;
+import aoc.days.day23.VM;
 
 public class Jnz extends Instruction {
     private String destination;
@@ -14,7 +13,7 @@ public class Jnz extends Instruction {
 
     @Override
     public void execute(VM vm) {
-        if (valueOf(condition, vm) > 0) {
+        if (valueOf(condition, vm) != 0) {
             int earlierIP = vm.getInstructionPointer();
             vm.setInstructionPointer(earlierIP + (int)valueOf(destination, vm));
         } else {

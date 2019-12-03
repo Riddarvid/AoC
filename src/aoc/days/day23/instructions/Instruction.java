@@ -1,4 +1,6 @@
-package aoc.days.day23;
+package aoc.days.day23.instructions;
+
+import aoc.days.day23.VM;
 
 public abstract class Instruction {
     long valueOf(String input, VM vm) {

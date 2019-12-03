@@ -1,4 +1,6 @@
-package aoc.days.day23;
+package aoc.days.day23.instructions;
+
+import aoc.days.day23.VM;
 
 public class Set extends Instruction {
     private char destination;

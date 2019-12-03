@@ -1,7 +1,6 @@
 package aoc.days.day23.instructions;
 
-import aoc.days.day18.VM;
-import aoc.days.day18.instructions.Instruction;
+import aoc.days.day23.VM;
 
 public class Sub extends Instruction {
     private char destination;
@@ -16,12 +15,12 @@ public class Sub extends Instruction {
     public void execute(VM vm) {
         long value = valueOf(source, vm);
         long earlier = vm.get(destination);
-        vm.put(destination, earlier + value);
+        vm.put(destination, earlier - value);
         vm.incInstructionPointer();
     }
 
     @Override
     public String toString() {
-        return "Add " + source + " to " + destination;
+        return "Sub " + source + " from " + destination;
     }
 }
