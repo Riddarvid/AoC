@@ -1,4 +1,4 @@
-package aoc.days.Day1;
+package aoc.days.day1;
 
 import aoc.days.Day;
 
