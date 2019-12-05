@@ -1,5 +1,5 @@
 package aoc.utils;
 
-public enum ParamModes {
+public enum ParamMode {
     POSITION, IMMEDIATE
 }
