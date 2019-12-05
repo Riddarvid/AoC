@@ -18,7 +18,6 @@ public class Day2 extends Day {
     @Override
     protected void part1() {
         int[] program = Arrays.copyOf(originalProgram, originalProgram.length);
-        int i = 0;
         program[1] = 12;
         program[2] = 2;
         execute(program);
