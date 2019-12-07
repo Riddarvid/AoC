@@ -6,7 +6,13 @@ import java.util.List;
 import java.util.Scanner;
 
 public class IntcodeComputer {
-    public static void execute(int[] program) {
+    private Controller controller;
+
+    public IntcodeComputer(Controller controller) {
+        this.controller = controller;
+    }
+
+    public void execute(int[] program) {
         InstructionPointer ip = new InstructionPointer();
         while (true) {
             String instruction = Integer.toString(program[ip.getPosition()]);
@@ -107,20 +113,18 @@ public class IntcodeComputer {
         ip.modify(4);
     }
 
-    private static void input(InstructionPointer ip, int[] program) {
-        System.out.println("Please input an int\n");
-        Scanner sc = new Scanner(System.in);
-        int val = Integer.parseInt(sc.nextLine());
+    private void input(InstructionPointer ip, int[] program) {
+        int val = controller.getInput();
         int dest = program[ip.getPosition() + 1];
         program[dest] = val;
         ip.modify(2);
     }
 
-    private static void output(String paramModesString, InstructionPointer ip, int[] program) {
+    private void output(String paramModesString, InstructionPointer ip, int[] program) {
         List<ParamMode> paramModes = getParamModes(paramModesString, 1);
         int op = program[ip.getPosition() + 1];
         int val = getValue(op, paramModes.get(0), program);
-        System.out.println(val);
+        controller.output(val);
         ip.modify(2);
     }
 

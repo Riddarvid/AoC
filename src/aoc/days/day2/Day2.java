@@ -1,14 +1,14 @@
 package aoc.days.day2;
 
 import aoc.days.Day;
+import aoc.utils.Controller;
 import aoc.utils.InputUtilities;
+import aoc.utils.IntcodeComputer;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static aoc.utils.IntcodeComputer.execute;
-
-public class Day2 extends Day {
+public class Day2 extends Day implements Controller {
     private int[] originalProgram;
 
     public static void main(String[] args) {
@@ -20,7 +20,7 @@ public class Day2 extends Day {
         int[] program = Arrays.copyOf(originalProgram, originalProgram.length);
         program[1] = 12;
         program[2] = 2;
-        execute(program);
+        new IntcodeComputer(this).execute(program);
         System.out.println(program[0]);
     }
 
@@ -34,7 +34,7 @@ public class Day2 extends Day {
                 program = Arrays.copyOf(originalProgram, originalProgram.length);
                 program[1] = noun;
                 program[2] = verb;
-                execute(program);
+                new IntcodeComputer(this).execute(program);
                 if (program[0] == 19690720) {
                     break;
                 }
@@ -54,5 +54,15 @@ public class Day2 extends Day {
         for (int i = 0; i < originalProgram.length; i++) {
             originalProgram[i] = values.get(i);
         }
+    }
+
+    @Override
+    public int getInput() {
+        return 0;
+    }
+
+    @Override
+    public void output(int val) {
+
     }
 }

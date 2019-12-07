@@ -1,14 +1,15 @@
 package aoc.days.day5;
 
 import aoc.days.Day;
+import aoc.utils.Controller;
 import aoc.utils.InputUtilities;
+import aoc.utils.IntcodeComputer;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
-import static aoc.utils.IntcodeComputer.execute;
-
-public class Day5 extends Day {
+public class Day5 extends Day implements Controller {
     private int[] originalProgram;
 
     public static void main(String[] args) {
@@ -18,7 +19,7 @@ public class Day5 extends Day {
     @Override
     protected void part1() {
         int[] program = Arrays.copyOf(originalProgram, originalProgram.length);
-        execute(program);
+        new IntcodeComputer(this).execute(program);
     }
 
     @Override
@@ -34,5 +35,17 @@ public class Day5 extends Day {
         for (int i = 0; i < originalProgram.length; i++) {
             originalProgram[i] = values.get(i);
         }
+    }
+
+    @Override
+    public int getInput() {
+        System.out.println("Please enter an int\n");
+        Scanner sc = new Scanner(System.in);
+        return Integer.parseInt(sc.nextLine());
+    }
+
+    @Override
+    public void output(int val) {
+        System.out.println(val);
     }
 }
