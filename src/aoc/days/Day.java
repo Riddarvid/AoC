@@ -1,6 +1,6 @@
 package aoc.days;
 
-import aoc.utils.InputUtilities;
+import aoc.utils.input.InputUtils;
 
 import java.io.File;
 import java.net.URL;
@@ -12,7 +12,7 @@ public abstract class Day {
     public Day() {
         URL url = getClass().getResource("input");
         File f = new File(url.getPath());
-        lines = InputUtilities.getLines(f);
+        lines = InputUtils.getLines(f);
         setup();
         part1();
         part2();

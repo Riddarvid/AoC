@@ -1,7 +1,8 @@
 package aoc.days.day7;
 
 import aoc.days.Day;
-import aoc.utils.InputUtilities;
+import aoc.utils.input.InputUtils;
+import aoc.utils.math.MathUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,22 +16,20 @@ public class Day7 extends Day {
 
     @Override
     protected void part1() {
-        List<List<Integer>> settings = generateSettingsRecursive(new ArrayList<>());
+        int nAmplifiers = 5;
+        List<Integer> validSettings = new ArrayList<>();
+        validSettings.add(0);
+        validSettings.add(1);
+        validSettings.add(2);
+        validSettings.add(3);
+        validSettings.add(4);
+        List<List<Integer>> settings = MathUtils.generatePermutations(validSettings);
         int maxOut = 0;
         for (List<Integer> setting : settings) {
-            List<Amplifier> amplifiers = new ArrayList<>();
-            for (int i = 0; i < 5; i++) {
-                amplifiers.add(new Amplifier(Character.toString('A' + i), setting.get(i), program));
-            }
-            for (int i = 0; i < 4; i++) {
-                amplifiers.get(i).setNext(amplifiers.get(i + 1));
-            }
+            List<Amplifier> amplifiers = generateAmplifiers(nAmplifiers, setting);
+            connectAmplifiers(amplifiers, false);
             amplifiers.get(0).addInput(0);
-            List<Thread> threads = new ArrayList<>();
-            for (int i = 0; i < 4; i++) {
-                threads.add(new Thread(amplifiers.get(i)));
-                threads.get(i).start();
-            }
+            createAndStartThreads(amplifiers, false);
             amplifiers.get(4).run();
             if (amplifiers.get(4).getOutput() > maxOut) {
                 maxOut = amplifiers.get(4).getOutput();
@@ -39,27 +38,41 @@ public class Day7 extends Day {
         System.out.println(maxOut);
     }
 
-    private List<List<Integer>> generateSettingsRecursive(List<Integer> soFar) {
-        if (soFar.size() == 5) {
-            List<List<Integer>> output = new ArrayList<>();
-            output.add(soFar);
-            return output;
-        } else {
-            List<List<Integer>> output = new ArrayList<>();
-            for (int i = 0; i <= 4; i++) {
-                if (!soFar.contains(i)) {
-                    List<Integer> in = new ArrayList<>(soFar);
-                    in.add(i);
-                    output.addAll(generateSettingsRecursive(in));
-                }
-            }
-            return output;
+    private void createAndStartThreads(List<Amplifier> amplifiers, boolean startLast) {
+        for (int i = 0; i < amplifiers.size() - 1; i++) {
+            new Thread(amplifiers.get(i)).start();
+        }
+        if (startLast) {
+            new Thread(amplifiers.get(amplifiers.size() - 1)).start();
+        }
+    }
+
+    private List<Amplifier> generateAmplifiers(int n, List<Integer> phaseSetting) {
+        List<Amplifier> amplifiers = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            amplifiers.add(new Amplifier(phaseSetting.get(i), program));
+        }
+        return amplifiers;
+    }
+
+    private void connectAmplifiers(List<Amplifier> amplifiers, boolean feedBack) {
+        for (int i = 0; i < amplifiers.size() - 1; i++) {
+            amplifiers.get(i).setNext(amplifiers.get(i + 1));
+        }
+        if (feedBack) {
+            amplifiers.get(amplifiers.size() - 1).setNext(amplifiers.get(0));
         }
     }
 
     @Override
     protected void part2() {
-        List<List<Integer>> settings = generateSettingsRecursive(new ArrayList<>());
+        List<Integer> validSettings = new ArrayList<>();
+        validSettings.add(5);
+        validSettings.add(6);
+        validSettings.add(7);
+        validSettings.add(8);
+        validSettings.add(9);
+        List<List<Integer>> settings = MathUtils.generatePermutations(validSettings);
         int maxOut = 0;
         for (List<Integer> setting : settings) {
             int lastOutput = run(setting);
@@ -71,20 +84,11 @@ public class Day7 extends Day {
     }
 
     private int run(List<Integer> setting) {
-        List<Amplifier> amplifiers = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            amplifiers.add(new Amplifier(Character.toString('A' + i), setting.get(i) + 5, program));
-        }
-        for (int i = 0; i < 4; i++) {
-            amplifiers.get(i).setNext(amplifiers.get(i + 1));
-        }
-        amplifiers.get(4).setNext(amplifiers.get(0));
+        int nAmplifiers = 5;
+        List<Amplifier> amplifiers = generateAmplifiers(nAmplifiers, setting);
+        connectAmplifiers(amplifiers, true);
         amplifiers.get(0).addInput(0);
-        List<Thread> threads = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            threads.add(new Thread(amplifiers.get(i)));
-            threads.get(i).start();
-        }
+        createAndStartThreads(amplifiers, false);
         amplifiers.get(4).run();
         return amplifiers.get(4).getOutput();
     }
@@ -92,7 +96,7 @@ public class Day7 extends Day {
     @Override
     protected void setup() {
         String s = lines.get(0);
-        List<Integer> values = InputUtilities.getIntsNegative(s);
+        List<Integer> values = InputUtils.getIntsNegative(s);
         program = new int[values.size()];
         for (int i = 0; i < program.length; i++) {
             program[i] = values.get(i);

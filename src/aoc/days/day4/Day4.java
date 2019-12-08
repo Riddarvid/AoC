@@ -1,7 +1,7 @@
 package aoc.days.day4;
 
 import aoc.days.Day;
-import aoc.utils.InputUtilities;
+import aoc.utils.input.InputUtils;
 
 import java.util.List;
 
@@ -86,7 +86,7 @@ public class Day4 extends Day {
 
     @Override
     protected void setup() {
-        List<Integer> range = InputUtilities.getInts(lines.get(0));
+        List<Integer> range = InputUtils.getInts(lines.get(0));
         low = range.get(0);
         high = range.get(1);
     }

@@ -1,9 +1,9 @@
 package aoc.days.day2;
 
 import aoc.days.Day;
-import aoc.utils.Controller;
-import aoc.utils.InputUtilities;
-import aoc.utils.IntcodeComputer;
+import aoc.utils.intcode.Controller;
+import aoc.utils.input.InputUtils;
+import aoc.utils.intcode.IntcodeComputer;
 
 import java.util.Arrays;
 import java.util.List;
@@ -49,7 +49,7 @@ public class Day2 extends Day implements Controller {
     @Override
     protected void setup() {
         String s = lines.get(0);
-        List<Integer> values = InputUtilities.getInts(s);
+        List<Integer> values = InputUtils.getInts(s);
         originalProgram = new int[values.size()];
         for (int i = 0; i < originalProgram.length; i++) {
             originalProgram[i] = values.get(i);

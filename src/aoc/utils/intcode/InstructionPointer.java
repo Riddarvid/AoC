@@ -1,4 +1,4 @@
-package aoc.utils;
+package aoc.utils.intcode;
 
 public class InstructionPointer {
     private int position;

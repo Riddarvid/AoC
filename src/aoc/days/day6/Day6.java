@@ -1,7 +1,7 @@
 package aoc.days.day6;
 
 import aoc.days.Day;
-import aoc.utils.InputUtilities;
+import aoc.utils.input.InputUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +38,7 @@ public class Day6 extends Day {
     protected void setup() {
         planetMap = new HashMap<>();
         for (String s : lines) {
-            List<String> tokens = InputUtilities.getTokens(s, ')');
+            List<String> tokens = InputUtils.getTokens(s, ')');
             Planet a = new Planet(tokens.get(0));
             Planet b = new Planet(tokens.get(1));
             if (!planetMap.containsValue(a)) {
@@ -49,7 +49,7 @@ public class Day6 extends Day {
             }
         }
         for (String s : lines) {
-            List<String> tokens = InputUtilities.getTokens(s, ')');
+            List<String> tokens = InputUtils.getTokens(s, ')');
             Planet a = planetMap.get(tokens.get(0));
             Planet b = planetMap.get(tokens.get(1));
             b.setOrbits(a);

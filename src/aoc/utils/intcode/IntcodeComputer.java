@@ -1,4 +1,4 @@
-package aoc.utils;
+package aoc.utils.intcode;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;

@@ -1,7 +1,7 @@
 package aoc.days.day3;
 
 import aoc.days.Day;
-import aoc.utils.InputUtilities;
+import aoc.utils.input.InputUtils;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -31,8 +31,8 @@ public class Day3 extends Day {
 
     @Override
     protected void setup() {
-        l1 = createLine(InputUtilities.getTokens(lines.get(0), ','));
-        l2 = createLine(InputUtilities.getTokens(lines.get(1), ','));
+        l1 = createLine(InputUtils.getTokens(lines.get(0), ','));
+        l2 = createLine(InputUtils.getTokens(lines.get(1), ','));
     }
 
     private Line createLine(List<String> tokens) {

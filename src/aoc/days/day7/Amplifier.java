@@ -1,26 +1,21 @@
 package aoc.days.day7;
 
-import aoc.utils.Controller;
-import aoc.utils.IntcodeComputer;
+import aoc.utils.intcode.Controller;
+import aoc.utils.intcode.IntcodeComputer;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 
 public class Amplifier implements Controller, Runnable {
-    private String id;
-    private int phaseSetting;
     private LinkedList<Integer> inputs;
-    private boolean hasSetPhase;
     private int output;
     private int[] program;
     private Amplifier next;
 
-    public Amplifier(String id, int phaseSetting, int[] program) {
-        this.id = id;
-        this.phaseSetting = phaseSetting;
+    public Amplifier(int phaseSetting, int[] program) {
         inputs = new LinkedList<>();
+        inputs.addLast(phaseSetting);
         this.program = Arrays.copyOf(program, program.length);
-        hasSetPhase = false;
     }
 
     public void setNext(Amplifier next) {
@@ -29,22 +24,17 @@ public class Amplifier implements Controller, Runnable {
 
     @Override
     public int getInput() {
-        if (hasSetPhase) {
-            synchronized (this) {
-                while (inputs.isEmpty()) {
-                    try {
-                        wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        synchronized (this) {
+            while (inputs.isEmpty()) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                int input = inputs.getFirst();
-                inputs.removeFirst();
-                return input;
             }
-        } else {
-            hasSetPhase = true;
-            return phaseSetting;
+            int input = inputs.getFirst();
+            inputs.removeFirst();
+            return input;
         }
     }
 
@@ -69,10 +59,5 @@ public class Amplifier implements Controller, Runnable {
 
     public void run() {
         new IntcodeComputer(this).execute(program);
-    }
-
-    @Override
-    public String toString() {
-        return id + " " +phaseSetting + " -> " + next.id;
     }
 }
