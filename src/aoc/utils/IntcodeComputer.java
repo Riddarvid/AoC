@@ -3,7 +3,6 @@ package aoc.utils;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Scanner;
 
 public class IntcodeComputer {
     private Controller controller;
