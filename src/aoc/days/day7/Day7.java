@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Day7 extends Day {
-    private int[] program;
+    private long[] program;
 
     public static void main(String[] args) {
         new Day7();
@@ -24,7 +24,7 @@ public class Day7 extends Day {
         validSettings.add(3);
         validSettings.add(4);
         List<List<Integer>> settings = MathUtils.generatePermutations(validSettings);
-        int maxOut = 0;
+        long maxOut = 0;
         for (List<Integer> setting : settings) {
             List<Amplifier> amplifiers = generateAmplifiers(nAmplifiers, setting);
             connectAmplifiers(amplifiers, false);
@@ -73,9 +73,9 @@ public class Day7 extends Day {
         validSettings.add(8);
         validSettings.add(9);
         List<List<Integer>> settings = MathUtils.generatePermutations(validSettings);
-        int maxOut = 0;
+        long maxOut = 0;
         for (List<Integer> setting : settings) {
-            int lastOutput = run(setting);
+            long lastOutput = run(setting);
             if (lastOutput > maxOut) {
                 maxOut = lastOutput;
             }
@@ -83,7 +83,7 @@ public class Day7 extends Day {
         System.out.println(maxOut);
     }
 
-    private int run(List<Integer> setting) {
+    private long run(List<Integer> setting) {
         int nAmplifiers = 5;
         List<Amplifier> amplifiers = generateAmplifiers(nAmplifiers, setting);
         connectAmplifiers(amplifiers, true);
@@ -95,11 +95,6 @@ public class Day7 extends Day {
 
     @Override
     protected void setup() {
-        String s = lines.get(0);
-        List<Integer> values = InputUtils.getIntsNegative(s);
-        program = new int[values.size()];
-        for (int i = 0; i < program.length; i++) {
-            program[i] = values.get(i);
-        }
+        program = InputUtils.readProgram(lines);
     }
 }

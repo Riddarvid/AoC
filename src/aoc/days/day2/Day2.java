@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Day2 extends Day implements Controller {
-    private int[] originalProgram;
+    private long[] originalProgram;
 
     public static void main(String[] args) {
         new Day2();
@@ -17,29 +17,31 @@ public class Day2 extends Day implements Controller {
 
     @Override
     protected void part1() {
-        int[] program = Arrays.copyOf(originalProgram, originalProgram.length);
+        long[] program = Arrays.copyOf(originalProgram, originalProgram.length);
         program[1] = 12;
         program[2] = 2;
-        new IntcodeComputer(this).execute(program);
-        System.out.println(program[0]);
+        IntcodeComputer ic = new IntcodeComputer(this, program);
+        ic.execute();
+        System.out.println(ic.getMemory(0));
     }
 
     @Override
     protected void part2() {
         int noun = 0;
         int verb = 0;
-        int[] program = Arrays.copyOf(originalProgram, originalProgram.length);
+        IntcodeComputer ic = new IntcodeComputer(this, originalProgram);
         for (noun = 0; noun < 99; noun++) {
             for (verb = 0; verb < 99; verb++) {
-                program = Arrays.copyOf(originalProgram, originalProgram.length);
+                long[] program = Arrays.copyOf(originalProgram, originalProgram.length);
                 program[1] = noun;
                 program[2] = verb;
-                new IntcodeComputer(this).execute(program);
-                if (program[0] == 19690720) {
+                ic = new IntcodeComputer(this, program);
+                ic.execute();
+                if (ic.getMemory(0) == 19690720) {
                     break;
                 }
             }
-            if (program[0] == 19690720) {
+            if (ic.getMemory(0) == 19690720) {
                     break;
             }
         }
@@ -50,19 +52,18 @@ public class Day2 extends Day implements Controller {
     protected void setup() {
         String s = lines.get(0);
         List<Integer> values = InputUtils.getInts(s);
-        originalProgram = new int[values.size()];
+        originalProgram = new long[values.size()];
         for (int i = 0; i < originalProgram.length; i++) {
             originalProgram[i] = values.get(i);
         }
     }
 
     @Override
-    public int getInput() {
-        return 0;
+    public long getInput() {
+        return 0; //Is not used
     }
 
     @Override
-    public void output(int val) {
-
+    public void output(long val) { //Is not used
     }
 }

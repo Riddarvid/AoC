@@ -8,6 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InputUtils {
+    public static long[] readProgram(List<String> lines) {
+        String s = lines.get(0);
+        List<Long> values = InputUtils.getIntsNegative(s);
+        long[] program = new long[values.size()];
+        for (int i = 0; i < program.length; i++) {
+            program[i] = values.get(i);
+        }
+        return program;
+    }
+
     public static List<String> getLines(File f) {
         try {
             return Files.readAllLines(f.toPath());
@@ -40,9 +50,9 @@ public class InputUtils {
         return ints;
     }
 
-    public static List<Integer> getIntsNegative(String input) {
+    public static List<Long> getIntsNegative(String input) {
         int start = 0;
-        List<Integer> ints = new ArrayList<>();
+        List<Long> ints = new ArrayList<>();
         while (start < input.length()) {
             while (start < input.length() && !Character.isDigit(input.charAt(start)) && input.charAt(start) != '-') {
                 start++;
@@ -50,12 +60,11 @@ public class InputUtils {
             if (start >= input.length()) {
                 break;
             }
-            boolean negative = false;
             int end = start + 1;
             while (end < input.length() && Character.isDigit(input.charAt(end))) {
                 end ++;
             }
-            int toBeAdded = Integer.parseInt(input.substring(start, end));
+            long toBeAdded = Long.parseLong(input.substring(start, end));
             ints.add(toBeAdded);
             start = end + 1;
         }
