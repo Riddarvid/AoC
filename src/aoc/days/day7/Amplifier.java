@@ -7,12 +7,12 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 public class Amplifier implements Controller, Runnable {
-    private LinkedList<Integer> inputs;
-    private int output;
-    private int[] program;
+    private LinkedList<Long> inputs;
+    private long output;
+    private long[] program;
     private Amplifier next;
 
-    public Amplifier(int phaseSetting, int[] program) {
+    public Amplifier(long phaseSetting, long[] program) {
         inputs = new LinkedList<>();
         inputs.addLast(phaseSetting);
         this.program = Arrays.copyOf(program, program.length);
@@ -23,7 +23,7 @@ public class Amplifier implements Controller, Runnable {
     }
 
     @Override
-    public int getInput() {
+    public long getInput() {
         synchronized (this) {
             while (inputs.isEmpty()) {
                 try {
@@ -32,13 +32,13 @@ public class Amplifier implements Controller, Runnable {
                     e.printStackTrace();
                 }
             }
-            int input = inputs.getFirst();
+            long input = inputs.getFirst();
             inputs.removeFirst();
             return input;
         }
     }
 
-    public void addInput(int input) {
+    public void addInput(long input) {
         synchronized (this) {
             inputs.addLast(input);
             notifyAll();
@@ -46,18 +46,18 @@ public class Amplifier implements Controller, Runnable {
     }
 
     @Override
-    public void output(int val) {
+    public void output(long val) {
         output = val;
         if (next != null) {
             next.addInput(output);
         }
     }
 
-    public int getOutput() {
+    public long getOutput() {
         return output;
     }
 
     public void run() {
-        new IntcodeComputer(this).execute(program);
+        new IntcodeComputer(this, program).execute();
     }
 }

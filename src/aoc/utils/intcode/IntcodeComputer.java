@@ -1,6 +1,7 @@
 package aoc.utils.intcode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
 
@@ -8,16 +9,18 @@ public class IntcodeComputer {
     private Controller controller;
     private int ip;
     private int relativeBase;
+    private long[] memory;
 
-    public IntcodeComputer(Controller controller) {
+    public IntcodeComputer(Controller controller, long[] memory) {
         this.controller = controller;
+        this.memory = Arrays.copyOf(memory, 10000);
     }
 
-    public void execute(int[] program) {
+    public void execute() {
         ip = 0;
         relativeBase = 0;
         while (true) {
-            String instruction = Integer.toString(program[ip]);
+            String instruction = Long.toString(memory[ip]);
             int opCode;
             String paramModesString;
             if (instruction.length() == 1) {
@@ -32,33 +35,40 @@ public class IntcodeComputer {
             }
             switch (opCode) {
                 case 1:
-                    add(paramModesString, program);
+                    add(paramModesString);
                     break;
                 case 2:
-                    mul(paramModesString, program);
+                    mul(paramModesString);
                     break;
                 case 3:
-                    input(program);
+                    input(paramModesString);
                     break;
                 case 4:
-                    output(paramModesString, program);
+                    output(paramModesString);
                     break;
                 case 5:
-                    jumpIfTrue(paramModesString, program);
+                    jumpIfTrue(paramModesString);
                     break;
                 case 6:
-                    jumpIfFalse(paramModesString, program);
+                    jumpIfFalse(paramModesString);
                     break;
                 case 7:
-                    lessThan(paramModesString, program);
+                    lessThan(paramModesString);
                     break;
                 case 8:
-                    intcodeEquals(paramModesString, program);
+                    intcodeEquals(paramModesString);
+                    break;
+                case 9:
+                    modifyRelativeBase(paramModesString);
                     break;
                 default:
                     throw new InputMismatchException("Unsupported opCode " + opCode);
             }
         }
+    }
+
+    public long getMemory(int index) {
+        return memory[index];
     }
 
     private static List<ParamMode> getParamModes(String paramModesString, int nParams) {
@@ -85,107 +95,129 @@ public class IntcodeComputer {
         return paramModes;
     }
 
-    private int getValue(int op, ParamMode paramMode, int[] program) {
-        switch (paramMode) {
-            case IMMEDIATE:
-                return op;
-            case POSITION:
-                return program[op];
-            case RELATIVE:
-                return 0; //TODO
-            default:
-                throw new InputMismatchException("Unsupported paramMode " + paramMode);
+    private long getValue(long op, ParamMode paramMode, boolean writing) {
+        if (writing) {
+            switch (paramMode) {
+                case IMMEDIATE:
+                    return op;
+                case POSITION:
+                    return op;
+                case RELATIVE:
+                    return op + relativeBase;
+                default:
+                    throw new InputMismatchException("Unsupported paramMode " + paramMode);
+            }
+        } else {
+            switch (paramMode) {
+                case IMMEDIATE:
+                    return op;
+                case POSITION:
+                    return memory[(int) op];
+                case RELATIVE:
+                    return memory[(int) (op + relativeBase)];
+                default:
+                    throw new InputMismatchException("Unsupported paramMode " + paramMode);
+            }
         }
     }
 
-    private void add(String paramModesString, int[] program) {
+    private void add(String paramModesString) {
         List<ParamMode> paramModes = getParamModes(paramModesString, 3);
-        int op1 = program[ip + 1];
-        int op2 = program[ip + 2];
-        int dest = program[ip + 3];
-        int val1 = getValue(op1, paramModes.get(0), program);
-        int val2 = getValue(op2, paramModes.get(1), program);
-        program[dest] = val1 + val2;
+        long op1 = memory[ip + 1];
+        long op2 = memory[ip + 2];
+        int dest = (int)getValue(memory[ip + 3], paramModes.get(2), true);
+        long val1 = getValue(op1, paramModes.get(0), false);
+        long val2 = getValue(op2, paramModes.get(1), false);
+        memory[dest] = val1 + val2;
         ip += 4;
     }
 
-    private void mul(String paramModesString, int[] program) {
+    private void mul(String paramModesString) {
         List<ParamMode> paramModes = getParamModes(paramModesString, 3);
-        int op1 = program[ip + 1];
-        int op2 = program[ip + 2];
-        int dest = program[ip + 3];
-        int val1 = getValue(op1, paramModes.get(0), program);
-        int val2 = getValue(op2, paramModes.get(1), program);
-        program[dest] = val1 * val2;
+        long op1 = memory[ip + 1];
+        long op2 = memory[ip + 2];
+        int dest = (int)getValue(memory[ip + 3], paramModes.get(2), true);
+        long val1 = getValue(op1, paramModes.get(0), false);
+        long val2 = getValue(op2, paramModes.get(1), false);
+        memory[dest] = val1 * val2;
         ip += 4;
     }
 
-    private void input(int[] program) {
-        int val = controller.getInput();
-        int dest = program[ip + 1];
-        program[dest] = val;
+    private void input(String paramModesString) {
+        List<ParamMode> paramModes = getParamModes(paramModesString, 1);
+        long val = controller.getInput();
+        int dest = (int)getValue(memory[ip + 1], paramModes.get(0), true);
+        memory[dest] = val;
         ip += 2;
     }
 
-    private void output(String paramModesString, int[] program) {
+    private void output(String paramModesString) {
         List<ParamMode> paramModes = getParamModes(paramModesString, 1);
-        int op = program[ip + 1];
-        int val = getValue(op, paramModes.get(0), program);
+        long op = memory[ip + 1];
+        long val = getValue(op, paramModes.get(0), false);
         controller.output(val);
         ip += 2;
     }
 
-    private void jumpIfTrue(String paramModesString, int[] program) {
+    private void jumpIfTrue(String paramModesString) {
         List<ParamMode> paramModes = getParamModes(paramModesString, 2);
-        int op1 = program[ip + 1];
-        int val1 = getValue(op1, paramModes.get(0), program);
+        long op1 = memory[ip + 1];
+        long val1 = getValue(op1, paramModes.get(0), false);
         if (val1 != 0) {
-            int op2 = program[ip + 2];
-            ip = getValue(op2, paramModes.get(1), program);
+            long op2 = memory[ip + 2];
+            ip = (int)getValue(op2, paramModes.get(1), false);
         } else {
             ip += 3;
         }
     }
 
-    private void jumpIfFalse(String paramModesString, int[] program) {
+    private void jumpIfFalse(String paramModesString) {
         List<ParamMode> paramModes = getParamModes(paramModesString, 2);
-        int op1 = program[ip + 1];
-        int val1 = getValue(op1, paramModes.get(0), program);
+        long op1 = memory[ip + 1];
+        long val1 = getValue(op1, paramModes.get(0), false);
         if (val1 == 0) {
-            int op2 = program[ip + 2];
-            ip = getValue(op2, paramModes.get(1), program);
+            long op2 = memory[ip + 2];
+            ip = (int)getValue(op2, paramModes.get(1), false);
         } else {
             ip += 3;
         }
     }
 
-    private void lessThan(String paramModesString, int[] program) {
-        List<ParamMode> paramModes = getParamModes(paramModesString, 2);
-        int op1 = program[ip + 1];
-        int op2 = program[ip + 2];
-        int val1 = getValue(op1, paramModes.get(0), program);
-        int val2 = getValue(op2, paramModes.get(1), program);
-        int dest = program[ip + 3];
+    private void lessThan(String paramModesString) {
+        List<ParamMode> paramModes = getParamModes(paramModesString, 3);
+        long op1 = memory[ip + 1];
+        long op2 = memory[ip + 2];
+        long val1 = getValue(op1, paramModes.get(0), false);
+        long val2 = getValue(op2, paramModes.get(1), false);
+        int dest = (int)getValue(memory[ip + 3], paramModes.get(2), true);
         if (val1 < val2) {
-            program[dest] = 1;
+            memory[dest] = 1;
         } else {
-            program[dest] = 0;
+            memory[dest] = 0;
         }
         ip += 4;
     }
 
-    private void intcodeEquals(String paramModesString, int[] program) {
-        List<ParamMode> paramModes = getParamModes(paramModesString, 2);
-        int op1 = program[ip + 1];
-        int op2 = program[ip + 2];
-        int val1 = getValue(op1, paramModes.get(0), program);
-        int val2 = getValue(op2, paramModes.get(1), program);
-        int dest = program[ip + 3];
+    private void intcodeEquals(String paramModesString) {
+        List<ParamMode> paramModes = getParamModes(paramModesString, 3);
+        long op1 = memory[ip + 1];
+        long op2 = memory[ip + 2];
+        long val1 = getValue(op1, paramModes.get(0), false);
+        long val2 = getValue(op2, paramModes.get(1), false);
+        int dest = (int)getValue(memory[ip + 3], paramModes.get(2), true);
         if (val1 == val2) {
-            program[dest] = 1;
+            memory[dest] = 1;
         } else {
-            program[dest] = 0;
+            memory[dest] = 0;
         }
         ip += 4;
+    }
+
+    private void modifyRelativeBase(String paramModesString) {
+        List<ParamMode> paramModes = getParamModes(paramModesString, 1);
+        long op = memory[ip + 1];
+        int val = (int)getValue(op, paramModes.get(0), false);
+        relativeBase += val;
+        ip += 2;
     }
 }

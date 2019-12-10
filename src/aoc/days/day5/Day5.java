@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Day5 extends Day implements Controller {
-    private int[] originalProgram;
+    private long[] originalProgram;
 
     public static void main(String[] args) {
         new Day5();
@@ -18,8 +18,8 @@ public class Day5 extends Day implements Controller {
 
     @Override
     protected void part1() {
-        int[] program = Arrays.copyOf(originalProgram, originalProgram.length);
-        new IntcodeComputer(this).execute(program);
+        long[] program = Arrays.copyOf(originalProgram, originalProgram.length);
+        new IntcodeComputer(this, program).execute();
     }
 
     @Override
@@ -29,23 +29,18 @@ public class Day5 extends Day implements Controller {
 
     @Override
     protected void setup() {
-        String s = lines.get(0);
-        List<Integer> values = InputUtils.getIntsNegative(s);
-        originalProgram = new int[values.size()];
-        for (int i = 0; i < originalProgram.length; i++) {
-            originalProgram[i] = values.get(i);
-        }
+        originalProgram = InputUtils.readProgram(lines);
     }
 
     @Override
-    public int getInput() {
+    public long getInput() {
         System.out.println("Please enter an int\n");
         Scanner sc = new Scanner(System.in);
         return Integer.parseInt(sc.nextLine());
     }
 
     @Override
-    public void output(int val) {
+    public void output(long val) {
         System.out.println(val);
     }
 }

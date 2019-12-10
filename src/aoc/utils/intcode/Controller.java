@@ -1,6 +1,6 @@
 package aoc.utils.intcode;
 
 public interface Controller {
-    int getInput();
-    void output(int val);
+    long getInput();
+    void output(long val);
 }
