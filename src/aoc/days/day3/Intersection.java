@@ -6,9 +6,9 @@ import java.util.Objects;
 
 public class Intersection {
     private final Point2D point;
-    private final int steps;
+    private final long steps;
 
-    public Intersection(Point2D point, int steps) {
+    public Intersection(Point2D point, long steps) {
         this.point = point;
         this.steps = steps;
     }
@@ -17,7 +17,7 @@ public class Intersection {
         return point;
     }
 
-    public int getSteps() {
+    public long getSteps() {
         return steps;
     }
 

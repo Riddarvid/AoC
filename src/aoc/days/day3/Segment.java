@@ -8,7 +8,7 @@ public class Segment {
     private final Point2D start;
     private final Point2D end;
     private final boolean horizontal;
-    private final int length;
+    private final long length;
 
     public Segment(Point2D start, Point2D end) {
         if (start.getX() != end.getX() && start.getY() != end.getY()) {
@@ -27,12 +27,12 @@ public class Segment {
 
     private boolean contains(Point2D point) {
         if (horizontal) {
-            int maxX = Math.max(start.getX(), end.getX());
-            int minX = Math.min(start.getX(), end.getX());
+            long maxX = Math.max(start.getX(), end.getX());
+            long minX = Math.min(start.getX(), end.getX());
             return point.getY() == start.getY() && point.getX() >= minX && point.getX() <= maxX;
         } else {
-            int maxY = Math.max(start.getY(), end.getY());
-            int minY = Math.min(start.getY(), end.getY());
+            long maxY = Math.max(start.getY(), end.getY());
+            long minY = Math.min(start.getY(), end.getY());
             return point.getX() == start.getX() && point.getY() >= minY && point.getY() <= maxY;
         }
     }
@@ -59,11 +59,11 @@ public class Segment {
         return start + " -> " + end;
     }
 
-    public int length() {
+    public long length() {
         return length;
     }
 
-    public int distance(Point2D point) {
+    public long distance(Point2D point) {
         if (horizontal) {
             return Math.abs(point.getX() - start.getX()) + 1;
         } else {

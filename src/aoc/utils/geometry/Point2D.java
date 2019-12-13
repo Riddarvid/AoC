@@ -3,25 +3,25 @@ package aoc.utils.geometry;
 import java.util.Objects;
 
 public class Point2D {
-    private final int x;
-    private final int y;
+    private final long x;
+    private final long y;
 
-    public Point2D(int x, int y) {
+    public Point2D(long x, long y) {
         this.x = x;
         this.y = y;
     }
 
-    public int getX() {
+    public long getX() {
         return x;
     }
 
-    public int getY() {
+    public long getY() {
         return y;
     }
 
-    public int distanceFrom(Point2D other) {
-        int deltaX = Math.abs(x - other.x);
-        int deltaY = Math.abs(y - other.y);
+    public long distanceFrom(Point2D other) {
+        long deltaX = Math.abs(x - other.x);
+        long deltaY = Math.abs(y - other.y);
         return deltaX + deltaY;
     }
 
@@ -44,7 +44,7 @@ public class Point2D {
         return "(" + x + "," + y + ")";
     }
 
-    public Point2D moveBy(int x, int y) {
+    public Point2D moveBy(long x, long y) {
         return new Point2D(this.x + x, this.y + y);
     }
 }

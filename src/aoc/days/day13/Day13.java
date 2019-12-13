@@ -1,0 +1,31 @@
+package aoc.days.day13;
+
+import aoc.days.Day;
+import aoc.utils.input.InputUtils;
+
+public class Day13 extends Day {
+    private long[] memory;
+
+    public static void main(String[] args) {
+        new Day13();
+    }
+
+    @Override
+    protected void part1() {
+        Arcade arcade = new Arcade(memory);
+        arcade.run();
+        System.out.println(arcade.getNumberOf(Tile.BLOCK));
+    }
+
+    @Override
+    protected void part2() {
+        Arcade arcade = new Arcade(memory);
+        arcade.run();
+        System.out.println(arcade.score());
+    }
+
+    @Override
+    protected void setup() {
+        memory = InputUtils.readProgram(lines);
+    }
+}

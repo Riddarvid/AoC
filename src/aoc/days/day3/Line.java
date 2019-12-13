@@ -24,8 +24,8 @@ public class Line {
                 Segment s = segments.get(j);
                 Point2D intersection = s.getIntersection(os);
                 if (intersection != null) {
-                    int length1 = length(j - 1, segments) + s.distance(intersection);
-                    int length2 = length(i - 1, other.segments) + os.distance(intersection);
+                    long length1 = length(j - 1, segments) + s.distance(intersection);
+                    long length2 = length(i - 1, other.segments) + os.distance(intersection);
                     intersections.add(new Intersection(intersection, length1 + length2));
                 }
             }
