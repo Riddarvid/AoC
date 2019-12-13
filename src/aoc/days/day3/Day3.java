@@ -2,6 +2,7 @@ package aoc.days.day3;
 
 import aoc.days.Day;
 import aoc.utils.input.InputUtils;
+import aoc.utils.math.Point;
 
 import java.util.InputMismatchException;
 import java.util.List;

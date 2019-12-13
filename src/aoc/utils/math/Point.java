@@ -1,4 +1,4 @@
-package aoc.days.day3;
+package aoc.utils.math;
 
 import java.util.Objects;
 

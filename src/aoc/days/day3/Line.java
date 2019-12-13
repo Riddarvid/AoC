@@ -1,5 +1,7 @@
 package aoc.days.day3;
 
+import aoc.utils.math.Point;
+
 import java.util.ArrayList;
 import java.util.List;
 
