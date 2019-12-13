@@ -2,7 +2,7 @@ package aoc.days.day3;
 
 import aoc.days.Day;
 import aoc.utils.input.InputUtils;
-import aoc.utils.math.Point;
+import aoc.utils.geometry.Point2D;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -20,7 +20,7 @@ public class Day3 extends Day {
     protected void part1() {
         PriorityQueue<Intersection> intersections = new PriorityQueue<>(new IntersectionComparator());
         intersections.addAll(l1.getIntersections(l2));
-        System.out.println(intersections.peek().getPoint().distanceFrom(new Point(0, 0)));
+        System.out.println(intersections.peek().getPoint().distanceFrom(new Point2D(0, 0)));
     }
 
     @Override
@@ -44,19 +44,19 @@ public class Day3 extends Day {
             int length = Integer.parseInt(seg.substring(1));
             switch (seg.charAt(0)) {
                 case 'R':
-                    line.addSegment(new Segment(new Point(x + 1, y), new Point(x + length, y)));
+                    line.addSegment(new Segment(new Point2D(x + 1, y), new Point2D(x + length, y)));
                     x += length;
                     break;
                 case 'D':
-                    line.addSegment(new Segment(new Point(x, y - 1), new Point(x, y - length)));
+                    line.addSegment(new Segment(new Point2D(x, y - 1), new Point2D(x, y - length)));
                     y -= length;
                     break;
                 case 'L':
-                    line.addSegment(new Segment(new Point(x - 1, y), new Point(x - length, y)));
+                    line.addSegment(new Segment(new Point2D(x - 1, y), new Point2D(x - length, y)));
                     x -= length;
                     break;
                 case 'U':
-                    line.addSegment(new Segment(new Point(x, y + 1), new Point(x, y + length)));
+                    line.addSegment(new Segment(new Point2D(x, y + 1), new Point2D(x, y + length)));
                     y += length;
                     break;
                 default:

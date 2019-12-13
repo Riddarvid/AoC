@@ -1,18 +1,16 @@
 package aoc.days.day3;
 
-import aoc.utils.math.Point;
+import aoc.utils.geometry.Point2D;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
-import java.util.List;
 
 public class Segment {
-    private final Point start;
-    private final Point end;
+    private final Point2D start;
+    private final Point2D end;
     private final boolean horizontal;
     private final int length;
 
-    public Segment(Point start, Point end) {
+    public Segment(Point2D start, Point2D end) {
         if (start.getX() != end.getX() && start.getY() != end.getY()) {
             throw new InputMismatchException("Points not on a line");
         }
@@ -27,7 +25,7 @@ public class Segment {
         this.end = end;
     }
 
-    private boolean contains(Point point) {
+    private boolean contains(Point2D point) {
         if (horizontal) {
             int maxX = Math.max(start.getX(), end.getX());
             int minX = Math.min(start.getX(), end.getX());
@@ -39,16 +37,16 @@ public class Segment {
         }
     }
 
-    public Point getIntersection(Segment other) {
+    public Point2D getIntersection(Segment other) {
         if (horizontal && !other.horizontal) {
-            Point potential = new Point(other.start.getX(), start.getY());
-            if (!potential.equals(new Point(0, 0)) && contains(potential) && other.contains(potential)) {
+            Point2D potential = new Point2D(other.start.getX(), start.getY());
+            if (!potential.equals(new Point2D(0, 0)) && contains(potential) && other.contains(potential)) {
                 return potential;
             }
         } else {
             if (other.horizontal) {
-                Point potential = new Point(start.getX(), other.start.getY());
-                if (!potential.equals(new Point(0, 0)) && contains(potential) && other.contains(potential)) {
+                Point2D potential = new Point2D(start.getX(), other.start.getY());
+                if (!potential.equals(new Point2D(0, 0)) && contains(potential) && other.contains(potential)) {
                     return potential;
                 }
             }
@@ -65,7 +63,7 @@ public class Segment {
         return length;
     }
 
-    public int distance(Point point) {
+    public int distance(Point2D point) {
         if (horizontal) {
             return Math.abs(point.getX() - start.getX()) + 1;
         } else {

@@ -1,12 +1,12 @@
-package aoc.utils.math;
+package aoc.utils.geometry;
 
 import java.util.Objects;
 
-public class Point {
+public class Point2D {
     private final int x;
     private final int y;
 
-    public Point(int x, int y) {
+    public Point2D(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -19,7 +19,7 @@ public class Point {
         return y;
     }
 
-    public int distanceFrom(Point other) {
+    public int distanceFrom(Point2D other) {
         int deltaX = Math.abs(x - other.x);
         int deltaY = Math.abs(y - other.y);
         return deltaX + deltaY;
@@ -29,7 +29,7 @@ public class Point {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Point point = (Point) o;
+        Point2D point = (Point2D) o;
         return x == point.x &&
                 y == point.y;
     }
@@ -42,5 +42,9 @@ public class Point {
     @Override
     public String toString() {
         return "(" + x + "," + y + ")";
+    }
+
+    public Point2D moveBy(int x, int y) {
+        return new Point2D(this.x + x, this.y + y);
     }
 }

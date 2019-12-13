@@ -1,6 +1,6 @@
 package aoc.days.day3;
 
-import aoc.utils.math.Point;
+import aoc.utils.geometry.Point2D;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class Line {
             Segment os = other.segments.get(i);
             for (int j = 0; j < segments.size(); j++) {
                 Segment s = segments.get(j);
-                Point intersection = s.getIntersection(os);
+                Point2D intersection = s.getIntersection(os);
                 if (intersection != null) {
                     int length1 = length(j - 1, segments) + s.distance(intersection);
                     int length2 = length(i - 1, other.segments) + os.distance(intersection);
