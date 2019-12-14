@@ -58,6 +58,6 @@ public class Amplifier implements Controller, Runnable {
     }
 
     public void run() {
-        new IntcodeComputer(this, program).execute();
+        new IntcodeComputer(this, program, false).execute();
     }
 }

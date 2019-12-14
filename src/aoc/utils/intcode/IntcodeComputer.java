@@ -10,10 +10,14 @@ public class IntcodeComputer {
     private int ip;
     private int relativeBase;
     private long[] memory;
+    private boolean shouldDelay;
+    private int delay;
 
-    public IntcodeComputer(Controller controller, long[] memory) {
+    public IntcodeComputer(Controller controller, long[] memory, boolean shouldDelay) {
         this.controller = controller;
         this.memory = Arrays.copyOf(memory, 10000);
+        this.shouldDelay = shouldDelay;
+        this.delay = 1;
     }
 
     public void execute() {
@@ -144,6 +148,13 @@ public class IntcodeComputer {
     }
 
     private void input(String paramModesString) {
+        if (shouldDelay) {
+            try {
+                Thread.sleep(delay);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         List<ParamMode> paramModes = getParamModes(paramModesString, 1);
         long val = controller.getInput();
         int dest = (int)getValue(memory[ip + 1], paramModes.get(0), true);

@@ -16,7 +16,7 @@ public class Day9 extends Day implements Controller {
 
     @Override
     protected void part1() {
-        IntcodeComputer ic = new IntcodeComputer(this, originalProgram);
+        IntcodeComputer ic = new IntcodeComputer(this, originalProgram, false);
         ic.execute();
     }
 

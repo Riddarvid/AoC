@@ -11,6 +11,10 @@ public class Point2D {
         this.y = y;
     }
 
+    public Point2D(Point2D point) {
+        this(point.x, point.y);
+    }
+
     public long getX() {
         return x;
     }
@@ -46,5 +50,9 @@ public class Point2D {
 
     public Point2D moveBy(long x, long y) {
         return new Point2D(this.x + x, this.y + y);
+    }
+
+    public Vector2D vectorTo(Point2D other) {
+        return new Vector2D(other.x - x, other.y - y);
     }
 }

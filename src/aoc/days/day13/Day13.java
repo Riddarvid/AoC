@@ -12,14 +12,16 @@ public class Day13 extends Day {
 
     @Override
     protected void part1() {
-        Arcade arcade = new Arcade(memory);
+        Arcade arcade = new Arcade(memory, false);
         arcade.run();
         System.out.println(arcade.getNumberOf(Tile.BLOCK));
     }
 
     @Override
     protected void part2() {
-        Arcade arcade = new Arcade(memory);
+        memory[0] = 2;
+        Arcade arcade = new Arcade(memory, true);
+        arcade.activateView();
         arcade.run();
         System.out.println(arcade.score());
     }
