@@ -10,6 +10,14 @@ public class Moon {
     private Point3D position;
     private Vector3D velocity;
 
+    public Point3D getPosition() {
+        return position;
+    }
+
+    public Vector3D getVelocity() {
+        return velocity;
+    }
+
     public Moon(Point3D point) {
         this.position = new Point3D(point);
         velocity = new Vector3D(0, 0, 0);

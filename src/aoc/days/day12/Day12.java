@@ -2,11 +2,10 @@ package aoc.days.day12;
 
 import aoc.days.Day;
 import aoc.utils.input.InputUtils;
+import aoc.utils.math.MathUtils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+
 
 public class Day12 extends Day {
     private List<Moon> moons1;
@@ -43,20 +42,45 @@ public class Day12 extends Day {
 
     @Override
     protected void part2() {
-        Set<State> states = new HashSet<>();
-        states.add(new State(moons2));
+        long cycleX = findCycle(moons2, 'x');
+        long cycleY = findCycle(moons2, 'y');
+        long cycleZ = findCycle(moons2, 'z');
+        long period = MathUtils.lcm(MathUtils.lcm(cycleX, cycleY), cycleZ);
+        System.out.println(period);
+    }
+
+    private List<Tuple> createState(List<Moon> moons, char axis) {
+        List<Tuple> state = new ArrayList<>();
+        for (Moon moon : moons) {
+            switch (axis) {
+                case 'x':
+                    state.add(new Tuple(moon.getPosition().getX(), moon.getVelocity().getX()));
+                    break;
+                case 'y':
+                    state.add(new Tuple(moon.getPosition().getY(), moon.getVelocity().getY()));
+                    break;
+                case 'z':
+                    state.add(new Tuple(moon.getPosition().getZ(), moon.getVelocity().getZ()));
+                    break;
+                default:
+                    throw new InputMismatchException();
+            }
+        }
+        return state;
+    }
+
+    private int findCycle(List<Moon> moons, char axis) {
+        List<Tuple> initial = createState(moons, axis);
         int i = 0;
         while (true) {
             i++;
-            step(moons2);
-            State next = new State(moons2);
-            if (states.contains(next)) {
+            step(moons);
+            List<Tuple> state = createState(moons, axis);
+            if (state.equals(initial)) {
                 break;
-            } else {
-                states.add(next);
             }
         }
-        System.out.println(i);
+        return i;
     }
 
     @Override
