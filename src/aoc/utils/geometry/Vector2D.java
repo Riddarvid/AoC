@@ -50,16 +50,7 @@ public class Vector2D {
     }
 
     public double angle() {
-        double alpha = Math.asin(y / length());
-        if (x >= 0) {
-            if (y >= 0) {
-                return alpha;
-            } else {
-                return Math.PI * 2 + alpha;
-            }
-        } else {
-            return Math.PI - alpha;
-        }
+        return Math.atan2(y, x);
     }
 
     @Override
