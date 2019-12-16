@@ -60,7 +60,7 @@ public class Arcade implements Controller {
     }
 
     public void run() {
-        IntcodeComputer ic = new IntcodeComputer(this, program, shouldDelay);
+        IntcodeComputer ic = new IntcodeComputer(this, program);
         ic.execute();
     }
 

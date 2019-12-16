@@ -19,7 +19,7 @@ public class Day5 extends Day implements Controller {
     @Override
     protected void part1() {
         long[] program = Arrays.copyOf(originalProgram, originalProgram.length);
-        new IntcodeComputer(this, program, false).execute();
+        new IntcodeComputer(this, program).execute();
     }
 
     @Override

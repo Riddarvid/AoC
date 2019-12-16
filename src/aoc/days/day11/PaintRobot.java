@@ -24,7 +24,7 @@ public class PaintRobot implements Controller {
     }
 
     public void run() {
-        IntcodeComputer ic = new IntcodeComputer(this, program, false);
+        IntcodeComputer ic = new IntcodeComputer(this, program);
         ic.execute();
     }
 

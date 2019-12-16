@@ -3,10 +3,10 @@ package aoc.utils.geometry;
 import java.util.Objects;
 
 public class Vector2D {
-    private final double x;
-    private final double y;
+    private final long x;
+    private final long y;
 
-    public Vector2D(double x, double y) {
+    public Vector2D(long x, long y) {
         this.x = x;
         this.y = y;
     }
@@ -25,19 +25,19 @@ public class Vector2D {
         return Math.sqrt(x * x + y * y);
     }
 
-    public double getX() {
+    public long getX() {
         return x;
     }
 
-    public double getY() {
+    public long getY() {
         return y;
     }
 
-    public Vector2D scale(double scale) {
+    public Vector2D scale(long scale) {
         return new Vector2D(x * scale, y * scale);
     }
 
-    public Vector2D changeBy(double x, double y) {
+    public Vector2D changeBy(long x, long y) {
         return new Vector2D(this.x + x, this.y + y);
     }
 

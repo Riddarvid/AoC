@@ -20,7 +20,7 @@ public class Day2 extends Day implements Controller {
         long[] program = Arrays.copyOf(originalProgram, originalProgram.length);
         program[1] = 12;
         program[2] = 2;
-        IntcodeComputer ic = new IntcodeComputer(this, program, false);
+        IntcodeComputer ic = new IntcodeComputer(this, program);
         ic.execute();
         System.out.println(ic.getMemory(0));
     }
@@ -29,13 +29,13 @@ public class Day2 extends Day implements Controller {
     protected void part2() {
         int noun = 0;
         int verb = 0;
-        IntcodeComputer ic = new IntcodeComputer(this, originalProgram, false);
+        IntcodeComputer ic = new IntcodeComputer(this, originalProgram);
         for (noun = 0; noun < 99; noun++) {
             for (verb = 0; verb < 99; verb++) {
                 long[] program = Arrays.copyOf(originalProgram, originalProgram.length);
                 program[1] = noun;
                 program[2] = verb;
-                ic = new IntcodeComputer(this, program, false);
+                ic = new IntcodeComputer(this, program);
                 ic.execute();
                 if (ic.getMemory(0) == 19690720) {
                     break;

@@ -13,11 +13,14 @@ public class IntcodeComputer {
     private boolean shouldDelay;
     private int delay;
 
-    public IntcodeComputer(Controller controller, long[] memory, boolean shouldDelay) {
+    public IntcodeComputer(Controller controller, long[] memory) {
         this.controller = controller;
         this.memory = Arrays.copyOf(memory, 10000);
-        this.shouldDelay = shouldDelay;
-        this.delay = 1;
+    }
+
+    public void activateDelay(int delay) {
+        shouldDelay = true;
+        this.delay = delay;
     }
 
     public void execute() {

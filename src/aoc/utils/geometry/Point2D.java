@@ -52,6 +52,10 @@ public class Point2D {
         return new Point2D(this.x + x, this.y + y);
     }
 
+    public Point2D moveBy(Vector2D vector) {
+        return moveBy(vector.getX(), vector.getY());
+    }
+
     public Vector2D vectorTo(Point2D other) {
         return new Vector2D(other.x - x, other.y - y);
     }
