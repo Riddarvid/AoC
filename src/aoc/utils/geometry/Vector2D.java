@@ -1,5 +1,6 @@
 package aoc.utils.geometry;
 
+import java.util.InputMismatchException;
 import java.util.Objects;
 
 public class Vector2D {
@@ -13,6 +14,29 @@ public class Vector2D {
 
     public Vector2D(Vector2D other) {
         this(other.x, other.y);
+    }
+
+    public Vector2D(Direction direction) {
+        switch (direction) {
+            case SOUTH:
+                x = 0;
+                y = 1;
+                break;
+            case NORTH:
+                x = 0;
+                y = -1;
+                break;
+            case WEST:
+                x = -1;
+                y = 0;
+                break;
+            case EAST:
+                x = 1;
+                y = 0;
+                break;
+            default:
+                throw new InputMismatchException();
+        }
     }
 
     public double manhattanLength() {
