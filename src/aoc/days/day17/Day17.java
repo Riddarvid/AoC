@@ -5,6 +5,7 @@ import aoc.utils.geometry.Direction;
 import aoc.utils.geometry.Point2D;
 import aoc.utils.geometry.Vector2D;
 import aoc.utils.input.InputUtils;
+import aoc.utils.intcode.Communicator;
 import aoc.utils.intcode.Controller;
 import aoc.utils.intcode.IntcodeComputer;
 import aoc.utils.output.OutputUtils;

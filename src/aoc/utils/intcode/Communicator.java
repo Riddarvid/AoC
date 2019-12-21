@@ -1,7 +1,4 @@
-package aoc.days.day17;
-
-import aoc.utils.intcode.Controller;
-import aoc.utils.intcode.IntcodeComputer;
+package aoc.utils.intcode;
 
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -40,20 +37,16 @@ public class Communicator implements Runnable, Controller {
 
     @Override
     public void output(long val) {
-        /*synchronized (this) {
+        synchronized (this) {
             outputs.addLast((int)val);
             notifyAll();
-        }*/
-        if (val > 100) {
-            System.out.println(val);
-        } else {
-            System.out.print((char) val);
         }
     }
 
     public void makeRequest(int request) {
         synchronized (this) {
             requests.addLast(request);
+            notifyAll();
         }
     }
 

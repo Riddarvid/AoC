@@ -72,6 +72,7 @@ public class IntcodeComputer {
                     throw new InputMismatchException("Unsupported opCode " + opCode);
             }
         }
+        //System.out.println("Program halted");
     }
 
     public long getMemory(int index) {
