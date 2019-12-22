@@ -2,10 +2,50 @@ package aoc.utils.math;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class MathUtils {
-    public static List<List<Integer>> generatePermutations(List<Integer> elements) {
+    public static <T> List<List<T>> generatePermutations(List<T> elements) {
         return generatePermutations(elements, new ArrayList<>());
+    }
+
+    public static <T> List<List<T>> generateValidPermutations(List<T> elements, Map<T, Set<T>> requirements) {
+        return generateValidPermutations(elements, new ArrayList<>(), requirements);
+    }
+
+    private static <T> List<List<T>> generateValidPermutations(List<T> elements, List<T> soFar, Map<T, Set<T>> requirements) {
+        List<List<T>> output = new ArrayList<>();
+        if (soFar.size() == elements.size() - 1) {
+            System.out.println("Yeet");
+        }
+        if (soFar.size() == elements.size()) {
+            output.add(soFar);
+        } else {
+            List<T> validElements = generateValidElements(elements, soFar, requirements);
+            for (T element : validElements) {
+                List<T> next = new ArrayList<>(soFar);
+                next.add(element);
+                output.addAll(generateValidPermutations(elements, next, requirements));
+            }
+        }
+        return output;
+    }
+
+    private static <T> List<T> generateValidElements(List<T> elements, List<T> soFar, Map<T, Set<T>> requirements) {
+        List<T> validElements = new ArrayList<>();
+        for (T element : elements) {
+            if (isValid(element, elements, soFar, requirements)) {
+                validElements.add(element);
+            }
+        }
+        return validElements;
+    }
+
+    private static <T> boolean isValid(T element, List<T> elements, List<T> soFar, Map<T, Set<T>> requirements) {
+        boolean elementsLeft = count(element, soFar) < count(element, elements);
+        boolean fulfillsRequirements = soFar.containsAll(requirements.get(element));
+        return elementsLeft && fulfillsRequirements;
     }
 
     public static long lcm(long a, long b) {
@@ -53,13 +93,13 @@ public class MathUtils {
         return product;
     }
 
-    private static List<List<Integer>> generatePermutations(List<Integer> elements, List<Integer> soFar) {
-        List<List<Integer>> output = new ArrayList<>();
+    private static <T> List<List<T>> generatePermutations(List<T> elements, List<T> soFar) {
+        List<List<T>> output = new ArrayList<>();
         if (soFar.size() == elements.size()) {
             output.add(soFar);
         } else {
-            for (int element : elements) {
-                List<Integer> next = new ArrayList<>(soFar);
+            for (T element : elements) {
+                List<T> next = new ArrayList<>(soFar);
                 if (isValid(element, elements, soFar)) {
                     next.add(element);
                     output.addAll(generatePermutations(elements, next));
@@ -69,14 +109,14 @@ public class MathUtils {
         return output;
     }
 
-    private static boolean isValid(int element, List<Integer> elements, List<Integer> soFar) {
+    private static <T> boolean isValid(T element, List<T> elements, List<T> soFar) {
         return (count(element, soFar) < count(element, elements));
     }
 
-    private static int count(int target, List<Integer> elements) {
+    private static <T> int count(T target, List<T> elements) {
         int count = 0;
-        for (int element : elements) {
-            if (element == target) {
+        for (T element : elements) {
+            if (element.equals(target)) {
                 count++;
             }
         }

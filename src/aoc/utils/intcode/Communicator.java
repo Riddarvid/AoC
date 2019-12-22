@@ -1,12 +1,12 @@
 package aoc.utils.intcode;
 
 import java.util.LinkedList;
-import java.util.Scanner;
 
-public class Communicator implements Runnable, Controller {
+public abstract class Communicator implements Runnable, Controller {
     private long[] memory;
     private LinkedList<Integer> requests;
-    private LinkedList<Integer> outputs;
+    protected LinkedList<Integer> outputs;
+    private boolean running;
 
     public Communicator(long[] memory) {
         this.memory = memory;
@@ -16,7 +16,13 @@ public class Communicator implements Runnable, Controller {
 
     @Override
     public void run() {
+        synchronized (this) {
+            running = true;
+        }
         new IntcodeComputer(this, memory).execute();
+        synchronized (this) {
+            running = false;
+        }
     }
 
     @Override
@@ -36,12 +42,7 @@ public class Communicator implements Runnable, Controller {
     }
 
     @Override
-    public void output(long val) {
-        synchronized (this) {
-            outputs.addLast((int)val);
-            notifyAll();
-        }
-    }
+    public abstract void output(long val);
 
     public void makeRequest(int request) {
         synchronized (this) {
@@ -50,18 +51,9 @@ public class Communicator implements Runnable, Controller {
         }
     }
 
-    public int getOutput() {
+    public boolean isRunning() {
         synchronized (this) {
-            while (outputs.isEmpty()) {
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            int output = outputs.getFirst();
-            outputs.removeFirst();
-            return output;
+            return running;
         }
     }
 }

@@ -1,13 +1,29 @@
 package aoc.utils.input;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 
 public class InputUtils {
+    public static char[] readSpringCode(File f) {
+        List<String> lines = InputUtils.getLines(f);
+        List<Character> characters = new ArrayList<>();
+        for (String s : lines) {
+            for (char c : s.toCharArray()) {
+                characters.add(c);
+            }
+            characters.add('\n');
+        }
+        char[] output = new char[characters.size()];
+        for (int i = 0; i < characters.size(); i++) {
+            output[i] = characters.get(i);
+        }
+        return output;
+    }
+
     public static long[] readProgram(List<String> lines) {
         String s = lines.get(0);
         List<Long> values = InputUtils.getIntsNegative(s);

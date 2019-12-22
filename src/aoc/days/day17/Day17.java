@@ -121,7 +121,7 @@ public class Day17 extends Day implements Controller {
         printPath(c);
         printPath(mainRoutine);
         memory[0] = 2;
-        Communicator cm = new Communicator(memory);
+        Communicator cm = new ScaffoldingCommunicator(memory);
         Thread t = new Thread(cm);
         t.start();
         inputSequence(mainRoutine, cm);

@@ -16,7 +16,7 @@ public class Day19 extends Day {
         int sum = 0;
         for (int y = 0; y < 50; y++) {
             for (int x = 0; x < 50; x++) {
-                Communicator cm = new Communicator(memory);
+                Communicator cm = new TractorCommunicator(memory);
                 Thread t1 = new Thread(cm);
                 t1.setDaemon(true);
                 t1.start();
@@ -42,7 +42,7 @@ public class Day19 extends Day {
         int pos = 0;
         int row = 10;
         for (;; row++) {
-            System.out.println(row);
+            //System.out.println(row);
             while (!inRange(pos, row)) {
                 pos++;
             }
@@ -61,7 +61,7 @@ public class Day19 extends Day {
     }
 
     private boolean inRange(int x, int y) {
-        Communicator cm = new Communicator(memory);
+        TractorCommunicator cm = new TractorCommunicator(memory);
         Thread t1 = new Thread(cm);
         t1.setDaemon(true);
         t1.start();
