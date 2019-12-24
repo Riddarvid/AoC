@@ -12,7 +12,7 @@ public class View {
 
     public View(Set<Location> explored, Set<Location> foundLastCycle, Set<Point2D> points, int width, int height) {
         Frame f = new Frame("GameView");
-        int side = 20;
+        int side = 10;
         gc = new GameCanvas(explored, foundLastCycle, points, width, height, side);
         f.add(gc);
         f.setLayout(null);

@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 public abstract class Communicator implements Runnable, Controller {
     private long[] memory;
-    private LinkedList<Integer> requests;
+    protected LinkedList<Integer> requests;
     protected LinkedList<Integer> outputs;
     private boolean running;
 

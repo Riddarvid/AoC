@@ -2,16 +2,33 @@ package aoc.days.day18;
 
 import aoc.utils.geometry.Point2D;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class DijkstraPoint {
     private final Point2D point;
-    private DijkstraPoint previous;
-    private boolean visited;
+    private final Set<Point2D> keys;
 
-    public DijkstraPoint(Point2D point) {
+    public DijkstraPoint(Point2D point, Set<Point2D> keys) {
+        this.keys = new HashSet<>(keys);
         this.point = point;
-        visited = false;
+    }
+
+    public boolean hasKey(Point2D key) {
+        return keys.contains(key);
+    }
+
+    public Point2D getPoint() {
+        return new Point2D(point);
+    }
+
+    public int nKeys() {
+        return keys.size();
+    }
+
+    public Set<Point2D> getKeys() {
+        return new HashSet<>(keys);
     }
 
     @Override
@@ -19,36 +36,25 @@ public class DijkstraPoint {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DijkstraPoint that = (DijkstraPoint) o;
-        return Objects.equals(point, that.point);
+        return Objects.equals(point, that.point) &&
+                Objects.equals(keys, that.keys);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(point);
+        return Objects.hash(point, keys);
     }
 
     @Override
     public String toString() {
-        return point.toString();
-    }
-
-    public Point2D getPoint() {
-        return point;
-    }
-
-    public DijkstraPoint getPrevious() {
-        return previous;
-    }
-
-    public void setPrevious(DijkstraPoint previous) {
-        this.previous = previous;
-    }
-
-    public boolean isVisited() {
-        return visited;
-    }
-
-    public void setVisited(boolean visited) {
-        this.visited = visited;
+        if (keys.size() == 0) {
+            return point.toString();
+        }
+        StringBuilder ksb = new StringBuilder();
+        for (Point2D key : keys) {
+            ksb.append(key.toString()).append(", ");
+        }
+        ksb.delete(ksb.length() - 2, ksb.length());
+        return point.toString() + " {" + ksb.toString() + "}";
     }
 }

@@ -1,6 +1,9 @@
 package aoc.utils.geometry;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class Point2D {
     private final long x;
@@ -13,6 +16,11 @@ public class Point2D {
 
     public Point2D(Point2D point) {
         this(point.x, point.y);
+    }
+
+    public Point2D(Point3D point) {
+        x = point.getX();
+        y = point.getY();
     }
 
     public long getX() {
@@ -58,5 +66,14 @@ public class Point2D {
 
     public Vector2D vectorTo(Point2D other) {
         return new Vector2D(other.x - x, other.y - y);
+    }
+
+    public Set<Point2D> neighbours() {
+        Set<Point2D> neighbours = new HashSet<>();
+        neighbours.add(moveBy(0, -1));
+        neighbours.add(moveBy(0, 1));
+        neighbours.add(moveBy(-1, 0));
+        neighbours.add(moveBy(1, 0));
+        return neighbours;
     }
 }

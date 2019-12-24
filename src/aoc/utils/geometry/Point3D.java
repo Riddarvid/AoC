@@ -17,6 +17,12 @@ public class Point3D {
         this(other.x, other.y, other.z);
     }
 
+    public Point3D(Point2D point2D) {
+        x = point2D.getX();
+        y = point2D.getY();
+        z = 0;
+    }
+
     public long getX() {
         return x;
     }

@@ -1,27 +1,25 @@
-package aoc.days.day15;
+package aoc.days.day23;
 
 import aoc.days.Day;
 import aoc.utils.input.InputUtils;
 
-public class Day15 extends Day {
+public class Day23 extends Day {
     private long[] memory;
-    private Drone drone;
 
     public static void main(String[] args) {
-        new Day15();
+        new Day23();
     }
 
     @Override
     protected void part1() {
-        drone = new Drone();
-        drone.createMap(memory);
-        //drone.printMap();
-        System.out.println(drone.findShortestPath());
+        //Network network = new Network(50, memory, true);
+        //network.run();
     }
 
     @Override
     protected void part2() {
-        System.out.println(drone.findOxygenTime());
+        Network network = new Network(50, memory);
+        network.run();
     }
 
     @Override

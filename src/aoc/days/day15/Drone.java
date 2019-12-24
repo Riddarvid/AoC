@@ -2,6 +2,7 @@ package aoc.days.day15;
 
 import aoc.utils.geometry.Point2D;
 import aoc.utils.geometry.Vector2D;
+import aoc.utils.output.Constants;
 
 import java.util.*;
 
@@ -24,6 +25,33 @@ public class Drone {
         exploreDirection(3);
         exploreDirection(4);
         removeWalls();
+    }
+
+    public void printMap() {
+        for (int rowIndex = -25; rowIndex < 25; rowIndex++) {
+            for (int pos = -25; pos < 25; pos++) {
+                Point2D position = new Point2D(pos, rowIndex);
+                if (position.equals(new Point2D(0, 0))) {
+                    System.out.print(Constants.ANSI_RED + "X" + Constants.ANSI_RESET);
+                } else {
+                    int val = points.getOrDefault(position, 0);
+                    switch (val) {
+                        case 0:
+                            System.out.print('#');
+                            break;
+                        case 1:
+                            System.out.print('.');
+                            break;
+                        case 2:
+                            System.out.print(Constants.ANSI_RED + 'O' + Constants.ANSI_RESET);
+                            break;
+                        default:
+                            throw new InputMismatchException("Unsupported value");
+                    }
+                }
+            }
+            System.out.println();
+        }
     }
 
     private void removeWalls() {

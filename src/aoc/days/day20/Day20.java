@@ -62,15 +62,15 @@ public class Day20 extends Day {
         Location endLocation = new Location(end, 0);
         explored.add(startLocation);
         foundLastCycle.add(startLocation);
-        //View view = new View(explored, foundLastCycle, connections.keySet(), width, height);
+        View view = new View(explored, foundLastCycle, connections.keySet(), width, height);
         int distance = 0;
         while (!foundLastCycle.contains(endLocation)) {
-            /*try {
-                Thread.sleep(500);
+            try {
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            view.update(explored, foundLastCycle, connections.keySet());*/
+            view.update(explored, foundLastCycle, connections.keySet());
             distance++;
             searchWithDepth(explored, foundLastCycle);
         }
