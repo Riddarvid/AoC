@@ -1,25 +1,23 @@
-package aoc.days.day5;
+package aoc.days.day09;
 
 import aoc.days.Day;
-import aoc.utils.intcode.Controller;
 import aoc.utils.input.InputUtils;
+import aoc.utils.intcode.Controller;
 import aoc.utils.intcode.IntcodeComputer;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
-public class Day5 extends Day implements Controller {
+public class Day9 extends Day implements Controller {
     private long[] originalProgram;
 
     public static void main(String[] args) {
-        new Day5();
+        new Day9();
     }
 
     @Override
     protected void part1() {
-        long[] program = Arrays.copyOf(originalProgram, originalProgram.length);
-        new IntcodeComputer(this, program).execute();
+        IntcodeComputer ic = new IntcodeComputer(this, originalProgram);
+        ic.execute();
     }
 
     @Override

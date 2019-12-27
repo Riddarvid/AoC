@@ -1,9 +1,6 @@
 package aoc.utils.geometry;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class Point2D {
     private final long x;
@@ -75,5 +72,20 @@ public class Point2D {
         neighbours.add(moveBy(-1, 0));
         neighbours.add(moveBy(1, 0));
         return neighbours;
+    }
+
+    public Point2D moveBy(Direction direction) {
+        switch (direction) {
+            case NORTH:
+                return moveBy(0, -1);
+            case SOUTH:
+                return moveBy(0, 1);
+            case WEST:
+                return moveBy(-1, 0);
+            case EAST:
+                return moveBy(1, 0);
+            default:
+                throw new InputMismatchException();
+        }
     }
 }

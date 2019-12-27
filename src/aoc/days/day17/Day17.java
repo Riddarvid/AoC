@@ -128,7 +128,7 @@ public class Day17 extends Day implements Controller {
         inputSequence(a, cm);
         inputSequence(b, cm);
         inputSequence(c, cm);
-        cm.makeRequest('n');
+        cm.makeRequest('y');
         cm.makeRequest('\n');
     }
 

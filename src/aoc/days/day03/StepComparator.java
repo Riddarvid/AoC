@@ -1,4 +1,4 @@
-package aoc.days.day3;
+package aoc.days.day03;
 
 import java.util.Comparator;
 

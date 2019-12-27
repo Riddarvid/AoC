@@ -1,4 +1,4 @@
-package aoc.days.day7;
+package aoc.days.day07;
 
 import aoc.utils.intcode.Controller;
 import aoc.utils.intcode.IntcodeComputer;

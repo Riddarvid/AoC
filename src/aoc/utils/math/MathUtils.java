@@ -1,13 +1,45 @@
 package aoc.utils.math;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class MathUtils {
+
+    public static <T> Set<Set<T>> generateCombinations(Set<T> elements, int length) {
+        if (length > elements.size()) {
+            throw new InputMismatchException();
+        }
+        if (length == elements.size()) {
+            Set<Set<T>> output = new HashSet<>();
+            output.add(elements);
+            return output;
+        }
+        return generateCombinations(new HashSet<>(), elements, length);
+    }
+
+    private static <T> Set<Set<T>> generateCombinations(Set<T> inElements, Set<T> remaining, int length) {
+        Set<T> elements = new HashSet<>(inElements);
+        remaining = new HashSet<>(remaining);
+        Set<Set<T>> output = new HashSet<>();
+        if (elements.size() == length) {
+            output.add(elements);
+            return output;
+        }
+        for (T toAdd : remaining) {
+            Set<T> newElements = new HashSet<>(elements);
+            newElements.add(toAdd);
+            Set<T> newRemaining = new HashSet<>(remaining);
+            newRemaining.remove(toAdd);
+            output.addAll(generateCombinations(newElements, newRemaining, length));
+        }
+        return output;
+    }
+
     public static <T> List<List<T>> generatePermutations(List<T> elements) {
-        return generatePermutations(elements, new ArrayList<>());
+        return generatePermutations(elements, 0);
+    }
+
+    public static <T> List<List<T>> generatePermutations(List<T> elements, int length) {
+        return generatePermutations(elements, new ArrayList<>(), length);
     }
 
     public static <T> List<List<T>> generateValidPermutations(List<T> elements, Map<T, Set<T>> requirements) {
@@ -93,16 +125,16 @@ public class MathUtils {
         return product;
     }
 
-    private static <T> List<List<T>> generatePermutations(List<T> elements, List<T> soFar) {
+    private static <T> List<List<T>> generatePermutations(List<T> elements, List<T> soFar, int length) {
         List<List<T>> output = new ArrayList<>();
-        if (soFar.size() == elements.size()) {
+        if (soFar.size() == length) {
             output.add(soFar);
         } else {
             for (T element : elements) {
                 List<T> next = new ArrayList<>(soFar);
                 if (isValid(element, elements, soFar)) {
                     next.add(element);
-                    output.addAll(generatePermutations(elements, next));
+                    output.addAll(generatePermutations(elements, next, length));
                 }
             }
         }

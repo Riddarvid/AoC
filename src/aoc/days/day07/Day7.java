@@ -1,4 +1,4 @@
-package aoc.days.day7;
+package aoc.days.day07;
 
 import aoc.days.Day;
 import aoc.utils.input.InputUtils;
