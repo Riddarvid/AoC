@@ -31,7 +31,8 @@ public class Robot {
             process(current, discovered, distances, previous, processed, unexplored);
         }
         DijkstraNode best = getBest(processed, distances);
-        //System.out.println(discovered.size());
+        System.out.println("Iterations: " + processed.size());
+        System.out.println("Nodes: " + discovered.size());
         return distances.get(best);
     }
 

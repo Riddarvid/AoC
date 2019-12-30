@@ -28,7 +28,7 @@ public class BRobot {
             }
             process(current, discovered, distances, previous, processed, unexplored);
         }
-        System.out.println(discovered.size());
+        System.out.println(processed.size());
         BDijkstraNode best = getBest(processed, distances);
         return distances.get(best);
     }

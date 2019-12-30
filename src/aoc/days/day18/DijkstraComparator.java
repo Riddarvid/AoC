@@ -12,6 +12,8 @@ public class DijkstraComparator implements Comparator<DijkstraNode> {
 
     @Override
     public int compare(DijkstraNode n1, DijkstraNode n2) {
-        return distances.get(n1) - distances.get(n2);
+        int distance1 = distances.get(n1);
+        int distance2 = distances.get(n2);
+        return distance1 - distance2;
     }
 }
