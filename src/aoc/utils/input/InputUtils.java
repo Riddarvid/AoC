@@ -79,4 +79,10 @@ public class InputUtils {
         }
         return tokens;
     }
+
+    public static List<Integer> getInts(char[] data, int start, int end) {
+        char[] subData = new char[end - start];
+        System.arraycopy(data, start, subData, 0, end - start);
+        return getInts(new String(subData));
+    }
 }
