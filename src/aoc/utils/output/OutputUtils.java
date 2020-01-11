@@ -27,4 +27,21 @@ public class OutputUtils {
             System.out.println();
         }
     }
+
+    public static void printMatrix(boolean[][] screen) {
+        for (boolean[] row : screen) {
+            printArr(row);
+            System.out.println();
+        }
+    }
+
+    private static void printArr(boolean[] row) {
+        for (boolean element : row) {
+            if (element) {
+                System.out.print('#');
+            } else {
+                System.out.print('.');
+            }
+        }
+    }
 }
