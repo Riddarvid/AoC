@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 public class Day5 extends Day implements Controller {
     private long[] originalProgram;
+    private boolean part1;
 
     public static void main(String[] args) {
         new Day5();
@@ -19,23 +20,29 @@ public class Day5 extends Day implements Controller {
     protected void part1() {
         long[] program = Arrays.copyOf(originalProgram, originalProgram.length);
         new IntcodeComputer(this, program).execute();
+        System.out.println();
     }
 
     @Override
     protected void part2() {
-
+        long[] program = Arrays.copyOf(originalProgram, originalProgram.length);
+        part1 = false;
+        new IntcodeComputer(this, program).execute();
     }
 
     @Override
     protected void setup() {
         originalProgram = InputUtils.readProgram(lines);
+        part1 = true;
     }
 
     @Override
     public long getInput() {
-        System.out.println("Please enter an int\n");
-        Scanner sc = new Scanner(System.in);
-        return Integer.parseInt(sc.nextLine());
+        if (part1) {
+            return 1;
+        } else {
+            return 5;
+        }
     }
 
     @Override

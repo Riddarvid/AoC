@@ -6,13 +6,12 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 
+import static aoc.utils.output.Constants.*;
+
 public class Day8 extends Day {
     private List<Layer> layers;
     private final int width = 25;
     private final int height = 6;
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_RESET = "\u001B[0m";
 
     public static void main(String[] args) {
         new Day8();
@@ -43,9 +42,9 @@ public class Day8 extends Day {
     }
 
     private void printImage(int[][] image) {
-        for (int row = 0; row < image.length; row++) {
-            for (int pos = 0; pos < image[row].length; pos++) {
-                if (image[row][pos] == 0) {
+        for (int[] row : image) {
+            for (int pos : row) {
+                if (pos == 0) {
                     System.out.print(ANSI_BLACK + "\u2588" + ANSI_RESET);
                 } else {
                     System.out.print(ANSI_RED + "\u2588" + ANSI_RESET);

@@ -26,7 +26,7 @@ public class Day1 extends Day {
         return mass / 3 - 2;
     }
 
-    private int getFuel2(int mass) {
+    private int getFuelRecursive(int mass) {
         int totalFuel = 0;
         int remainingFuel = getFuel(mass);
         while (remainingFuel > 0) {
@@ -40,7 +40,7 @@ public class Day1 extends Day {
     protected void part2() {
         initFuel = 0;
         for (int mass : masses) {
-            initFuel += getFuel2(mass);
+            initFuel += getFuelRecursive(mass);
         }
         System.out.println(initFuel);
     }

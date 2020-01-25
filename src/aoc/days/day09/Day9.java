@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 public class Day9 extends Day implements Controller {
     private long[] originalProgram;
+    private boolean part1;
 
     public static void main(String[] args) {
         new Day9();
@@ -16,13 +17,14 @@ public class Day9 extends Day implements Controller {
 
     @Override
     protected void part1() {
-        IntcodeComputer ic = new IntcodeComputer(this, originalProgram);
-        ic.execute();
+        part1 = true;
+        new IntcodeComputer(this, originalProgram).execute();
     }
 
     @Override
     protected void part2() {
-
+        part1 = false;
+        new IntcodeComputer(this, originalProgram).execute();
     }
 
     @Override
@@ -32,9 +34,11 @@ public class Day9 extends Day implements Controller {
 
     @Override
     public long getInput() {
-        System.out.println("Please enter an int\n");
-        Scanner sc = new Scanner(System.in);
-        return Integer.parseInt(sc.nextLine());
+        if (part1) {
+            return 1;
+        } else {
+            return 2;
+        }
     }
 
     @Override
