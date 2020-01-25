@@ -1,5 +1,5 @@
 package aoc.utils.geometry;
 
 public enum Direction {
-    EAST, SOUTH, WEST, NORTH
+    EAST, SOUTH, WEST, NORTH;
 }
