@@ -1,16 +1,26 @@
 package aoc.days.day10;
 
-import java.util.List;
+import java.util.LinkedList;
 
-public class Output implements Receiver {
-    private final List<Integer> outputs;
+public class Output implements Container {
+    private final int id;
+    private final LinkedList<Integer> chips;
 
-    public Output(List<Integer> outputs) {
-        this.outputs = outputs;
+    public Output(int id) {
+        this.id = id;
+        chips = new LinkedList<>();
+    }
+
+    public boolean isEmpty() {
+        return chips.isEmpty();
+    }
+
+    public int getNext() {
+        return chips.getFirst();
     }
 
     @Override
-    public void receive(int value) {
-        outputs.add(value);
+    public void addChip(int chip) {
+        chips.addLast(chip);
     }
 }
