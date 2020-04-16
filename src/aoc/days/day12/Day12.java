@@ -6,11 +6,11 @@ import aoc.utils.input.InputUtils;
 
 import java.util.*;
 
-public class Day11 extends Day {
+public class Day12 extends Day {
     private List<Instruction> program;
 
     public static void main(String[] args) {
-        new Day11();
+        new Day12();
     }
 
     @Override
