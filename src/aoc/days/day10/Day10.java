@@ -45,7 +45,7 @@ public class Day10 extends Day {
         //Create robots + outputs
         for (String s : lines) {
             if (s.charAt(0) == 'b') {
-                List<String> tokens = InputUtils.getTokens(s, ' ');
+                List<String> tokens = InputUtils.getTokens(s, " ");
                 List<Integer> values = InputUtils.getInts(s);
                 int id = values.get(0);
                 addRobot(id, part1);

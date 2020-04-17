@@ -55,7 +55,7 @@ public class Day1 extends Day {
 
     @Override
     protected void setup() {
-        List<String> tokens = InputUtils.getTokens(lines.get(0), ',');
+        List<String> tokens = InputUtils.getTokens(lines.get(0), ",");
         instructions = new ArrayList<>();
         for (String s : tokens) {
             s = s.replace(" ", "");

@@ -14,7 +14,7 @@ public class Room {
     private String decryptedName;
 
     public Room(String input) {
-        List<String> tokens = InputUtils.getTokens(input, '[');
+        List<String> tokens = InputUtils.getTokens(input, "[");
         String checksum = tokens.get(1);
         checksum = checksum.replace("]", "");
         this.checksum = checksum;

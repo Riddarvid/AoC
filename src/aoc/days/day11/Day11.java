@@ -92,7 +92,7 @@ public class Day11 extends Day {
     private List<String> getMicrochips(String string) {
         List<String> microchips = new ArrayList<>();
         for (String material : getBefore(string, "microchip")) {
-            material = InputUtils.getTokens(material, '-').get(0);
+            material = InputUtils.getTokens(material, "-").get(0);
             microchips.add(material);
         }
         return microchips;
@@ -101,7 +101,7 @@ public class Day11 extends Day {
     private List<String> getBefore(String string, String target) {
         string = string.replace(".", "");
         string = string.replace(",", "");
-        List<String> tokens = InputUtils.getTokens(string, ' ');
+        List<String> tokens = InputUtils.getTokens(string, " ");
         List<String> result = new ArrayList<>();
         for (int i = 0; i < tokens.size(); i++) {
             String token = tokens.get(i);

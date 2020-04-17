@@ -40,7 +40,7 @@ public class Day12 extends Day {
     protected void setup() {
         program = new ArrayList<>();
         for (String s : lines) {
-            List<String> tokens = InputUtils.getTokens(s, ' ');
+            List<String> tokens = InputUtils.getTokens(s, "");
             switch (tokens.get(0)) {
                 case "cpy":
                     if (Character.isLetter(tokens.get(1).charAt(0))) {

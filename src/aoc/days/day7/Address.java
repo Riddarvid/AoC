@@ -14,7 +14,7 @@ public class Address {
         this.value = value;
         hypernetSequences = new ArrayList<>();
         supernetSequences = new ArrayList<>();
-        List<String> tokens = InputUtils.getTokens(value, '[');
+        List<String> tokens = InputUtils.getTokens(value, "[");
         if (tokens.get(0).charAt(0) != '[') {
             supernetSequences.add(tokens.get(0));
             tokens.remove(0);
