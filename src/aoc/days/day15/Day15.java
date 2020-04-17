@@ -19,7 +19,7 @@ public class Day15 extends Day {
         System.out.println(getOptimalTime(discs1));
     }
 
-    private int getOptimalTime(List<Disc> discs) {
+    private int getOptimalTime(List<Disc> discs) { //It is assumed that the discs have a prime number of holes
         int maxIndex = 0;
         for (int i = 0; i < discs.size(); i++) {
             Disc d = discs.get(i);
