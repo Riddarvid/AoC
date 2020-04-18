@@ -1,5 +1,5 @@
-package aoc.days.day23;
+package aoc.days.day25;
 
 public enum Operation {
-    CPY, INC, DEC, JNZ, TGL
+    CPY, INC, DEC, JNZ, TGL, OUT
 }
