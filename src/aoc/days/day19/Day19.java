@@ -2,9 +2,6 @@ package aoc.days.day19;
 
 import aoc.days.Day;
 
-import java.util.LinkedList;
-import java.util.List;
-
 public class Day19 extends Day {
     private int nElves;
 
@@ -18,12 +15,16 @@ public class Day19 extends Day {
         while (circle.getSize() > 1) {
             circle.steal();
         }
-        System.out.println(circle.getCurrent().getPresents());
+        System.out.println(circle.getCurrent());
     }
 
     @Override
     protected void part2() {
-
+        Circle2 circle = new Circle2(nElves);
+        while (circle.getSize() > 1) {
+            circle.steal();
+        }
+        System.out.println(circle.getCurrent());
     }
 
     @Override
