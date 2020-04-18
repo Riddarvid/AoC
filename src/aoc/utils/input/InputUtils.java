@@ -23,7 +23,7 @@ public class InputUtils {
     }
 
     public static List<Long> getLongs(String input) {
-        Pattern p = Pattern.compile("\\d+");
+        Pattern p = Pattern.compile("[0-9]+");
         Matcher m = p.matcher(input);
         List<Long> longs = new ArrayList<>();
         while (m.find()) {
@@ -33,7 +33,7 @@ public class InputUtils {
     }
 
     public static List<Integer> getInts(String input) {
-        Pattern p = Pattern.compile("\\d+");
+        Pattern p = Pattern.compile("[0-9]+");
         Matcher m = p.matcher(input);
         List<Integer> ints = new ArrayList<>();
         while (m.find()) {
@@ -43,7 +43,7 @@ public class InputUtils {
     }
 
     public static List<Integer> getIntsNegative(String input) {
-        Pattern p = Pattern.compile("-?\\d+");
+        Pattern p = Pattern.compile("-?[0-9]+");
         Matcher m = p.matcher(input);
         List<Integer> ints = new ArrayList<>();
         while (m.find()) {
@@ -53,7 +53,7 @@ public class InputUtils {
     }
 
     public static List<Long> getLongsNegative(String input) {
-        Pattern p = Pattern.compile("-?\\d+");
+        Pattern p = Pattern.compile("-?[0-9]+");
         Matcher m = p.matcher(input);
         List<Long> longs = new ArrayList<>();
         while (m.find()) {

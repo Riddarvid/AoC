@@ -3,6 +3,7 @@ package aoc.days;
 import aoc.utils.input.InputUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.List;
 
