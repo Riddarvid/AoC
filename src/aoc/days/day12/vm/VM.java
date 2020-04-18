@@ -3,8 +3,8 @@ package aoc.days.day12.vm;
 import java.util.*;
 
 public class VM {
-    final Map<Character, Integer> registers;
-    final PC pc;
+    private final Map<Character, Integer> registers;
+    private final PC pc;
 
     public VM(Collection<Character> registerNames) {
         pc = new PC();
