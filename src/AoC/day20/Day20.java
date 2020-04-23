@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Day20 extends Day {
-    private int minimum;
+    private int min;
 
     public static void main(String[] args) {
         new Day20();
@@ -15,12 +15,10 @@ public class Day20 extends Day {
     @Override
     protected void part1() {
         int houseNumber = 1;
-        /*while (presentsToHouse(houseNumber) < minimum) {
+        while (presentsToHouse(houseNumber) < min) {
             houseNumber++;
-        }*/
+        }
         System.out.println(houseNumber);
-        /*int minFactorSum = minimum / 10;
-        int houseNumber = getBestHouse(minFactorSum);*/
     }
 
     private int presentsToHouse(int houseNumber) {
@@ -45,11 +43,11 @@ public class Day20 extends Day {
 
     @Override
     protected void part2() {
-        int houseNumber = 1;
-        while (presentsToHouse2(houseNumber) < minimum) {
+        /*int houseNumber = 1;
+        while (presentsToHouse2(houseNumber) < min1) {
             houseNumber++;
         }
-        System.out.println(houseNumber);
+        System.out.println(houseNumber);*/
     }
 
     private int presentsToHouse2(int houseNumber) {
@@ -66,6 +64,6 @@ public class Day20 extends Day {
 
     @Override
     protected void setup() {
-        minimum = Integer.parseInt(lines.get(0));
+        min = Integer.parseInt(lines.get(0));
     }
 }
