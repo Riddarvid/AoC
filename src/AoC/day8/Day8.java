@@ -1,6 +1,6 @@
 package AoC.day8;
 
-import AoC.Day;
+import riddarvid.aoc.days.Day;
 
 public class Day8 extends Day {
     public static void main(String[] args) {

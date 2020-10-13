@@ -1,7 +1,7 @@
 package AoC.day9;
 
-import AoC.Day;
 import AoC.FileUtilities;
+import riddarvid.aoc.days.Day;
 
 import java.util.ArrayList;
 import java.util.List;

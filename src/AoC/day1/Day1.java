@@ -1,6 +1,6 @@
 package AoC.day1;
 
-import AoC.Day;
+import riddarvid.aoc.days.Day;
 
 public class Day1 extends Day {
     private char[] input;

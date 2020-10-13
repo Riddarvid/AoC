@@ -1,6 +1,6 @@
 package AoC.day22;
 
-import AoC.Day;
+import riddarvid.aoc.days.Day;
 
 public class Day22 extends Day {
     private final int bossHP = 58;

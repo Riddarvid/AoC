@@ -1,6 +1,6 @@
 package AoC.day11;
 
-import AoC.Day;
+import riddarvid.aoc.days.Day;
 
 import java.util.HashMap;
 import java.util.Map;
