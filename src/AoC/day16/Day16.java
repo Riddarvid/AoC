@@ -1,7 +1,7 @@
 package AoC.day16;
 
-import AoC.FileUtilities;
 import riddarvid.aoc.days.Day;
+import riddarvid.aoc.parsing.ParsingUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +53,7 @@ public class Day16 extends Day {
     private Sue generateSue(String s) {
         s = s.replace(',', ' ');
         s = s.replace(':', ' ');
-        List<String> tokens = FileUtilities.getTokens(s, ' ');
+        List<String> tokens = ParsingUtils.getTokens(s, ' ');
         Sue sue = new Sue(Integer.parseInt(tokens.get(1)));
         for (int i = 2; i < tokens.size(); i += 2) {
             sue.addSample(new Sample(tokens.get(i), Integer.parseInt(tokens.get(i + 1))));

@@ -1,7 +1,7 @@
 package AoC.day9;
 
-import AoC.FileUtilities;
 import riddarvid.aoc.days.Day;
+import riddarvid.aoc.parsing.ParsingUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +41,7 @@ public class Day9 extends Day {
     protected void setup() {
         locations = new ArrayList<>();
         for (String string : lines) {
-            List<String> tokens = FileUtilities.getTokens(string, ' ');
+            List<String> tokens = ParsingUtils.getTokens(string, ' ');
             Location location = new Location(tokens.get(0));
             if (locations.contains(location)) {
                 location = locations.get(locations.indexOf(location));

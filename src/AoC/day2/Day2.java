@@ -1,7 +1,7 @@
 package AoC.day2;
 
-import AoC.FileUtilities;
 import riddarvid.aoc.days.Day;
+import riddarvid.aoc.parsing.ParsingUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ public class Day2 extends Day {
     protected void setup() {
         presents = new ArrayList<>();
         for (String s : lines) {
-            presents.add(new Present(FileUtilities.getInts(s)));
+            presents.add(new Present(ParsingUtils.getIntegers(s)));
         }
     }
 

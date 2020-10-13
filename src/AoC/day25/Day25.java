@@ -1,7 +1,7 @@
 package AoC.day25;
 
-import AoC.FileUtilities;
 import riddarvid.aoc.days.Day;
+import riddarvid.aoc.parsing.ParsingUtils;
 
 import java.util.List;
 
@@ -51,7 +51,7 @@ public class Day25 extends Day {
 
     @Override
     protected void setup() {
-        List<Integer> values = FileUtilities.getInts(lines.get(0));
+        List<Integer> values = ParsingUtils.getIntegers(lines.get(0));
         row = values.get(0);
         column = values.get(1);
     }

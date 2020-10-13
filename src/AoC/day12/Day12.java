@@ -1,7 +1,7 @@
 package AoC.day12;
 
-import AoC.FileUtilities;
 import riddarvid.aoc.days.Day;
+import riddarvid.aoc.parsing.ParsingUtils;
 
 import java.util.List;
 import java.util.Stack;
@@ -15,8 +15,8 @@ public class Day12 extends Day {
 
     @Override
     protected void part1() {
-        List<Integer> ints = FileUtilities.getIntsNegative(input);
-        System.out.println(sum(ints));
+        List<Integer> integers = ParsingUtils.getIntegersNegative(input);
+        System.out.println(sum(integers));
     }
 
     private int sum(List<Integer> ints) {
