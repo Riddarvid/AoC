@@ -1,7 +1,7 @@
 package AoC.day6;
 
-import AoC.FileUtilities;
 import riddarvid.aoc.days.Day;
+import riddarvid.aoc.parsing.ParsingUtils;
 
 import java.util.List;
 
@@ -10,8 +10,8 @@ public class Day6 extends Day {
         TURN_ON, TURN_OFF, TOGGLE
     }
 
-    private boolean[][] lights1 = new boolean[1000][1000];
-    private int[][] lights2 = new int[1000][1000];
+    private boolean[][] lights1;
+    private int[][] lights2;
 
     public static void main(String[] args) {
         new Day6();
@@ -28,9 +28,9 @@ public class Day6 extends Day {
             } else {
                 operation = Operation.TURN_ON;
             }
-            List<Integer> ints = FileUtilities.getInts(instruction);
-            Point p1 = new Point(ints.get(0), ints.get(1));
-            Point p2 = new Point(ints.get(2), ints.get(3));
+            List<Integer> integers = ParsingUtils.getIntegers(instruction);
+            Point p1 = new Point(integers.get(0), integers.get(1));
+            Point p2 = new Point(integers.get(2), integers.get(3));
             operateLights1(operation, p1, p2);
         }
         System.out.println(getNumberOfLights());
@@ -47,9 +47,9 @@ public class Day6 extends Day {
             } else {
                 operation = Operation.TURN_ON;
             }
-            List<Integer> ints = FileUtilities.getInts(instruction);
-            Point p1 = new Point(ints.get(0), ints.get(1));
-            Point p2 = new Point(ints.get(2), ints.get(3));
+            List<Integer> integers = ParsingUtils.getIntegers(instruction);
+            Point p1 = new Point(integers.get(0), integers.get(1));
+            Point p2 = new Point(integers.get(2), integers.get(3));
             operateLights2(operation, p1, p2);
         }
         System.out.println(getBrightness());
@@ -57,7 +57,8 @@ public class Day6 extends Day {
 
     @Override
     protected void setup() {
-
+        lights1 = new boolean[1000][1000];
+        lights2 = new int[1000][1000];
     }
 
     private int getBrightness() {

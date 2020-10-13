@@ -1,8 +1,8 @@
 package AoC.day7;
 
-import AoC.FileUtilities;
 import AoC.day7.wires.*;
 import riddarvid.aoc.days.Day;
+import riddarvid.aoc.parsing.ParsingUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -35,7 +35,7 @@ public class Day7 extends Day {
     @Override
     protected void setup() {
         for (String instruction : lines) {
-            List<String> tokens = FileUtilities.getTokens(instruction, ' ');
+            List<String> tokens = ParsingUtils.getTokens(instruction, ' ');
             if (tokens.size() == 3) {
                 new Set(tokens.get(2), tokens.get(0));
             } else if (tokens.size() == 4) {

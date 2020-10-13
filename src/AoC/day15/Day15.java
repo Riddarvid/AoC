@@ -1,7 +1,7 @@
 package AoC.day15;
 
-import AoC.FileUtilities;
 import riddarvid.aoc.days.Day;
+import riddarvid.aoc.parsing.ParsingUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +90,7 @@ public class Day15 extends Day {
         for (String s : lines) {
             s = s.replace(',', ' ');
             s = s.replace(':', ' ');
-            List<String > tokens = FileUtilities.getTokens(s, ' ');
+            List<String > tokens = ParsingUtils.getTokens(s, ' ');
             Ingredient ingredient = new Ingredient(tokens.get(0), Integer.parseInt(tokens.get(2)), Integer.parseInt(tokens.get(4)), Integer.parseInt(tokens.get(6)), Integer.parseInt(tokens.get(8)), Integer.parseInt(tokens.get(10)));
             ingredients.add(ingredient);
         }

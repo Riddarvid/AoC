@@ -1,7 +1,7 @@
 package AoC.day13;
 
-import AoC.FileUtilities;
 import riddarvid.aoc.days.Day;
+import riddarvid.aoc.parsing.ParsingUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ public class Day13 extends Day {
     protected void setup() {
         allPeople = new ArrayList<>();
         for (String s : lines) {
-            List<String> tokens = FileUtilities.getTokens(s, ' ');
+            List<String> tokens = ParsingUtils.getTokens(s, ' ');
             Person person = new Person(tokens.get(0));
             if (allPeople.contains(person)) {
                 person = allPeople.get(allPeople.indexOf(person));
