@@ -1,11 +1,9 @@
 package AoC.day4;
 
-import AoC.Day;
+import riddarvid.aoc.days.Day;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Day4 extends Day {
     private String key;

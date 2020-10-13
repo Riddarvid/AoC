@@ -1,13 +1,13 @@
 package AoC.day2;
 
-import AoC.Day;
 import AoC.FileUtilities;
+import riddarvid.aoc.days.Day;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Day2 extends Day {
-    private List<Present> presents = new ArrayList<>();
+    private List<Present> presents;
 
     public static void main(String[] args) {
         new Day2();
@@ -33,6 +33,7 @@ public class Day2 extends Day {
 
     @Override
     protected void setup() {
+        presents = new ArrayList<>();
         for (String s : lines) {
             presents.add(new Present(FileUtilities.getInts(s)));
         }

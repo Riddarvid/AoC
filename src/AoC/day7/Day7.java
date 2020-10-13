@@ -1,8 +1,8 @@
 package AoC.day7;
 
-import AoC.Day;
 import AoC.FileUtilities;
 import AoC.day7.wires.*;
+import riddarvid.aoc.days.Day;
 
 import java.util.List;
 import java.util.Map;

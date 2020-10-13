@@ -1,6 +1,6 @@
 package AoC.day18;
 
-import AoC.Day;
+import riddarvid.aoc.days.Day;
 
 public class Day18 extends Day {
     private boolean[][] originalGrid;

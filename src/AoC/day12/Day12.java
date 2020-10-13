@@ -1,7 +1,7 @@
 package AoC.day12;
 
-import AoC.Day;
 import AoC.FileUtilities;
+import riddarvid.aoc.days.Day;
 
 import java.util.List;
 import java.util.Stack;

@@ -1,6 +1,6 @@
 package AoC.day24;
 
-import AoC.Day;
+import riddarvid.aoc.days.Day;
 
 import java.util.*;
 
