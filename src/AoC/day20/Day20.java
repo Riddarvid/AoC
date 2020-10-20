@@ -2,9 +2,6 @@ package AoC.day20;
 
 import riddarvid.aoc.days.Day;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Day20 extends Day {
     private int min;
 
@@ -14,52 +11,42 @@ public class Day20 extends Day {
 
     @Override
     protected void part1() {
-        int houseNumber = 1;
-        while (presentsToHouse(houseNumber) < min) {
+        int houseNumber = 700000;
+        while (presentsToHouse1(houseNumber) < min) {
             houseNumber++;
         }
         System.out.println(houseNumber);
     }
 
-    private int presentsToHouse(int houseNumber) {
-        int sum = 0;
-        List<Integer> factors = getFactors(houseNumber);
-        for (int factor : factors) {
-            sum += factor;
-        }
-        sum *= 10;
-        return sum;
-    }
-
-    private List<Integer> getFactors(int houseNumber) {
-        List<Integer> factors = new ArrayList<>();
-        for (int i = 1; i <= houseNumber; i++) {
+    private int presentsToHouse1(int houseNumber) {
+        int presents = 0;
+        for (int i = 1; i <= houseNumber / 2; i++) {
             if (houseNumber % i == 0) {
-                factors.add(i);
+                presents += i;
             }
         }
-        return factors;
+        presents += houseNumber;
+        return presents * 10;
     }
 
     @Override
     protected void part2() {
-        /*int houseNumber = 1;
-        while (presentsToHouse2(houseNumber) < min1) {
+        int houseNumber = 800000;
+        while (presentsToHouse2(houseNumber) < min) {
             houseNumber++;
         }
-        System.out.println(houseNumber);*/
+        System.out.println(houseNumber);
     }
 
     private int presentsToHouse2(int houseNumber) {
-        List<Integer> factors = getFactors(houseNumber);
-        int sum = 0;
-        for (int factor : factors) {
-            if (houseNumber / factor >= 50) {
-                sum += factor;
+        int presents = 0;
+        for (int i = (int) Math.ceil(houseNumber / 50.0); i <= houseNumber / 2; i++) {
+            if (houseNumber % i == 0) {
+                presents += i;
             }
         }
-        sum *= 11;
-        return sum;
+        presents += houseNumber;
+        return presents * 11;
     }
 
     @Override
