@@ -1,4 +1,4 @@
-package aoc.days.Day3;
+package aoc.days.day3;
 
 import aoc.FileUtilities;
 

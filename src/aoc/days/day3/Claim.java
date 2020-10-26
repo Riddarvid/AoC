@@ -1,11 +1,13 @@
-package aoc.days.Day3;
+package aoc.days.day3;
+
+import java.util.List;
 
 public class Claim {
-    private int id;
-    private int offsetX;
-    private int offsetY;
-    private int width;
-    private int height;
+    private final int id;
+    private final int offsetX;
+    private final int offsetY;
+    private final int width;
+    private final int height;
 
     public Claim(int id, int offsetX, int offsetY, int width, int height) {
         this.id = id;
@@ -13,6 +15,14 @@ public class Claim {
         this.offsetY = offsetY;
         this.width = width;
         this.height = height;
+    }
+
+    public Claim(List<Integer> integers) {
+        id = integers.get(0);
+        offsetX = integers.get(1);
+        offsetY = integers.get(2);
+        width = integers.get(3);
+        height = integers.get(4);
     }
 
     public int getId() {
