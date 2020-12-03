@@ -1,6 +1,6 @@
 package aoc.days.day10;
 
-import aoc.days.Day;
+import riddarvid.aoc.days.Day;
 
 import java.util.ArrayList;
 import java.util.List;

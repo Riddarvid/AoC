@@ -1,6 +1,6 @@
 package aoc.days.day22;
 
-import aoc.days.Day;
+import riddarvid.aoc.days.Day;
 import aoc.utils.input.InputUtils;
 import aoc.utils.math.Tuple;
 

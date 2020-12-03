@@ -1,4 +1,4 @@
-package aoc.days.day07;
+package aoc.days.day7;
 
 import riddarvid.aoc.days.Day;
 import aoc.utils.input.InputUtils;

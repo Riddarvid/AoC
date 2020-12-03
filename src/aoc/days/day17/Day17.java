@@ -1,6 +1,6 @@
 package aoc.days.day17;
 
-import aoc.days.Day;
+import riddarvid.aoc.days.Day;
 import aoc.utils.geometry.Direction;
 import aoc.utils.geometry.Point2D;
 import aoc.utils.geometry.Vector2D;

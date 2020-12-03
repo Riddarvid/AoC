@@ -1,6 +1,6 @@
 package aoc.days.day13;
 
-import aoc.days.Day;
+import riddarvid.aoc.days.Day;
 import aoc.utils.input.InputUtils;
 
 public class Day13 extends Day {

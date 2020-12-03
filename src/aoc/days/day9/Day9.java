@@ -1,11 +1,9 @@
-package aoc.days.day09;
+package aoc.days.day9;
 
 import riddarvid.aoc.days.Day;
 import aoc.utils.input.InputUtils;
 import aoc.utils.intcode.Controller;
 import aoc.utils.intcode.IntcodeComputer;
-
-import java.util.Scanner;
 
 public class Day9 extends Day implements Controller {
     private long[] originalProgram;

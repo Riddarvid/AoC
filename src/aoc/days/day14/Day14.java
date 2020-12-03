@@ -1,6 +1,6 @@
 package aoc.days.day14;
 
-import aoc.days.Day;
+import riddarvid.aoc.days.Day;
 import aoc.utils.input.InputUtils;
 
 import java.util.*;
