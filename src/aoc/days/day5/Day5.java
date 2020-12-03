@@ -1,6 +1,6 @@
 package aoc.days.day05;
 
-import aoc.days.Day;
+import riddarvid.aoc.days.Day;
 import aoc.utils.intcode.Controller;
 import aoc.utils.input.InputUtils;
 import aoc.utils.intcode.IntcodeComputer;
