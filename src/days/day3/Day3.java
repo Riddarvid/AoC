@@ -2,6 +2,7 @@ package days.day3;
 
 import riddarvid.aoc.days.Day;
 import riddarvid.aoc.math.MathUtils;
+import riddarvid.aoc.parsing.ParsingUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,15 +47,6 @@ public class Day3 extends Day {
 
     @Override
     protected void setup() {
-        trees = new boolean[lines.size()][];
-        for (int line = 0; line < lines.size(); line++) {
-            String s = lines.get(line);
-            trees[line] = new boolean[s.length()];
-            for (int i = 0; i < s.length(); i++) {
-                if (s.charAt(i) == '#') {
-                    trees[line][i] = true;
-                }
-            }
-        }
+        trees = ParsingUtils.stringsToBoolMatrix(lines, '#');
     }
 }
