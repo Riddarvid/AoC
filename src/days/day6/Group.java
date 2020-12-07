@@ -6,9 +6,17 @@ import java.util.List;
 import java.util.Set;
 
 public class Group {
-    private List<String> answers = new ArrayList<>();
+    private List<Set<Character>> answers = new ArrayList<>();
 
-    public void addAnswer(String answer) {
+    public void addAnswer(String answerString) {
+        Set<Character> answer = new HashSet<>();
+        for (char c : answerString.toCharArray()) {
+            answer.add(c);
+        }
+        addAnswer(answer);
+    }
+
+    public void addAnswer(Set<Character> answer) {
         answers.add(answer);
     }
 
@@ -18,21 +26,19 @@ public class Group {
 
     private Set<Character> getUniqueAnswers() {
         Set<Character> uniqueAnswers = new HashSet<>();
-        for (String answer : answers) {
-            for (char c : answer.toCharArray()) {
-                uniqueAnswers.add(c);
-            }
+        for (Set<Character> answer : answers) {
+            uniqueAnswers.addAll(answer);
         }
         return uniqueAnswers;
     }
 
     public int getNumberEveryone() {
-        String s = answers.get(0);
+        Set<Character> baseAnswer = answers.get(0);
         int sum = 0;
-        for (char c : s.toCharArray()) {
+        for (char c : baseAnswer) {
             boolean allContain = true;
-            for (String answer : answers) {
-                if (!answer.contains("" + c)) {
+            for (Set<Character> answer : answers) {
+                if (!answer.contains(c)) {
                     allContain = false;
                     break;
                 }
