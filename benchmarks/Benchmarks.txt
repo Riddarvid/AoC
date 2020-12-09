@@ -1,0 +1,15 @@
+Benchmarks:
+
+Day1:
+
+Benchmark          Mode  Cnt      Score    Error  Units
+BenchSingle.part1  avgt   25    897.864 ± 25.951  ns/op
+BenchSingle.part2  avgt   25    447.813 ±  2.059  ns/op
+BenchSingle.setup  avgt   25  14068.379 ± 52.441  ns/op
+
+Day9:
+
+Benchmark          Mode  Cnt       Score     Error  Units
+BenchSingle.part1  avgt   25   84408.706 ± 376.455  ns/op
+BenchSingle.part2  avgt   25  261490.652 ±  75.403  ns/op
+BenchSingle.setup  avgt   25   26401.978 ± 236.836  ns/op
