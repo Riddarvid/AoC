@@ -15,9 +15,9 @@ public class Day3 extends Day {
     }
 
     @Override
-    protected void part1() {
+    public long part1() {
         int collisions = getCollisions(3, 1);
-        System.out.println(collisions);
+        return collisions;
     }
 
     private int getCollisions(int dx, int dy) {
@@ -35,18 +35,18 @@ public class Day3 extends Day {
     }
 
     @Override
-    protected void part2() {
+    public long part2() {
         List<Integer> collisions = new ArrayList<>();
         collisions.add(getCollisions(1, 1));
         collisions.add(getCollisions(3, 1));
         collisions.add(getCollisions(5, 1));
         collisions.add(getCollisions(7, 1));
         collisions.add(getCollisions(1, 2));
-        System.out.println(MathUtils.product(collisions));
+        return MathUtils.product(collisions);
     }
 
     @Override
-    protected void setup() {
+    public void setup() {
         trees = ParsingUtils.stringsToBoolMatrix(lines, '#');
     }
 }

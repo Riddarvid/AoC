@@ -13,8 +13,8 @@ public class Day7 extends Day {
     }
 
     @Override
-    protected void part1() {
-        System.out.println(canContain(bags.get("shiny gold")).size());
+    public long part1() {
+        return canContain(bags.get("shiny gold")).size();
     }
 
     private Set<Bag> canContain(Bag target) {
@@ -37,14 +37,14 @@ public class Day7 extends Day {
     }
 
     @Override
-    protected void part2() {
+    public long part2() {
         Bag bag = bags.get("shiny gold");
         long numberOfBags = bag.getNumberOfBags();
-        System.out.println(numberOfBags);
+        return numberOfBags;
     }
 
     @Override
-    protected void setup() {
+    public void setup() {
         bags = new HashMap<>();
         for (String s : lines) {
             List<String> tokens = ParsingUtils.getTokens(s, ' ');

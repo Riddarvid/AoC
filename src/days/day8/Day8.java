@@ -17,18 +17,18 @@ public class Day8 extends Day {
     }
 
     @Override
-    protected void part1() {
+    public long part1() {
         Console console = new Console(instructions);
         Set<Integer> executed = new HashSet<>();
         while (!executed.contains(console.getPc())) {
             executed.add(console.getPc());
             console.step();
         }
-        System.out.println(console.getAccumulator());
+        return console.getAccumulator();
     }
 
     @Override
-    protected void part2() {
+    public long part2() {
         LinkedList<Instruction> instructionsCopy = new LinkedList<>(instructions);
         int index = 0;
         while (index < instructionsCopy.size()) {
@@ -55,7 +55,7 @@ public class Day8 extends Day {
         }
         Console console = new Console(instructionsCopy);
         console.run();
-        System.out.println(console.getAccumulator());
+        return console.getAccumulator();
     }
 
     private boolean terminatesCorrectly(LinkedList<Instruction> instructions) {
@@ -72,7 +72,7 @@ public class Day8 extends Day {
     }
 
     @Override
-    protected void setup() {
+    public void setup() {
         instructions = new ArrayList<>();
         for (String s : lines) {
             instructions.add(parseInstruction(s));

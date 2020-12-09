@@ -15,7 +15,7 @@ public class Day5 extends Day {
     }
 
     @Override
-    protected void part1() {
+    public long part1() {
         int highest = 0;
         for (Seat seat : seats) {
             int id = seat.getSeatID();
@@ -23,11 +23,11 @@ public class Day5 extends Day {
                 highest = id;
             }
         }
-        System.out.println(highest);
+        return highest;
     }
 
     @Override
-    protected void part2() {
+    public long part2() {
         Set<Integer> ids = new HashSet<>();
         for (Seat s : seats) {
             ids.add(s.getSeatID());
@@ -39,11 +39,11 @@ public class Day5 extends Day {
         while (ids.contains(seat)) {
             seat++;
         }
-        System.out.println(seat);
+        return seat;
     }
 
     @Override
-    protected void setup() {
+    public void setup() {
         seats = new ArrayList<>();
         for (String s : lines) {
             seats.add(new Seat(s));

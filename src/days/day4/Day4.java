@@ -14,29 +14,29 @@ public class Day4 extends Day {
     }
 
     @Override
-    protected void part1() {
+    public long part1() {
         int sum = 0;
         for (Passport passport : passports) {
             if (passport.allFieldsPresent()) {
                 sum++;
             }
         }
-        System.out.println(sum);
+        return sum;
     }
 
     @Override
-    protected void part2() {
+    public long part2() {
         int sum = 0;
         for (Passport passport : passports) {
             if (passport.isValid()) {
                 sum++;
             }
         }
-        System.out.println(sum);
+        return sum;
     }
 
     @Override
-    protected void setup() {
+    public void setup() {
         passports = new ArrayList<>();
         Passport current = new Passport();
         for (String line : lines) {

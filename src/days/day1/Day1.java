@@ -3,27 +3,32 @@ package days.day1;
 import riddarvid.aoc.days.Day;
 import riddarvid.aoc.parsing.ParsingUtils;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class Day1 extends Day {
     private List<Integer> entries;
+    private Set<Integer> entrySet;
 
     public static void main(String[] args) {
         new Day1();
     }
 
     @Override
-    protected void part1() {
-        List<Integer> terms = findTerms(entries, 2, 2020);
-        System.out.println(product(terms));
+    public long part1() {
+        //List<Integer> terms = findTerms(entries, 2, 2020);
+        //return product(terms);
+        for (int n : entries) {
+            if (entries.contains(2020 - n)) {
+                return (long) n * (2020 - n);
+            }
+        }
+        throw new InputMismatchException();
     }
 
     @Override
-    protected void part2() {
+    public long part2() {
         List<Integer> terms = findTerms(entries, 3, 2020);
-        System.out.println(product(terms));
+        return product(terms);
     }
 
     //entries needs to be sorted
@@ -62,8 +67,9 @@ public class Day1 extends Day {
     }
 
     @Override
-    protected void setup() {
+    public void setup() {
         entries = ParsingUtils.stringsToIntegers(lines);
         entries.sort(Comparator.comparingInt(i -> i));
+        entrySet = new HashSet<>(entries);
     }
 }

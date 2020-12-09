@@ -14,29 +14,29 @@ public class Day2 extends Day {
     }
 
     @Override
-    protected void part1() {
+    public long part1() {
         int sum = 0;
         for (Password p : passwords) {
             if (p.fulfillsSledPolicy()) {
                 sum++;
             }
         }
-        System.out.println(sum);
+        return sum;
     }
 
     @Override
-    protected void part2() {
+    public long part2() {
         int sum = 0;
         for (Password p : passwords) {
             if (p.fulfillsShopPolicy()) {
                 sum++;
             }
         }
-        System.out.println(sum);
+        return sum;
     }
 
     @Override
-    protected void setup() {
+    public void setup() {
         passwords = new ArrayList<>();
         for (String s : lines) {
             List<String> tokens = ParsingUtils.getTokens(s, ' ');

@@ -13,25 +13,25 @@ public class Day6 extends Day {
     }
 
     @Override
-    protected void part1() {
+    public long part1() {
         int sum = 0;
         for (Group group : groups) {
             sum += group.getNumberOfAnswers();
         }
-        System.out.println(sum);
+        return sum;
     }
 
     @Override
-    protected void part2() {
+    public long part2() {
         int sum = 0;
         for (Group group : groups) {
             sum += group.getNumberEveryone();
         }
-        System.out.println(sum);
+        return sum;
     }
 
     @Override
-    protected void setup() {
+    public void setup() {
         groups = new ArrayList<>();
         Group current = new Group();
         for (String s : lines) {
