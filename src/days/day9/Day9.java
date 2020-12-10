@@ -12,7 +12,7 @@ public class Day9 extends Day {
     private long target;
 
     public static void main(String[] args) {
-        new Day9().run();
+        new Day9().runAndPrint();
     }
 
     @Override
@@ -52,7 +52,7 @@ public class Day9 extends Day {
         long smallest = range.get(0);
         long largest = range.get(0);
         for (Long n : range) {
-            if (n > largest) {
+            if (n > largest || smallest == largest) {
                 largest = n;
             }
             if (n < smallest) {
