@@ -1,13 +1,12 @@
 package days.day10;
 
 import riddarvid.aoc.days.Day;
-import riddarvid.aoc.parsing.ParsingUtils;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Day10 extends Day {
-    List<Integer> joltages;
+    Set<Integer> joltSet;
+    int target;
 
     public static void main(String[] args) {
         new Day10().runAndPrint();
@@ -17,12 +16,16 @@ public class Day10 extends Day {
     public long part1() {
         int oneDiffs = 0;
         int threeDiffs = 0;
-        for (int i = 1; i < joltages.size(); i++) {
-            int diff = joltages.get(i) - joltages.get(i - 1);
-            if (diff == 1) {
-                oneDiffs++;
-            } else if (diff == 3) {
-                threeDiffs++;
+        int last = 0;
+        for (int n = 1; n <= target; n++) {
+            if (joltSet.contains(n)) {
+                int diff = n - last;
+                last = n;
+                if (diff == 1) {
+                    oneDiffs++;
+                } else if (diff == 3) {
+                    threeDiffs++;
+                }
             }
         }
         return oneDiffs * threeDiffs;
@@ -30,49 +33,43 @@ public class Day10 extends Day {
 
     @Override
     public long part2() {
-        return getNCombinations(joltages);
+        return getNCombinations();
     }
 
-    private long getNCombinations(List<Integer> joltages) {
+    private long getNCombinations() {
         Map<Integer, Long> combinationsMap = new HashMap<>();
-        return getNCombinations(joltages, 0, combinationsMap);
+        return getNCombinations(0, combinationsMap);
     }
 
-    private long getNCombinations(List<Integer> joltages, int i, Map<Integer, Long> combinationsMap) {
-        if (i == joltages.size() - 1) {
+    private long getNCombinations(int n, Map<Integer, Long> combinationsMap) {
+        if (n == target) {
             return 1;
         }
-        if (combinationsMap.containsKey(i)) {
-            return combinationsMap.get(i);
+        if (combinationsMap.containsKey(n)) {
+            return combinationsMap.get(n);
         }
         long combinations = 0;
-        for (int j = 1; j <= 3 && i + j < joltages.size(); j++) {
-            if (joltages.get(i + j) - joltages.get(i) <= 3) {
-                combinations += getNCombinations(joltages, i + j, combinationsMap);
-            } else {
-                break;
+        for (int j = 1; j <= 3 && n + j <= target; j++) {
+            if (joltSet.contains(n + j)) {
+                combinations += getNCombinations(n + j, combinationsMap);
             }
         }
-        combinationsMap.put(i, combinations);
+        combinationsMap.put(n, combinations);
         return combinations;
     }
 
     @Override
     public void setup() {
-        Queue<Integer> pq = new PriorityQueue<>();
-        int max = 0;
+        joltSet = new HashSet<>();
+        target = 0;
         for (String s : lines) {
             int n = Integer.parseInt(s);
-            if (n > max) {
-                max = n;
+            if (n > target) {
+                target = n;
             }
-            pq.add(n);
+            joltSet.add(n);
         }
-        pq.add(0);
-        pq.add(max + 3);
-        joltages = new ArrayList<>();
-        while (!pq.isEmpty()) {
-            joltages.add(pq.poll());
-        }
+        target += 3;
+        joltSet.add(target);
     }
 }
