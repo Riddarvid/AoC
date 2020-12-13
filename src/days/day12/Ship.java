@@ -1,57 +1,52 @@
 package days.day12;
 
+import riddarvid.aoc.math.geometry.Point;
+import riddarvid.aoc.math.geometry.Vector;
+
 public class Ship {
-    private int x = 0;
-    private int y = 0;
-    private Direction direction = Direction.EAST;
-    private Waypoint waypoint = new Waypoint();
+    private Point position = new Point();
+    private Vector heading = new Vector(1, 0);
+    private Vector waypoint = new Vector(10, 1);
 
-    public int getX() {
-        return x;
+    public Point getPosition() {
+        return position;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void moveBy(int x, int y) {
+        position = position.moveBy(x, y);
     }
 
-    public int getY() {
-        return y;
+    public void moveForward(int value) {
+        position = position.moveBy(heading.scaleBy(value));
     }
 
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public Direction getDirection() {
-        return direction;
-    }
-
-    public void setDirection(Direction direction) {
-        this.direction = direction;
-    }
-
-
-    public int getWaypointX() {
-        return waypoint.getX();
-    }
-
-    public int getWaypointY() {
-        return waypoint.getY();
-    }
-
-    public void move(int dx, int dy) {
-        x += dx;
-        y += dy;
-    }
-
-    public void rotateWaypointLeft(int degrees) {
-        while (degrees > 0) {
-            waypoint.rotateLeft();
-            degrees -= 90;
+    public void rotateHeadingLeft(int value) {
+        while (value > 0) {
+            rotateHeadingLeft();
+            value -= 90;
         }
     }
 
-    public void moveWaypoint(int dx, int dy) {
-        waypoint.move(dx, dy);
+    private void rotateHeadingLeft() {
+        heading = heading.rotateLeft();
+    }
+
+    public void moveWaypointBy(int x, int y) {
+        waypoint = waypoint.add(x, y);
+    }
+
+    public void rotateWaypointLeft(int value) {
+        while (value > 0) {
+            rotateWaypointLeft();
+            value -= 90;
+        }
+    }
+
+    private void rotateWaypointLeft() {
+        waypoint = waypoint.rotateLeft();
+    }
+
+    public void moveToWaypoint(int value) {
+        position = position.moveBy(waypoint.scaleBy(value));
     }
 }

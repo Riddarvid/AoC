@@ -1,5 +1,6 @@
 package days.day12;
 
+import days.day12.instructions.*;
 import riddarvid.aoc.days.Day;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class Day12 extends Day {
         for (Instruction i : instructions) {
             i.apply1(ship);
         }
-        return Math.abs(ship.getX()) + Math.abs(ship.getY());
+        return ship.getPosition().manhattanDistanceTo();
     }
 
     @Override
@@ -28,7 +29,7 @@ public class Day12 extends Day {
         for (Instruction i : instructions) {
             i.apply2(ship);
         }
-        return Math.abs(ship.getX()) + Math.abs(ship.getY());
+        return ship.getPosition().manhattanDistanceTo();
     }
 
     @Override
@@ -37,18 +38,18 @@ public class Day12 extends Day {
         for (String s : lines) {
             char c = s.charAt(0);
             int value = Integer.parseInt(s.substring(1));
-            Direction direction;
+            Instruction instruction;
             switch (c) {
-                case 'E' -> direction = Direction.EAST;
-                case 'S' -> direction = Direction.SOUTH;
-                case 'W' -> direction = Direction.WEST;
-                case 'N' -> direction = Direction.NORTH;
-                case 'R' -> direction = Direction.RIGHT;
-                case 'L' -> direction = Direction.LEFT;
-                case 'F' -> direction = Direction.FORWARD;
+                case 'E' -> instruction = new CardinalInstruction(CardinalDirection.EAST, value);
+                case 'S' -> instruction = new CardinalInstruction(CardinalDirection.SOUTH, value);
+                case 'W' -> instruction = new CardinalInstruction(CardinalDirection.WEST, value);
+                case 'N' -> instruction = new CardinalInstruction(CardinalDirection.NORTH, value);
+                case 'R' -> instruction = new RelativeInstruction(RelativeDirection.RIGHT, value);
+                case 'L' -> instruction = new RelativeInstruction(RelativeDirection.LEFT, value);
+                case 'F' -> instruction = new RelativeInstruction(RelativeDirection.FORWARD, value);
                 default -> {throw new InputMismatchException();}
             }
-            instructions.add(new Instruction(direction, value));
+            instructions.add(instruction);
         }
     }
 }
