@@ -2,6 +2,11 @@ package days;
 
 import days.day1.Day1;
 import days.day10.Day10;
+import days.day11.Day11;
+import days.day12.Day12;
+import days.day13.Day13;
+import days.day14.Day14;
+import days.day15.Day15;
 import days.day2.Day2;
 import days.day3.Day3;
 import days.day4.Day4;
@@ -18,7 +23,7 @@ import java.util.InputMismatchException;
 import java.util.concurrent.TimeUnit;
 
 public class BenchSingle {
-    private final static int DAY = 10;
+    private final static int DAY = 15;
 
     @Benchmark
     @BenchmarkMode({Mode.AverageTime})
@@ -99,6 +104,31 @@ public class BenchSingle {
                     dayFresh = new Day10();
                     daySetupDone = new Day10();
                     dayPart1Done = new Day10();
+                }
+                case 11 -> {
+                    dayFresh = new Day11();
+                    daySetupDone = new Day11();
+                    dayPart1Done = new Day11();
+                }
+                case 12 -> {
+                    dayFresh = new Day12();
+                    daySetupDone = new Day12();
+                    dayPart1Done = new Day12();
+                }
+                case 13 -> {
+                    dayFresh = new Day13();
+                    daySetupDone = new Day13();
+                    dayPart1Done = new Day13();
+                }
+                case 14 -> {
+                    dayFresh = new Day14();
+                    daySetupDone = new Day14();
+                    dayPart1Done = new Day14();
+                }
+                case 15 -> {
+                    dayFresh = new Day15();
+                    daySetupDone = new Day15();
+                    dayPart1Done = new Day15();
                 }
                 default -> throw new InputMismatchException("No such day");
             }
