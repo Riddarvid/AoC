@@ -3,7 +3,9 @@ package days.day15;
 import riddarvid.aoc.days.Day;
 import riddarvid.aoc.parsing.ParsingUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Day15 extends Day {
     private List<Integer> startingNumbers;
@@ -28,20 +30,18 @@ public class Day15 extends Day {
         for (; time < startingNumbers.size() + 1; time++) {
             timeStamps[startingNumbers.get(time - 1)] = time;
         }
-        int last = startingNumbers.get(startingNumbers.size() - 1);
         int next = 0;
-        for (; time <= n; time++) {
-            last = next;
+        for (; time < n; time++) {
             if (timeStamps[next] != 0) {
-                int newNext = time - timeStamps[next];
+                int newLast = time - timeStamps[next];
                 timeStamps[next] = time;
-                next = newNext;
+                next = newLast;
             } else {
                 timeStamps[next] = time;
                 next = 0;
             }
         }
-        return last;
+        return next;
     }
 
     @Override
