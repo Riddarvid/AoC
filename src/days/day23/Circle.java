@@ -42,10 +42,6 @@ public class Circle {
             nodeList.get(i).next = nodeList.get(i + 1);
         }
         nodeList.get(nodeList.size() - 1).next = nodeList.get(0);
-        for (int i = 1; i < nodeList.size(); i++) {
-            nodeList.get(i).previous = nodeList.get(i - 1);
-        }
-        nodeList.get(0).previous = nodeList.get(nodeList.size() - 1);
         current = nodeList.get(0);
     }
 
@@ -62,9 +58,7 @@ public class Circle {
         while (last.next != null) {
             last = last.next;
         }
-        held.previous = destination;
         destination.next = held;
-        after.previous = last;
         last.next = after;
     }
 
@@ -90,11 +84,11 @@ public class Circle {
 
     private Node unlink(int begin, int end) {
         Node beginNode = current;
-        for (int i = 0; i < begin; i++) {
+        for (int i = 0; i < begin - 1; i++) {
             beginNode = beginNode.next;
         }
-        Node before = beginNode.previous;
-        beginNode.previous = null;
+        Node before = beginNode;
+        beginNode = beginNode.next;
         Node endNode = beginNode;
         for (int i = begin; i < end - 1; i++) {
             endNode = endNode.next;
@@ -102,7 +96,6 @@ public class Circle {
         Node next = endNode.next;
         endNode.next = null;
         before.next = next;
-        next.previous = before;
         return beginNode;
     }
 
@@ -133,7 +126,6 @@ public class Circle {
     private static class Node {
         private final int label;
         private Node next;
-        private Node previous;
 
         private Node(int label) {
             this.label = label;
