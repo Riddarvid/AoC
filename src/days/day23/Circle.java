@@ -67,19 +67,23 @@ public class Circle {
         if (destinationLabel < lowest) {
             destinationLabel = highest;
         }
-        Set<Integer> heldLabels = new HashSet<>();
-        Node node = held;
-        while (node != null) {
-            heldLabels.add(node.label);
-            node = node.next;
-        }
-        while (heldLabels.contains(destinationLabel)) {
+        while (contains(held, destinationLabel)) {
             destinationLabel--;
             if (destinationLabel < lowest) {
                 destinationLabel = highest;
             }
         }
         return nodes[destinationLabel];
+    }
+
+    private boolean contains(Node chain, int label) {
+        while (chain != null) {
+            if (chain.label == label) {
+                return true;
+            }
+            chain = chain.next;
+        }
+        return true;
     }
 
     private Node unlink(int begin, int end) {
