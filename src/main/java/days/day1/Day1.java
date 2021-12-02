@@ -9,7 +9,11 @@ public class Day1 extends Day {
     private List<Integer> depths;
 
     public static void main(String[] args) {
-        new Day1();
+        new Day1().runAndPrint();
+    }
+
+    public Day1() {
+        super("input1");
     }
 
     @Override
@@ -25,7 +29,13 @@ public class Day1 extends Day {
 
     @Override
     public long part2() {
-        return 0;
+        int nIncreases = 0;
+        for (int i = 3; i < depths.size(); i++) {
+            if (depths.get(i) > depths.get(i - 3)) {
+                nIncreases++;
+            }
+        }
+        return nIncreases;
     }
 
     @Override
