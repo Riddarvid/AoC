@@ -14,11 +14,7 @@ public class Day5 extends Day {
     private List<Line> allHydroLines;
 
     public static void main(String[] args) {
-        new Day5().runAndPrint();
-    }
-
-    public Day5() {
-        super("input5");
+        new Day5().runAndPrint("input5");
     }
 
     private long getNumberOfIntersections(List<Line> hydroLines) {

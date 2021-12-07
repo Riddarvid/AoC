@@ -1,4 +1,4 @@
-package days.day7;
+package aoc21.days.day7;
 
 import aoc.days.Day;
 import aoc.parsing.ParsingUtils;
@@ -12,11 +12,7 @@ public class Day7 extends Day {
     private int maxPosition;
 
     public static void main(String[] args) {
-        new Day7().runAndPrint();
-    }
-
-    public Day7() {
-        super("input7");
+        new Day7().runAndPrint("input7");
     }
 
     private double getMedian(List<Integer> positions) {

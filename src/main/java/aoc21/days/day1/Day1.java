@@ -9,11 +9,7 @@ public class Day1 extends Day {
     private List<Integer> depths;
 
     public static void main(String[] args) {
-        new Day1().runAndPrint();
-    }
-
-    public Day1() {
-        super("input1");
+        new Day1().runAndPrint("input1");
     }
 
     @Override

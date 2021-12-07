@@ -9,11 +9,7 @@ public class Day2 extends Day {
     private List<Instruction> instructions;
 
     public static void main(String[] args) {
-        new Day2().runAndPrint();
-    }
-
-    public Day2() {
-        super("input2");
+        new Day2().runAndPrint("input2");
     }
 
     @Override

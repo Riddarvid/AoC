@@ -94,11 +94,7 @@ public class Day3 extends Day {
     }
 
     public static void main(String[] args) {
-        new Day3().runAndPrint();
-    }
-
-    public Day3() {
-        super("input3");
+        new Day3().runAndPrint("input3");
     }
 
     @Override

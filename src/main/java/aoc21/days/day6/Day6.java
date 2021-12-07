@@ -9,11 +9,7 @@ public class Day6 extends Day {
     long[] fishGroups;
 
     public static void main(String[] args) {
-        new Day6().runAndPrint();
-    }
-
-    public Day6() {
-        super("input6");
+        new Day6().runAndPrint("input6");
     }
 
     private long simulate(int turns, long[] fishGroups) {
