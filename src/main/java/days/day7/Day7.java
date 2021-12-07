@@ -3,6 +3,7 @@ package days.day7;
 import aoc.days.Day;
 import aoc.parsing.ParsingUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Day7 extends Day {
@@ -60,15 +61,7 @@ public class Day7 extends Day {
     @Override
     public void setup() {
         horizontalPositions = ParsingUtils.getIntegers(lines.get(0));
-        maxPosition = 0;
-        minPosition = Integer.MAX_VALUE;
-        for (int value : horizontalPositions) {
-            if (value > maxPosition) {
-                maxPosition = value;
-            }
-            if (value < minPosition) {
-                minPosition = value;
-            }
-        }
+        maxPosition = Collections.max(horizontalPositions);
+        minPosition = Collections.min(horizontalPositions);
     }
 }
