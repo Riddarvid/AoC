@@ -19,23 +19,51 @@ public class Day7 extends Day {
         super("input7");
     }
 
+    private double getMedian(List<Integer> positions) {
+        positions.sort(Integer::compareTo);
+        if (positions.size() % 2 == 1) {
+            return positions.get(positions.size() / 2);
+        } else {
+            double a = positions.get(positions.size() / 2);
+            double b = positions.get(positions.size() / 2 - 1);
+            return (a + b) / 2;
+        }
+    }
+
+    private double getMean(List<Integer> positions) {
+        double sum = 0;
+        for (int position : positions) {
+            sum += position;
+        }
+        return sum / positions.size();
+    }
+
+    private int getLeastFuelPosition() {
+        double sum = 0;
+        for (int position : horizontalPositions) {
+            sum += position;
+        }
+        double mean = sum / horizontalPositions.size();
+        return (int) Math.floor(sum / horizontalPositions.size());
+    }
+
     private long getLeastFuel(int minPosition, int maxPosition, FuelFunction fuelFunction) {
-        long minError = Integer.MAX_VALUE;
+        long minFuel = Integer.MAX_VALUE;
         for (int position = minPosition; position <= maxPosition; position++) {
             long fuel = getTotalFuel(horizontalPositions, position, fuelFunction);
-            if (fuel < minError) {
-                minError = fuel;
+            if (fuel < minFuel) {
+                minFuel = fuel;
             }
         }
-        return minError;
+        return minFuel;
     }
 
     private long getTotalFuel(List<Integer> positions, int goal, FuelFunction fuelFunction) {
-        long error = 0;
+        long fuel = 0;
         for (int position : positions) {
-            error += fuelFunction.getFuel(position, goal);
+            fuel += fuelFunction.getFuel(position, goal);
         }
-        return error;
+        return fuel;
     }
 
     private long getFuel1(int position, int goal) {
@@ -50,11 +78,13 @@ public class Day7 extends Day {
 
     @Override
     public long part1() {
+        //System.out.println(getTotalFuel(horizontalPositions, (int) getMedian(horizontalPositions), this::getFuel1));
         return getLeastFuel(minPosition, maxPosition, this::getFuel1);
     }
 
     @Override
     public long part2() {
+        //System.out.println(getTotalFuel(horizontalPositions, (int) (getMean(horizontalPositions) - 0.5), this::getFuel2));
         return getLeastFuel(minPosition, maxPosition, this::getFuel2);
     }
 
