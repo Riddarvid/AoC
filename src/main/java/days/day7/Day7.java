@@ -3,7 +3,6 @@ package days.day7;
 import aoc.days.Day;
 import aoc.parsing.ParsingUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Day7 extends Day {
@@ -19,29 +18,29 @@ public class Day7 extends Day {
         super("input7");
     }
 
-    private int getMeanPosition(List<Integer> positions) {
-        long sum = 0;
-        for (int position : positions) {
-            sum += position;
+    private long getLeastFuel(int minPosition, int maxPosition, FuelFunction fuelFunction) {
+        long minError = Integer.MAX_VALUE;
+        for (int position = minPosition; position <= maxPosition; position++) {
+            long fuel = getTotalFuel(horizontalPositions, position, fuelFunction);
+            if (fuel < minError) {
+                minError = fuel;
+            }
         }
-        return (int) (sum / positions.size());
+        return minError;
     }
 
-    private long getError(List<Integer> positions, int goal) {
+    private long getTotalFuel(List<Integer> positions, int goal, FuelFunction fuelFunction) {
         long error = 0;
         for (int position : positions) {
-            error += Math.abs(position - goal);
+            error += fuelFunction.getFuel(position, goal);
         }
         return error;
     }
 
-    private long getError2(List<Integer> positions, int goal) {
-        long error = 0;
-        for (int position : positions) {
-            error += getFuel2(position, goal);
-        }
-        return error;
+    private long getFuel1(int position, int goal) {
+        return Math.abs(position - goal);
     }
+
 
     private long getFuel2(int position, int goal) {
         long distance = Math.abs(position - goal);
@@ -50,26 +49,12 @@ public class Day7 extends Day {
 
     @Override
     public long part1() {
-        long minError = Integer.MAX_VALUE;
-        for (int position = minPosition; position <= maxPosition; position++) {
-            long error = getError(horizontalPositions, position);
-            if (error < minError) {
-                minError = error;
-            }
-        }
-        return minError;
+        return getLeastFuel(minPosition, maxPosition, this::getFuel1);
     }
 
     @Override
     public long part2() {
-        long minError = Integer.MAX_VALUE;
-        for (int position = minPosition; position <= maxPosition; position++) {
-            long error = getError2(horizontalPositions, position);
-            if (error < minError) {
-                minError = error;
-            }
-        }
-        return minError;
+        return getLeastFuel(minPosition, maxPosition, this::getFuel2);
     }
 
     @Override
