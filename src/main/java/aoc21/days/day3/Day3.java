@@ -93,10 +93,6 @@ public class Day3 extends Day {
         return filter(toKeep, searchMostCommon, bitPosition + 1);
     }
 
-    public static void main(String[] args) {
-        new Day3().runAndPrint("input3");
-    }
-
     @Override
     public long part1() {
         int numberLength = lines.get(0).length();

@@ -91,10 +91,6 @@ public class Day4 extends Day {
         return playToWin(boards, drawIndex, true);
     }
 
-    public static void main(String[] args) {
-        new Day4().runAndPrint("input4");
-    }
-
     @Override
     public long part1() {
         return playToWin(boards1, 0, false);

@@ -8,10 +8,6 @@ import java.util.List;
 public class Day2 extends Day {
     private List<Instruction> instructions;
 
-    public static void main(String[] args) {
-        new Day2().runAndPrint("input2");
-    }
-
     @Override
     public long part1() {
         Submarine submarine = new Submarine(new Engine1());

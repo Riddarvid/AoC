@@ -8,10 +8,6 @@ import java.util.List;
 public class Day6 extends Day {
     long[] fishGroups;
 
-    public static void main(String[] args) {
-        new Day6().runAndPrint("input6");
-    }
-
     private long simulate(int turns, long[] fishGroups) {
         for (int i = 0; i < turns; i++) {
             simulateTurn(fishGroups);

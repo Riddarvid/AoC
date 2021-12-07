@@ -11,10 +11,6 @@ public class Day7 extends Day {
     private int minPosition;
     private int maxPosition;
 
-    public static void main(String[] args) {
-        new Day7().runAndPrint("input7");
-    }
-
     private double getMedian(List<Integer> positions) {
         positions.sort(Integer::compareTo);
         if (positions.size() % 2 == 1) {
