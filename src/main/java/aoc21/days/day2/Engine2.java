@@ -1,4 +1,4 @@
-package days.day2;
+package aoc21.days.day2;
 
 public class Engine2 extends Engine {
     private long aim;

@@ -1,8 +1,7 @@
-package days.day2;
+package aoc21.days.day2;
 
 import aoc.days.Day;
 
-import javax.naming.directory.InvalidAttributesException;
 import java.util.ArrayList;
 import java.util.List;
 

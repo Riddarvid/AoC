@@ -1,4 +1,4 @@
-package days.day5;
+package aoc21.days.day5;
 
 import aoc.math.geometry.Point;
 

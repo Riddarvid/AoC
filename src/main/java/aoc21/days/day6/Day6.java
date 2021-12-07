@@ -1,4 +1,4 @@
-package days.day6;
+package aoc21.days.day6;
 
 import aoc.days.Day;
 import aoc.parsing.ParsingUtils;

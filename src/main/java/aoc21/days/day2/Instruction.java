@@ -1,4 +1,4 @@
-package days.day2;
+package aoc21.days.day2;
 
 public class Instruction {
     private final Direction direction;
