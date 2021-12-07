@@ -1,7 +1,7 @@
 package aoc19.days.day23;
 
 import aoc19.utils.input.InputUtils;
-import riddarvid.aoc.days.Day;
+import aoc.days.Day;
 
 public class Day23 extends Day {
     private long[] memory;
@@ -11,19 +11,20 @@ public class Day23 extends Day {
     }
 
     @Override
-    protected void part1() {
+    public long part1() {
         //Network network = new Network(50, memory, true);
         //network.run();
     }
 
     @Override
-    protected void part2() {
+    public long part2() {
         Network network = new Network(50, memory);
         network.run();
+        return 0;
     }
 
     @Override
-    protected void setup() {
+    public void setup() {
         memory = InputUtils.readProgram(lines);
     }
 }

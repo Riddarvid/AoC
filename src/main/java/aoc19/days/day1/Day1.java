@@ -14,12 +14,12 @@ public class Day1 extends Day {
     }
 
     @Override
-    protected void part1() {
+    public long part1() {
         initFuel = 0;
         for (int mass : masses) {
             initFuel += getFuel(mass);
         }
-        System.out.println(initFuel);
+        return initFuel;
     }
 
     private int getFuel(int mass) {
@@ -37,16 +37,16 @@ public class Day1 extends Day {
     }
 
     @Override
-    protected void part2() {
+    public long part2() {
         initFuel = 0;
         for (int mass : masses) {
             initFuel += getFuelRecursive(mass);
         }
-        System.out.println(initFuel);
+        return initFuel;
     }
 
     @Override
-    protected void setup() {
+    public void setup() {
         masses = new ArrayList<>();
         for (String s : lines) {
             masses.add(Integer.parseInt(s));
