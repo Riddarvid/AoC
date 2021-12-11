@@ -14,7 +14,7 @@ public class Day2 extends Day {
         for (Instruction instruction : instructions) {
             submarine.move(instruction);
         }
-        return (long) submarine.getDepth() * submarine.getHorizontalPosition();
+        return submarine.getDepth() * submarine.getHorizontalPosition();
     }
 
     @Override
