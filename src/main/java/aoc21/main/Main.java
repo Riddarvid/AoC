@@ -5,6 +5,7 @@ import aoc21.days.day1.Day1;
 import aoc21.days.day17.Day17;
 import aoc21.days.day18.Day18;
 import aoc21.days.day18.Day18alt;
+import aoc21.days.day19.Day19;
 import aoc21.days.day2.Day2;
 import aoc21.days.day3.Day3;
 import aoc21.days.day4.Day4;
@@ -25,13 +26,13 @@ public class Main {
     private static final Day[] days =
             {new Day1(), new Day2(), new Day3(), new Day4(), new Day5(), new Day6(), new Day7(), new Day8(), new Day9()
             , new Day10(), new Day11(), new Day12(), new Day13(), new Day14(), new Day15(), new Day16(), new Day17()
-            , new Day18()};
+            , new Day18(), new Day19()};
 
     private static void runDay(int dayNumber) {
         days[dayNumber - 1].runAndPrint("input" + dayNumber);
     }
 
     public static void main(String[] args) {
-        runDay(18);
+        runDay(19);
     }
 }
