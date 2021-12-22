@@ -1,13 +1,10 @@
 package aoc21.days.day22;
 
 import aoc.days.Day;
-import aoc.math.geometry.PointND;
 import aoc.parsing.ParsingUtils;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class Day22 extends Day {
     private List<Instruction> initInstructions;
