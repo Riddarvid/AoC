@@ -35,6 +35,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        runDay(22);
+        runDay(21);
     }
 }

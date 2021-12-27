@@ -1,17 +1,19 @@
 package aoc21.days.day21;
 
-public class Game {
+public class DeterministicGame {
     private int position1;
     private int position2;
 
     private int score1;
     private int score2;
 
+    private final int scoreToWin;
     private final Dice dice;
 
-    public Game(int position1, int position2, Dice dice) {
+    public DeterministicGame(int position1, int position2, int scoreToWin, Dice dice) {
         this.position1 = position1;
         this.position2 = position2;
+        this.scoreToWin = scoreToWin;
         score1 = 0;
         score2 = 0;
         this.dice = dice;
@@ -19,7 +21,7 @@ public class Game {
 
     public void play() {
         boolean playerOneTurn = true;
-        while (score1 < 1000 && score2 < 1000) {
+        while (score1 < scoreToWin && score2 < scoreToWin) {
             playRound(playerOneTurn);
             playerOneTurn = !playerOneTurn;
         }

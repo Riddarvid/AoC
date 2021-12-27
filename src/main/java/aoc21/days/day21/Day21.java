@@ -16,7 +16,7 @@ public class Day21 extends Day {
     @Override
     public long part1() {
         Dice dice = new DeterministicDice();
-        Game game = new Game(startingPosition1, startingPosition2, dice);
+        DeterministicGame game = new DeterministicGame(startingPosition1, startingPosition2, 1000, dice);
         game.play();
         long losingScore = Math.min(game.getScore1(), game.getScore2());
         long numberOfRolls = dice.getNumberOfRolls();
@@ -25,6 +25,9 @@ public class Day21 extends Day {
 
     @Override
     public long part2() {
-        return 0;
+        DiracGame game = new DiracGame(startingPosition1, startingPosition2, 21);
+        game.play();
+        DiracResult result = game.getResult();
+        return Math.max(result.getPlayerOneWins(), result.getPlayerTwoWins());
     }
 }
