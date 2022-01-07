@@ -11,9 +11,10 @@ public class Day1 extends Day {
         for (char c : input) {
             if (c == '(') {
                 floor++;
+            } else {
+                floor--;
             }
         }
-        floor = 2 * floor - input.length;
         return floor;
     }
 
