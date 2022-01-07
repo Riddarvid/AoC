@@ -2,7 +2,7 @@ package aoc15.days.day5;
 
 import aoc.days.Day;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Day5 extends Day {
@@ -33,17 +33,10 @@ public class Day5 extends Day {
 
     @Override
     public void setup() {
-        vowels = new ArrayList<>();
-        vowels.add('a');
-        vowels.add('e');
-        vowels.add('i');
-        vowels.add('o');
-        vowels.add('u');
-        illegal = new ArrayList<>();
-        illegal.add("ab");
-        illegal.add("cd");
-        illegal.add("pq");
-        illegal.add("xy");
+        Character[] vowelArray = {'a', 'e', 'i', 'o', 'u'};
+        vowels = Arrays.asList(vowelArray);
+        String[] illegalArray = {"ab", "cd", "pq", "xy"};
+        illegal = Arrays.asList(illegalArray);
     }
 
     private boolean isNice1(String string) {
