@@ -15,20 +15,11 @@ public class Day3 extends Day {
         houses.add(new House(0, 0, 1));
         for (char c : instructions) {
             switch (c) {
-                case '^':
-                    santa.up();
-                    break;
-                case 'v':
-                    santa.down();
-                    break;
-                case '>':
-                    santa.right();
-                    break;
-                case '<':
-                    santa.left();
-                    break;
-                default:
-                    System.out.println("Unsupported operator");
+                case '^' -> santa.up();
+                case 'v' -> santa.down();
+                case '>' -> santa.right();
+                case '<' -> santa.left();
+                default -> System.out.println("Unsupported operator");
             }
             House house = new House(santa.getX(), santa.getY());
             if (houses.contains(house)) {
