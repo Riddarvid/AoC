@@ -46,6 +46,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        runAllDays();
+        //runAllDays();
+        runDay(6);
     }
 }

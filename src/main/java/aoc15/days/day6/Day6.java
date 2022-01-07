@@ -1,6 +1,7 @@
 package aoc15.days.day6;
 
 import aoc.days.Day;
+import aoc.math.geometry.Point;
 import aoc.parsing.ParsingUtils;
 
 import java.util.List;
@@ -72,19 +73,19 @@ public class Day6 extends Day {
         int maxRow;
         int minCol;
         int maxCol;
-        if (p1.y > p2.y) {
-            minRow = p2.y;
-            maxRow = p1.y;
+        if (p1.getY() > p2.getY()) {
+            minRow = p2.getY();
+            maxRow = p1.getY();
         } else {
-            minRow = p1.y;
-            maxRow = p2.y;
+            minRow = p1.getY();
+            maxRow = p2.getY();
         }
-        if (p1.x > p2.x) {
-            minCol = p2.x;
-            maxCol = p1.x;
+        if (p1.getX() > p2.getX()) {
+            minCol = p2.getX();
+            maxCol = p1.getX();
         } else {
-            minCol = p1.x;
-            maxCol = p2.x;
+            minCol = p1.getX();
+            maxCol = p2.getX();
         }
         switch (operation) {
             case TURN_ON:
@@ -130,19 +131,19 @@ public class Day6 extends Day {
         int maxRow;
         int minCol;
         int maxCol;
-        if (p1.y > p2.y) {
-            minRow = p2.y;
-            maxRow = p1.y;
+        if (p1.getY() > p2.getY()) {
+            minRow = p2.getY();
+            maxRow = p1.getY();
         } else {
-            minRow = p1.y;
-            maxRow = p2.y;
+            minRow = p1.getY();
+            maxRow = p2.getY();
         }
-        if (p1.x > p2.x) {
-            minCol = p2.x;
-            maxCol = p1.x;
+        if (p1.getX() > p2.getX()) {
+            minCol = p2.getX();
+            maxCol = p1.getX();
         } else {
-            minCol = p1.x;
-            maxCol = p2.x;
+            minCol = p1.getX();
+            maxCol = p2.getX();
         }
         switch (operation) {
             case TURN_ON:
