@@ -10,16 +10,16 @@ public class Day14 extends Day {
     List<Reindeer> reindeer;
 
     private void moveAll() {
-        for (Reindeer r : reindeer) {
-            r.move();
+        for (Reindeer reindeer : reindeer) {
+            reindeer.move();
         }
     }
 
     private Reindeer getFurthest() {
         Reindeer fastest = reindeer.get(0);
-        for (Reindeer r : reindeer) {
-            if (r.getDistanceTraveled() > fastest.getDistanceTraveled()) {
-                fastest = r;
+        for (Reindeer reindeer : reindeer) {
+            if (reindeer.getDistanceTraveled() > fastest.getDistanceTraveled()) {
+                fastest = reindeer;
             }
         }
         return fastest;
