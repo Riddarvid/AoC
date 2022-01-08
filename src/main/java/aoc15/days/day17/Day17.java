@@ -48,13 +48,13 @@ public class Day17 extends Day {
     @Override
     public long part2() {
         Queue<ContainerCombo> pq = new PriorityQueue<>(validContainerCombos);
-        int min = pq.peek().getCount();
-        int amount = 0;
-        while (!pq.isEmpty() && pq.peek().getCount() == min) {
-            amount++;
+        int targetAmount = pq.peek().getCount();
+        int count = 0;
+        while (!pq.isEmpty() && pq.peek().getCount() == targetAmount) {
+            count++;
             pq.poll();
         }
-        return amount;
+        return count;
     }
 
     @Override
