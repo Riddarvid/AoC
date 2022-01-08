@@ -34,23 +34,19 @@ public class Day12 extends Day {
         while (i < chars.length) {
             char c = chars[i];
             switch (c) {
-                case '[':
-                    stack.push('[');
-                    break;
-                case ']':
-                    stack.pop();
-                    break;
-                case '{':
+                case '[' -> stack.push('[');
+                case ']' -> stack.pop();
+                case '{' -> {
                     stack.push('{');
                     current = new Node(current);
-                    break;
-                case '}':
+                }
+                case '}' -> {
                     if (stack.isEmpty()) {
                         System.out.println("hm");
                     }
                     stack.pop();
                     current = current.getParent();
-                    break;
+                }
             }
             if (c == '-' || Character.isDigit(c)) {
                 int start = i;
