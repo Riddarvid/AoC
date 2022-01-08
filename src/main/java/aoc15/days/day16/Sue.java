@@ -11,6 +11,11 @@ public class Sue {
         this.id = id;
     }
 
+    public Sue(List<Sample> samples) {
+        id = -1;
+        this.samples = new ArrayList<>(samples);
+    }
+
     public List<Sample> getSamples() {
         return samples;
     }

@@ -8,45 +8,12 @@ public class Sample {
     private final int count;
 
     public Sample(String compound, int count) {
-        setCompound(compound);
-        this.count = count;
+        this(Compound.valueOf(compound.toUpperCase()), count);
     }
 
-    private void setCompound(String string) {
-        switch (string) {
-            case "children":
-                compound = Compound.CHILDREN;
-                break;
-            case "cats":
-                compound = Compound.CATS;
-                break;
-            case "samoyeds":
-                compound = Compound.SAMOYEDS;
-                break;
-            case "pomeranians":
-                compound = Compound.POMERANIANS;
-                break;
-            case "akitas":
-                compound = Compound.AKITAS;
-                break;
-            case "vizslas":
-                compound = Compound.VIZSLAS;
-                break;
-            case "goldfish":
-                compound = Compound.GOLDFISH;
-                break;
-            case "trees":
-                compound = Compound.TREES;
-                break;
-            case "cars":
-                compound = Compound.CARS;
-                break;
-            case "perfumes":
-                compound = Compound.PERFUMES;
-                break;
-            default:
-                throw new InputMismatchException("Invalid compound");
-        }
+    public Sample(Compound compound, int count) {
+        this.compound = compound;
+        this.count = count;
     }
 
     public Compound getCompound() {

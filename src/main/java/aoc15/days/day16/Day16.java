@@ -40,8 +40,19 @@ public class Day16 extends Day {
 
     @Override
     public void setup() {
+        List<Sample> correctSamples = new ArrayList<>();
+        correctSamples.add(new Sample(Compound.CHILDREN, 3));
+        correctSamples.add(new Sample(Compound.CATS, 7));
+        correctSamples.add(new Sample(Compound.SAMOYEDS, 2));
+        correctSamples.add(new Sample(Compound.POMERANIANS, 3));
+        correctSamples.add(new Sample(Compound.AKITAS, 0));
+        correctSamples.add(new Sample(Compound.VIZSLAS, 0));
+        correctSamples.add(new Sample(Compound.GOLDFISH, 5));
+        correctSamples.add(new Sample(Compound.TREES, 3));
+        correctSamples.add(new Sample(Compound.CARS, 2));
+        correctSamples.add(new Sample(Compound.PERFUMES, 1));
+        correct = new Sue(correctSamples);
         sues = new ArrayList<>();
-        correct = generateSue(lines.get(0));
         for (int i = 1; i < lines.size(); i++) {
             String s = lines.get(i);
             sues.add(generateSue(s));
