@@ -8,9 +8,9 @@ import java.util.Objects;
 public class Person {
     private static List<Person> allPeople;
 
-    private Map<String, Integer> distancesOneWay = new HashMap<>();
-    private Map<String, Integer> distancesTwoWay = new HashMap<>();
-    private String name;
+    private final Map<String, Integer> distancesOneWay = new HashMap<>();
+    private final Map<String, Integer> distancesTwoWay = new HashMap<>();
+    private final String name;
     private boolean visited = false;
     private static Person first;
 
