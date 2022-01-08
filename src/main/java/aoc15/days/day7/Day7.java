@@ -9,9 +9,9 @@ import java.util.Map;
 
 public class Day7 extends Day {
 
-    int resultA;
+    private int resultA;
 
-    Map<String, Wire> map;
+    private Map<String, Wire> map;
 
     @Override
     public long part1() {
