@@ -66,8 +66,7 @@ public class Day11 extends Day {
     }
 
     private boolean isLegal(int[] password) {
-        for (int i = 0; i < password.length; i++) {
-            int c = password[i];
+        for (int c : password) {
             if (c == 8 || c == 11 || c == 14) {
                 return false;
             }
@@ -181,58 +180,10 @@ public class Day11 extends Day {
     public void setup() {
         charToInt = new HashMap<>();
         intToChar = new HashMap<>();
-        charToInt.put('a', 0);
-        charToInt.put('b', 1);
-        charToInt.put('c', 2);
-        charToInt.put('d', 3);
-        charToInt.put('e', 4);
-        charToInt.put('f', 5);
-        charToInt.put('g', 6);
-        charToInt.put('h', 7);
-        charToInt.put('i', 8);
-        charToInt.put('j', 9);
-        charToInt.put('k', 10);
-        charToInt.put('l', 11);
-        charToInt.put('m', 12);
-        charToInt.put('n', 13);
-        charToInt.put('o', 14);
-        charToInt.put('p', 15);
-        charToInt.put('q', 16);
-        charToInt.put('r', 17);
-        charToInt.put('s', 18);
-        charToInt.put('t', 19);
-        charToInt.put('u', 20);
-        charToInt.put('v', 21);
-        charToInt.put('w', 22);
-        charToInt.put('x', 23);
-        charToInt.put('y', 24);
-        charToInt.put('z', 25);
-        intToChar.put(0, 'a');
-        intToChar.put(1, 'b');
-        intToChar.put(2, 'c');
-        intToChar.put(3, 'd');
-        intToChar.put(4, 'e');
-        intToChar.put(5, 'f');
-        intToChar.put(6, 'g');
-        intToChar.put(7, 'h');
-        intToChar.put(8, 'i');
-        intToChar.put(9, 'j');
-        intToChar.put(10, 'k');
-        intToChar.put(11, 'l');
-        intToChar.put(12, 'm');
-        intToChar.put(13, 'n');
-        intToChar.put(14, 'o');
-        intToChar.put(15, 'p');
-        intToChar.put(16, 'q');
-        intToChar.put(17, 'r');
-        intToChar.put(18, 's');
-        intToChar.put(19, 't');
-        intToChar.put(20, 'u');
-        intToChar.put(21, 'v');
-        intToChar.put(22, 'w');
-        intToChar.put(23, 'x');
-        intToChar.put(24, 'y');
-        intToChar.put(25, 'z');
+        for (char c = 'a'; c <= 'z'; c++) {
+            charToInt.put(c, c - 'a');
+            intToChar.put(c - 'a', c);
+        }
         oldPassword = lines.get(0);
     }
 }
