@@ -48,6 +48,6 @@ public class Main {
 
     public static void main(String[] args) {
         //runAllDays();
-        runDay(16);
+        runDay(20);
     }
 }
