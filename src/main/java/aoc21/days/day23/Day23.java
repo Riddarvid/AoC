@@ -5,57 +5,89 @@ import aoc.days.Day;
 import java.util.*;
 
 public class Day23 extends Day {
-    private Burrow startBurrow;
+    private Burrow startBurrow1;
+    private Burrow startBurrow2;
 
-    @Override
-    public void setup() {
-        Corridor corridor = new Corridor(11);
-        Map<Amphipod, Room> rooms = new HashMap<>();
-        for (int x = 3; x <= 9; x += 2) {
-            char c = lines.get(2).charAt(x);
-            Amphipod outer = Amphipod.valueOf("" + c);
-            c = lines.get(3).charAt(x);
-            Amphipod inner = Amphipod.valueOf("" + c);
-            rooms.put(Amphipod.values()[(x - 3) / 2], new Room(x - 1, outer, inner));
+    private Burrow parseBurrow(int startLine) {
+        int lineIndex = startLine + 1;
+        int endIndex = startLine + 1;
+        while (lines.get(endIndex).charAt(3) != '#') {
+            endIndex++;
         }
-        startBurrow = new Burrow(corridor, rooms);
+        Character[] corridor = new Character[lines.get(startLine).length() - 2];
+        lineIndex++;
+        int numberOfRooms = (lines.get(lineIndex).length() - 5) / 2;
+        Room[] rooms = new Room[numberOfRooms];
+        for (int i = 0; i < numberOfRooms; i++) {
+            rooms[i] = parseRoom(lineIndex, i * 2 + 3, endIndex);
+        }
+        return new Burrow(corridor, rooms);
+    }
+
+    private Room parseRoom(int startY, int x, int endY) {
+        Character[] amphipods = new Character[endY - startY];
+        for (int y = startY; y < endY; y++) {
+            amphipods[y - startY] = lines.get(y).charAt(x);
+        }
+        return new Room(amphipods);
+    }
+
+    private Burrow generateGoalBurrow(int startLine) {
+        int lineIndex = startLine + 1;
+        int endIndex = startLine + 1;
+        while (lines.get(endIndex).charAt(3) != '#') {
+            endIndex++;
+        }
+        Character[] corridor = new Character[lines.get(startLine).length() - 2];
+        lineIndex++;
+        int sizeOfRooms =  endIndex - lineIndex;
+        Room[] rooms = new Room[(lines.get(lineIndex).length() - 5) / 2];
+        int numberOfRooms = (lines.get(lineIndex).length() - 5) / 2;
+        for (int i = 0; i < numberOfRooms; i++) {
+            rooms[i] = generateGoalRoom(sizeOfRooms, i);
+        }
+        return new Burrow(corridor, rooms);
+    }
+
+    private Room generateGoalRoom(int sizeOfRooms, int index) {
+        Character[] contents = new Character[sizeOfRooms];
+        char podChar = (char) ('A' + index);
+        for (int i = 0; i < sizeOfRooms; i++) {
+            contents[i] = podChar;
+        }
+        return new Room(contents);
     }
 
     @Override
-    public long part1() {
-        Corridor goalCorridor = new Corridor(11);
-        Map<Amphipod, Room> goalRooms = new HashMap<>();
-        for (int i = 0; i < Amphipod.values().length; i++) {
-            Amphipod amphipod = Amphipod.values()[i];
-            goalRooms.put(amphipod, new Room(i * 2 + 2, amphipod, amphipod));
-        }
-        Burrow goalBurrow = new Burrow(goalCorridor, goalRooms);
+    public void setup() {
+        startBurrow1 = parseBurrow(0);
+        startBurrow2 = parseBurrow(6);
+    }
 
-        Map<Burrow, Integer> gCostMap = new HashMap<>();
-        gCostMap.put(startBurrow, 0);
-        Map<Burrow, Integer> fCostMap = new HashMap<>();
-        fCostMap.put(startBurrow, startBurrow.estimateRemaining());
-        PriorityQueue<Burrow> openSet = new PriorityQueue<>(new BurrowComparator(fCostMap));
-        openSet.add(startBurrow);
-        //Set<Burrow> determined = new HashSet<>();
-        while (!openSet.isEmpty()) {
-            Burrow current = openSet.poll();
+    private int getShortestPath(Burrow startBurrow, Burrow goalBurrow) {
+        Map<Burrow, Integer> costMap = new HashMap<>();
+        costMap.put(startBurrow, 0);
+        PriorityQueue<Burrow> discovered = new PriorityQueue<>(new BurrowComparator(costMap));
+        discovered.add(startBurrow);
+        Set<Burrow> determined = new HashSet<>();
+        while (!discovered.isEmpty()) {
+            Burrow current = discovered.poll();
             if (current.equals(goalBurrow)) {
-                return gCostMap.get(current);
+                return costMap.get(current);
             }
-            //determined.add(current);
+            determined.add(current);
             Set<Move> moves = current.getMoves();
             for (Move move : moves) {
-                /*if (determined.contains(move.getBurrow())) {
+                Burrow neighbour = move.getResultBurrow();
+                if (determined.contains(neighbour)) {
                     continue;
-                }*/
-                int oldCost = gCostMap.getOrDefault(move.getBurrow(), Integer.MAX_VALUE);
-                int newCost = gCostMap.get(current) + move.getCost();
+                }
+                int oldCost = costMap.getOrDefault(neighbour, Integer.MAX_VALUE);
+                int newCost = costMap.get(current) + move.getCost();
                 if (newCost < oldCost) {
-                    gCostMap.put(move.getBurrow(), newCost);
-                    fCostMap.put(move.getBurrow(), newCost + move.getBurrow().estimateRemaining());
-                    if (!openSet.contains(move.getBurrow())) {
-                        openSet.add(move.getBurrow());
+                    costMap.put(neighbour, newCost);
+                    if (!discovered.contains(neighbour)) {
+                        discovered.add(neighbour);
                     }
                 }
             }
@@ -64,7 +96,14 @@ public class Day23 extends Day {
     }
 
     @Override
+    public long part1() {
+        Burrow goalBurrow = generateGoalBurrow(0);
+        return getShortestPath(startBurrow1, goalBurrow);
+    }
+
+    @Override
     public long part2() {
-        return 0;
+        Burrow goalBurrow = generateGoalBurrow(6);
+        return getShortestPath(startBurrow2, goalBurrow);
     }
 }

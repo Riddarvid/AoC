@@ -1,12 +1,15 @@
 package aoc21.days.day23;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Burrow {
-    private final Corridor corridor;
-    private final Map<Amphipod, Room> rooms;
+    private final Character[] corridor;
+    private final static int[] allowedCorridorPositions = {0, 1, 3, 5, 7, 9, 10};
+    private final Room[] rooms;
 
-    public Burrow(Corridor corridor, Map<Amphipod, Room> rooms) {
+    public Burrow(Character[] corridor, Room[] rooms) {
         this.corridor = corridor;
         this.rooms = rooms;
     }
@@ -14,113 +17,92 @@ public class Burrow {
     public Set<Move> getMoves() {
         Set<Move> moves = new HashSet<>();
         moves.addAll(getCorridorToRoomMoves());
-        moves.addAll(getRoomsToCorridorMoves());
+        if (moves.isEmpty()) {
+            moves.addAll(getRoomsToCorridorMoves());
+        }
         return moves;
     }
 
     private Set<Move> getRoomsToCorridorMoves() {
         Set<Move> moves = new HashSet<>();
-        for (Amphipod amphipod : rooms.keySet()) {
-            moves.addAll(getRoomToCorridorMoves(amphipod));
+        for (int i = 0; i < rooms.length; i++) {
+            moves.addAll(getRoomToCorridorMoves(i));
         }
         return moves;
     }
 
-    private Set<Move> getRoomToCorridorMoves(Amphipod roomType) {
+    private Set<Move> getRoomToCorridorMoves(int roomIndex) {
         Set<Move> moves = new HashSet<>();
-        Room room = rooms.get(roomType);
-        if (room.getOuter() == null && room.getInner() == null) {
+        Room room = rooms[roomIndex];
+        if (room.canAccept((char) ('A' + roomIndex))) { //Room only contains correct type.
             return moves;
         }
-        for (int targetPosition : corridor.getAllowedPositions()) {
-            if (corridor.get(targetPosition) == null && corridor.hasClearPath(room.getPosition(), targetPosition)) {
-                moves.add(moveRoomToCorridor(roomType, targetPosition));
+        for (int targetPosition : allowedCorridorPositions) {
+            int sourceCorridorPosition = roomIndex * 2 + 2;
+            if (corridorIsClearBetween(sourceCorridorPosition, targetPosition)) {
+                moves.add(getRoomToCorridorMove(roomIndex, sourceCorridorPosition, targetPosition));
             }
         }
         return moves;
+    }
+
+    private Move getRoomToCorridorMove(int roomIndex, int sourceCorridorPosition, int targetPosition) {
+        Room room = rooms[roomIndex];
+        int distance = Math.abs(targetPosition - sourceCorridorPosition);
+        distance += room.distanceToOutermostPod();
+        Character pod = room.getOutermostPod();
+        int cost = (int) (distance * Math.pow(10, pod - 'A'));
+        Character[] newCorridor = corridor.clone();
+        newCorridor[targetPosition] = room.getOutermostPod();
+        Room[] newRooms = rooms.clone();
+        newRooms[roomIndex] = room.pop();
+        return new Move(new Burrow(newCorridor, newRooms), cost);
     }
 
     private Set<Move> getCorridorToRoomMoves() {
         Set<Move> moves = new HashSet<>();
-        for (int position = 0; position < corridor.length(); position++) {
-            Amphipod amphipod = corridor.get(position);
-            //If there is no amphipod here, continue
-            if (amphipod == null) {
+        for (int sourceCorridorPosition = 0; sourceCorridorPosition < corridor.length; sourceCorridorPosition++) {
+            Character pod = corridor[sourceCorridorPosition];
+            if (pod == null) {
                 continue;
             }
-            Room targetRoom = rooms.get(amphipod);
-            //If the amphipod is not allowed to enter the room, continue
-            if (targetRoom.getOuter() != null) {//Room is full
-                continue;
+            Room targetRoom = rooms[pod - 'A'];
+            if (targetRoom.canAccept(pod)) {
+                int targetCorridorPosition = (pod - 'A') * 2 + 2;
+                if (corridorIsClearBetween(sourceCorridorPosition, targetCorridorPosition)) {
+                    moves.add(getCorridorToRoomMove(sourceCorridorPosition, targetCorridorPosition, targetRoom, pod));
+                }
             }
-            if (targetRoom.getInner() != null && !targetRoom.getInner().equals(amphipod)) {
-                continue;
-            }
-            int targetPosition = rooms.get(amphipod).getPosition();
-            //If the amphipod can't reach the room, continue.
-            if (!corridor.hasClearPath(position, targetPosition)) {
-                continue;
-            }
-            moves.add(moveCorridorToRoom(position, amphipod));
         }
         return moves;
     }
 
-    private Move moveCorridorToRoom(int corridorPosition, Amphipod amphipod) {
-        Room targetRoom = rooms.get(amphipod);
-        int distance = Math.abs(corridorPosition - targetRoom.getPosition());
-        if (targetRoom.getOuter() == null && targetRoom.getInner() == null) {
-            distance += 2;
-        } else if (targetRoom.getOuter() == null){
-            distance += 1;
-        } else {
-            throw new IllegalArgumentException();
-        }
-        int cost = distance * (int)Math.pow(10, amphipod.ordinal());
-        List<Amphipod> newPositions = corridor.getPositions();
-        newPositions.remove(corridorPosition);
-        newPositions.add(corridorPosition, null);
-        Corridor newCorridor = new Corridor(newPositions);
-        Map<Amphipod, Room> newRooms = new HashMap<>();
-        for (Amphipod current : rooms.keySet()) {
-            if (current.equals(amphipod)) {
-                newRooms.put(current, rooms.get(current).push(amphipod));
-            } else {
-                newRooms.put(current, rooms.get(current).copy());
-            }
-        }
-        Burrow newBurrow = new Burrow(newCorridor, newRooms);
-        return new Move(newBurrow, cost);
+    private Move getCorridorToRoomMove(int sourceCorridorPosition, int targetCorridorPosition, Room targetRoom, Character pod) {
+        int distance = Math.abs(sourceCorridorPosition - targetCorridorPosition);
+        distance += targetRoom.distanceToInnermostFreeSpace();
+        int cost = (int) (distance * Math.pow(10, pod - 'A'));
+        Character[] newCorridor = corridor.clone();
+        newCorridor[sourceCorridorPosition] = null;
+        Room[] newRooms = rooms.clone();
+        newRooms[pod - 'A'] = targetRoom.push(pod);
+        return new Move(new Burrow(newCorridor, newRooms), cost);
     }
 
-    private Move moveRoomToCorridor(Amphipod roomType, int corridorPosition) {
-        Room sourceRoom = rooms.get(roomType);
-        int distance = Math.abs(corridorPosition - sourceRoom.getPosition());
-        Amphipod toMove;
-        if (sourceRoom.getOuter() != null) {
-            distance += 1;
-            toMove = sourceRoom.getOuter();
-        } else if (sourceRoom.getInner() != null){
-            distance += 2;
-            toMove = sourceRoom.getInner();
+    private boolean corridorIsClearBetween(int sourceCorridorPosition, int targetCorridorPosition) {
+        if (sourceCorridorPosition < targetCorridorPosition) {
+            for (int i = sourceCorridorPosition + 1; i <= targetCorridorPosition; i++) {
+                if (corridor[i] != null) {
+                    return false;
+                }
+            }
         } else {
-            throw new IllegalArgumentException();
-        }
-        int cost = distance * (int)Math.pow(10, toMove.ordinal());
-        List<Amphipod> newPositions = corridor.getPositions();
-        newPositions.remove(corridorPosition);
-        newPositions.add(corridorPosition, toMove);
-        Corridor newCorridor = new Corridor(newPositions);
-        Map<Amphipod, Room> newRooms = new HashMap<>();
-        for (Amphipod current : rooms.keySet()) {
-            if (current.equals(roomType)) {
-                newRooms.put(current, rooms.get(current).pop());
-            } else {
-                newRooms.put(current, rooms.get(current).copy());
+            for (int i = sourceCorridorPosition - 1; i >= targetCorridorPosition; i--) {
+                if (corridor[i] != null) {
+                    return false;
+                }
             }
         }
-        Burrow newBurrow = new Burrow(newCorridor, newRooms);
-        return new Move(newBurrow, cost);
+        return true;
     }
 
     @Override
@@ -128,94 +110,31 @@ public class Burrow {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Burrow burrow = (Burrow) o;
-        return Objects.equals(corridor, burrow.corridor) && Objects.equals(rooms, burrow.rooms);
+        return Arrays.equals(corridor, burrow.corridor) && Arrays.equals(rooms, burrow.rooms);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(corridor, rooms);
+        int result = Arrays.hashCode(corridor);
+        result = 31 * result + Arrays.hashCode(rooms);
+        return result;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Corridor: ").append(corridor.toString()).append(" ");
-        for (Amphipod amphipod : Amphipod.values()) {
-            Room room = rooms.get(amphipod);
+        sb.append("Corridor: ");
+        for (Character pod : corridor) {
+            if (pod == null) {
+                sb.append('.');
+            } else {
+                sb.append(pod);
+            }
+        }
+        sb.append(' ');
+        for (Room room : rooms) {
             sb.append(" ").append(room.toString());
         }
         return sb.toString();
-    }
-
-    public String prettyToString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("#############\n");
-
-        sb.append("#").append(corridor.toString()).append("#\n");
-
-        sb.append("###");
-        for (Amphipod amphipod : Amphipod.values()) {
-            sb.append(rooms.get(amphipod).getOuter().toString()).append("#");
-        }
-        sb.append("##\n");
-
-        sb.append("  #");
-        for (Amphipod amphipod : Amphipod.values()) {
-            sb.append(rooms.get(amphipod).getInner().toString()).append("#");
-        }
-        sb.append("  \n");
-        sb.append("  #########  ");
-        return sb.toString();
-    }
-
-    public int getNumberOfCorrect() {
-        int numberOfCorrect = 0;
-        for (Amphipod roomType : Amphipod.values()) {
-            Room room = rooms.get(roomType);
-            if (room.getInner() == roomType) {
-                numberOfCorrect++;
-                if (room.getOuter() == roomType) {
-                    numberOfCorrect++;
-                }
-            }
-        }
-        return numberOfCorrect;
-    }
-
-    public Integer estimateRemaining() {
-        int totalCost = 0;
-        //Estimate rooms
-        for (Amphipod roomType : Amphipod.values()) {
-            Room room = rooms.get(roomType);
-            int startPosition = room.getPosition();
-            int endPosition;
-            int distance;
-            int cost;
-            if (room.getInner() != null) {
-                endPosition = rooms.get(room.getInner()).getPosition();
-                distance = Math.abs(startPosition - endPosition);
-                cost = distance * (int) Math.pow(10, room.getInner().ordinal());
-                totalCost += cost;
-            }
-            if (room.getOuter() != null) {
-                endPosition = rooms.get(room.getOuter()).getPosition();
-                distance = Math.abs(startPosition - endPosition);
-                cost = distance * (int) Math.pow(10, room.getOuter().ordinal());
-                totalCost += cost;
-            }
-        }
-        //Estimate corridor
-        for (int position = 0; position < corridor.length(); position++) {
-            Amphipod amphipod = corridor.get(position);
-            if (amphipod == null) {
-                continue;
-            }
-            Room targetRoom = rooms.get(amphipod);
-            int endPosition = targetRoom.getPosition();
-            int distance = Math.abs(position - endPosition);
-            int cost = distance * (int) Math.pow(10, amphipod.ordinal());
-            totalCost += cost;
-        }
-        return totalCost;
     }
 }
