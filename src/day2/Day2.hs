@@ -39,6 +39,8 @@ move1 (horizontal, depth) (direction, distance) = case direction of
   Up      -> (horizontal, depth - distance)
   Down    -> (horizontal, depth + distance)
 
+-- Part 2
+
 type Position2 = (Integer, Integer, Integer)
 
 part2 :: [Command] -> Integer
