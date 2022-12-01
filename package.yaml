@@ -23,6 +23,8 @@ dependencies:
   - base >= 4.7 && < 5
   - mtl
   - random
+  - containers
+  - MissingH
 
 ghc-options:
   - -Wall
@@ -41,6 +43,7 @@ library:
     - src/day1
     - src/day2
     - src/day3
+    - src/day4
 
 executables:
   aoc21-haskell-exe:

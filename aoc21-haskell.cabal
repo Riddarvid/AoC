@@ -29,6 +29,7 @@ library
       Day1
       Day2
       Day3
+      Day4
   other-modules:
       Paths_aoc21_haskell
   hs-source-dirs:
@@ -36,9 +37,12 @@ library
       src/day1
       src/day2
       src/day3
+      src/day4
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
-      base >=4.7 && <5
+      MissingH
+    , base >=4.7 && <5
+    , containers
     , mtl
     , random
   default-language: Haskell2010
@@ -51,8 +55,10 @@ executable aoc21-haskell-exe
       app
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      aoc21-haskell
+      MissingH
+    , aoc21-haskell
     , base >=4.7 && <5
+    , containers
     , mtl
     , random
   default-language: Haskell2010
@@ -66,8 +72,10 @@ test-suite aoc21-haskell-test
       test
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      aoc21-haskell
+      MissingH
+    , aoc21-haskell
     , base >=4.7 && <5
+    , containers
     , mtl
     , random
   default-language: Haskell2010
