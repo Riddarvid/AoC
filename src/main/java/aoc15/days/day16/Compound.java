@@ -1,0 +1,5 @@
+package aoc15.days.day16;
+
+public enum Compound {
+    CHILDREN, CATS, SAMOYEDS, POMERANIANS, AKITAS, VIZSLAS, GOLDFISH, TREES, CARS, PERFUMES
+}
