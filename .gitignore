@@ -1,0 +1,7 @@
+.stack-work/
+*~
+.vscode/
+AoC18-Haskell.cabal
+stack.yaml.lock
+*.prof
+*.svg
