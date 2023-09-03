@@ -1,12 +1,21 @@
-mod days;
+mod day1;
+mod day2;
 
 fn main() {
-    println!("Hello, world!");
+    run_day(1);
+    run_day(2);
+}
 
-    // It's ok to copy a string literal like this, since the amount of memory required is known at
-    // compile time.
-    let x = "Hello";
-    let y = x;
+fn run_day(day: u32) {
+    let dummy_input = String::from("");
+    let result = match day {
+        1 => {day1::solve(dummy_input)}
+        2 => {day2::solve(dummy_input)}
+        _ => {panic!("Day not found")}
+    };
+    print_result(result);
+}
 
-    println!("x = {}, y = {}", x, y)
+fn print_result((part1, part2): (String, String)) {
+    println!("Part1: {part1}\nPart2: {part2}");
 }
