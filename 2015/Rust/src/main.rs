@@ -1,21 +1,37 @@
+use std::fs;
+
 mod day1;
 mod day2;
 
 fn main() {
-    run_day(1);
-    run_day(2);
+    print_day(1).unwrap();
 }
 
-fn run_day(day: u32) {
-    let dummy_input = String::from("");
-    let result = match day {
-        1 => {day1::solve(dummy_input)}
-        2 => {day2::solve(dummy_input)}
-        _ => {panic!("Day not found")}
+type Solution = (String, String);
+
+fn print_day(day: u32) -> Result<(), String> {
+    let solution = solve_day(day)?;
+    print_result(solution);
+    Ok(())
+}
+
+fn solve_day(day: u32) -> Result<Solution, String> {
+    let input = read_input(day)?;
+    let solve = match day {
+        1 => { day1::solve }
+        2 => { day2::solve }
+        _ => { return Err(format!("No solver implemented for day {day}")); }
     };
-    print_result(result);
+    Ok(solve(input))
 }
 
-fn print_result((part1, part2): (String, String)) {
-    println!("Part1: {part1}\nPart2: {part2}");
+fn read_input(day: u32) -> Result<String, String> {
+    let path = format!("inputs/input{day}.txt");
+    fs::read_to_string(&path)
+        .map_err(|error| { String::from(error.to_string()) })
+}
+
+fn print_result((part1, part2): Solution) {
+    println!("Part1: {part1}");
+    println!("Part2: {part2}")
 }
