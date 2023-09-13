@@ -4,7 +4,7 @@ mod day1;
 mod day2;
 
 fn main() {
-    print_day(1).unwrap();
+    print_day(2).unwrap();
 }
 
 type Solution = (String, String);
