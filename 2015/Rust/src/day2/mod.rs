@@ -1,7 +1,7 @@
 pub fn solve(input: String) -> (String, String) {
-    let presents = input.lines().map(parse_present).collect();
-    let part1 = solve1(&presents);
-    let part2 =  solve2(&presents);
+    let presents = input.lines().map(parse_present);
+    let part1 = solve1(presents.clone());
+    let part2 =  solve2(presents);
     (part1.to_string(), part2.to_string())
 }
 
@@ -29,8 +29,8 @@ struct Present {
 
 // Part 1
 
-fn solve1(presents: &Vec<Present>) -> u32 {
-    presents.iter().map(find_area).sum()
+fn solve1(presents: impl Iterator<Item=Present>) -> u32 {
+    presents.map(|p| find_area(&p)).sum()
 }
 
 fn find_area(present: &Present) -> u32 {
@@ -46,8 +46,8 @@ fn find_area(present: &Present) -> u32 {
 
 // Part 2
 
-fn solve2(presents: &Vec<Present>) -> u32 {
-    presents.iter().map(find_ribbon_length).sum()
+fn solve2(presents: impl Iterator<Item=Present>) -> u32 {
+    presents.map(|p| find_ribbon_length(&p)).sum()
 }
 
 fn find_ribbon_length(present: &Present) -> u32 {

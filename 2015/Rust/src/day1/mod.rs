@@ -1,21 +1,19 @@
 pub fn solve(input: String) -> (String, String) {
     let floor_changes = input.chars()
-        .map(|c| { if c == '(' { 1 } else { -1 } })
-        .collect();
-    let part1 = solve1(&floor_changes);
-    let part2 = solve2(&floor_changes);
+        .map(|c| { if c == '(' { 1 } else { -1 } });
+    let part1 = solve1(floor_changes.clone());
+    let part2 = solve2(floor_changes).unwrap();
     (part1.to_string(), part2.to_string())
 }
 
-fn solve1(floor_changes: &Vec<i32>) -> i32 {
-    floor_changes.iter().sum()
+fn solve1(floor_changes: impl Iterator<Item=i32>) -> i32 {
+    floor_changes.sum()
 }
 
-fn solve2(floor_changes: &Vec<i32>) -> usize {
+fn solve2(floor_changes: impl Iterator<Item=i32>) -> Option<usize> {
     let mut sum = 0;
-    for (i, fc) in floor_changes.iter().enumerate() {
+    floor_changes.enumerate().find(|(_, fc)| {
         sum += fc;
-        if sum == -1 { return i + 1; }
-    };
-    panic!("Basement never reached.")
+        sum == -1
+    }).map(|(index, _)| index)
 }

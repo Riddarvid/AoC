@@ -2,9 +2,10 @@ use std::fs;
 
 mod day1;
 mod day2;
+mod day3;
 
 fn main() {
-    print_day(2).unwrap();
+    print_day(3).unwrap();
 }
 
 type Solution = (String, String);
