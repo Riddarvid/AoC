@@ -1,3 +1,4 @@
+use crate::days::day1::Order::{First, Last};
 use crate::utils::solvers::Solver;
 
 pub struct Day1;
@@ -13,66 +14,56 @@ impl Solver for Day1 {
 
 fn solve1(lines: &[&str]) -> Option<u32> {
     lines.iter().map(|line| {
-        let first = find_first_digit(line)?;
-        let last = find_last_digit(line)?;
+        let first = find_digit(line, First, false)?;
+        let last = find_digit(line, Last, false)?;
         Some(first * 10 + last)
     }).sum()
 }
 
 fn solve2(lines: &[&str]) -> Option<u32> {
     lines.iter().map(|line| {
-        let first = find_first_digit_literal(line)?;
-        let last = find_last_digit_literal(line)?;
+        let first = find_digit(line, First, true)?;
+        let last = find_digit(line, Last, true)?;
         Some(first * 10 + last)
     }).sum()
 }
 
-fn find_first_digit(input: &str) -> Option<u32> {
-    for c in input.as_bytes() {
-        if c.is_ascii_digit() {
-            return (*c as char).to_digit(10);
-        }
-    }
-    None
-}
-
-fn find_last_digit(input: &str) -> Option<u32> {
-    for c in input.as_bytes().iter().rev() {
-        if c.is_ascii_digit() {
-            return (*c as char).to_digit(10);
-        }
-    }
-    None
-}
 
 const LITERALS: [&str; 9] =
     ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 
-fn find_first_digit_literal(input: &str) -> Option<u32> {
-    for i in 0..input.len() {
-        let c = input.as_bytes()[i];
-        if c.is_ascii_digit() {
-            return (c as char).to_digit(10);
+#[derive(Eq, PartialEq)]
+enum Order {
+    First,
+    Last,
+}
+
+fn find_digit(input: &str, order: Order, accept_literal: bool) -> Option<u32> {
+    let mut range: Vec<usize> = (0..input.len()).collect();
+    if order == Last {
+        range.reverse();
+    }
+    for i in range {
+        if let Some(d) = parse_digit(&input[i..]) {
+            return Some(d);
         }
-        for (j, literal) in LITERALS.iter().enumerate() {
-            if input[i..].starts_with(literal) {
-                return Some(j as u32 + 1)
+        if accept_literal {
+            if let Some(d) = parse_literal(&input[i..]) {
+                return Some(d);
             }
         }
     }
     None
 }
 
-fn find_last_digit_literal(input: &str) -> Option<u32> {
-    for i in (0..input.len()).rev() {
-        let c = input.as_bytes()[i];
-        if c.is_ascii_digit() {
-            return (c as char).to_digit(10);
-        }
-        for (j, literal) in LITERALS.iter().enumerate() {
-            if input[i..].starts_with(literal) {
-                return Some(j as u32 + 1)
-            }
+fn parse_digit(input: &str) -> Option<u32> {
+    input.chars().next()?.to_digit(10)
+}
+
+fn parse_literal(input: &str) -> Option<u32> {
+    for (i, literal) in LITERALS.iter().enumerate() {
+        if input.starts_with(literal) {
+            return Some(i as u32 + 1);
         }
     }
     None
