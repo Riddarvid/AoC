@@ -1,4 +1,6 @@
 module Main (main) where
+import           AoCUtils.Interactive (aocMain)
+import           Utils.Days           (solvers)
 
 main :: IO ()
-main = putStrLn "Hello!"
+main = aocMain solvers Nothing
