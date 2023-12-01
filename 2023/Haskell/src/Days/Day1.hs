@@ -1,8 +1,7 @@
-module Days.Day1 (solve, translateDigits) where
+module Days.Day1 (solve) where
 import           AoCUtils.Days (Solver)
 import           Data.Char     (isDigit)
 import           Data.Foldable (find)
-import           Data.Maybe    (fromMaybe)
 
 solve :: Solver
 solve input = let
@@ -15,16 +14,22 @@ solve1 :: [String] -> Integer
 solve1 = sum . map findCalibration
 
 solve2 :: [String] -> Integer
-solve2 = sum . map (findCalibration . translateDigits)
+solve2 = sum . map (findCalibration . readDigits)
 
 findCalibration :: String -> Integer
 findCalibration line = read [head digits, last digits]
   where
     digits = filter isDigit line
 
-translateDigits :: String -> String
-translateDigits [] = []
-translateDigits line@(c : cs) = fromMaybe c (parseDigit line) : translateDigits cs
+readDigits :: String -> String
+readDigits [] = []
+readDigits line@(c : cs)
+  | isDigit c = c : end
+  | otherwise = case parseDigit line of
+    Nothing -> end
+    Just c' -> c' : end
+  where
+    end = readDigits cs
 
 parseDigit :: String -> Maybe Char
 parseDigit input = snd <$> find (\(literal, _) -> startsWith literal input) (zip digits ['1' .. '9'])
