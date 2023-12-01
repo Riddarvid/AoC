@@ -1,7 +1,7 @@
 use std::fs::read_to_string;
 use crate::days::day1::Day1;
 use crate::utils::solvers::Solver;
-use anyhow::{bail, Result};
+use anyhow::{bail, Context, Result};
 
 mod days;
 pub mod utils;
@@ -23,10 +23,11 @@ fn print_solution((part1, part2): (String, String)) {
 fn solve_day(day: u32) -> Result<(String, String)> {
     let input = read_input(day)?;
     let solver = match day {
-        1 => Day1::default(),
+        1 => Day1,
         _ => bail!("Solution not yet implemented for day {day}")
     };
-    Ok(solver.solve(&input))
+    let result = solver.solve(&input).context("No solution found")?;
+    Ok(result)
 }
 
 fn read_input(day: u32) -> Result<String> {

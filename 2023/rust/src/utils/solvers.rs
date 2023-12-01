@@ -1,3 +1,3 @@
 pub trait Solver {
-    fn solve(&self, input: &str) -> (String, String);
+    fn solve(&self, input: &str) -> Option<(String, String)>;
 }
