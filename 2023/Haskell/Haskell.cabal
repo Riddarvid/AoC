@@ -25,6 +25,7 @@ source-repository head
 library
   exposed-modules:
       Days.Day1
+      Days.Day2
       Utils.Days
   other-modules:
       Paths_Haskell
@@ -36,6 +37,7 @@ library
   build-depends:
       aoc-utils >=0.1.0.0
     , base >=4.7 && <5
+    , parsec >=3.1.16.1
   default-language: Haskell2010
 
 executable Haskell-exe
@@ -51,6 +53,7 @@ executable Haskell-exe
       Haskell
     , aoc-utils >=0.1.0.0
     , base >=4.7 && <5
+    , parsec >=3.1.16.1
   default-language: Haskell2010
 
 test-suite Haskell-test
@@ -67,4 +70,5 @@ test-suite Haskell-test
       Haskell
     , aoc-utils >=0.1.0.0
     , base >=4.7 && <5
+    , parsec >=3.1.16.1
   default-language: Haskell2010
