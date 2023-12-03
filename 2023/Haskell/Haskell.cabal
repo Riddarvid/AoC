@@ -26,6 +26,7 @@ library
   exposed-modules:
       Days.Day1
       Days.Day2
+      Days.Day3
       Utils.Days
   other-modules:
       Paths_Haskell
@@ -38,6 +39,7 @@ library
       aoc-utils >=0.1.0.0
     , base >=4.7 && <5
     , parsec >=3.1.16.1
+    , unordered-containers >=0.2.19.1
   default-language: Haskell2010
 
 executable Haskell-exe
@@ -54,6 +56,7 @@ executable Haskell-exe
     , aoc-utils >=0.1.0.0
     , base >=4.7 && <5
     , parsec >=3.1.16.1
+    , unordered-containers >=0.2.19.1
   default-language: Haskell2010
 
 test-suite Haskell-test
@@ -71,4 +74,5 @@ test-suite Haskell-test
     , aoc-utils >=0.1.0.0
     , base >=4.7 && <5
     , parsec >=3.1.16.1
+    , unordered-containers >=0.2.19.1
   default-language: Haskell2010
