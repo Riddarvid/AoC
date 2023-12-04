@@ -10,17 +10,11 @@ solve input = let
   part2 = solve2 cards
   in (show part1, show part2)
 
-data Card = Card {
-  cId      :: Integer,
-  cWinning :: [Integer],
-  cHave    :: [Integer]
-} deriving (Show)
+data Card = Card Integer [Integer] [Integer]
+  deriving (Show)
 
 parseCard :: String -> Card
-parseCard line = Card {
-  cId = head integers,
-  cWinning = winning,
-  cHave = have}
+parseCard line = Card (head integers) winning have
   where
     integers = parseUnsignedInts line
     (winning, have) = splitAt 10 $ drop 1 integers
@@ -29,18 +23,13 @@ solve1 :: [Card] -> Int
 solve1 = sum . map points
 
 points :: Card -> Int
-points card
-  | n == 0 = 0
-  | otherwise = 2 ^ (n - 1)
-  where
-    n = nWinning card
+points card = let n = nWinning card in if n == 0 then 0 else 2 ^ (n - 1)
 
 nWinning :: Card -> Int
-nWinning (Card {cWinning = winning, cHave = have}) =
-  HS.size $ HS.intersection (HS.fromList winning) (HS.fromList have)
+nWinning (Card _ winning have) = HS.size $ HS.intersection (HS.fromList winning) (HS.fromList have)
 
 solve2 :: [Card] -> Integer
-solve2 cards = sum (foldr findGenerating [] cards)
+solve2 = sum . foldr findGenerating []
 
 findGenerating :: Card -> [Integer] -> [Integer]
 findGenerating card results = nGenerating : results
