@@ -3,12 +3,13 @@ use crate::days::day1::Day1;
 use crate::utils::solvers::Solver;
 use anyhow::{bail, Context, Result};
 use crate::days::day2::Day2;
+use crate::days::day3::Day3;
 
 mod days;
 pub mod utils;
 
 fn main() -> Result<()> {
-    let solution = solve_day(2)?;
+    let solution = solve_day(3)?;
     print_solution(solution);
     Ok(())
 }
@@ -26,6 +27,7 @@ fn solve_day(day: u32) -> Result<(String, String)> {
     let solver: Box<dyn Solver> = match day {
         1 => Box::new(Day1),
         2 => Box::new(Day2),
+        3 => Box::new(Day3),
         _ => bail!("Solution not yet implemented for day {day}")
     };
     let result = solver.solve(&input).context("No solution found")?;
