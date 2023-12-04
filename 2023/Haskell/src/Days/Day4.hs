@@ -1,7 +1,7 @@
 module Days.Day4 (solve) where
 import           AoCUtils.Days  (Solver)
 import           AoCUtils.Regex (parseUnsignedInts)
-import qualified Data.HashSet   as HS
+import           Data.List      (intersect)
 
 solve :: Solver
 solve input = let
@@ -26,7 +26,7 @@ points :: Card -> Int
 points card = let n = nWinning card in if n == 0 then 0 else 2 ^ (n - 1)
 
 nWinning :: Card -> Int
-nWinning (Card _ winning have) = HS.size $ HS.intersection (HS.fromList winning) (HS.fromList have)
+nWinning (Card _ winning have) = length $ intersect winning have
 
 solve2 :: [Card] -> Integer
 solve2 = sum . foldr findGenerating []
