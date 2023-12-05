@@ -1,0 +1,6 @@
+[submodule "aoc-data"]
+	path = aoc-data
+	url = git@github.com:Riddarvid/aoc-data.git
+[submodule "data"]
+	path = data
+	url = git@github.com:Riddarvid/aoc-data.git
