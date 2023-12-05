@@ -5,15 +5,15 @@
 
 packages:
 - completed:
-    commit: 6212dfea2f3ef7f8f78e3a796bb64f30d7a75535
+    commit: f5f0534839d3dd5a7683ed4f77bb1a7bd26e4388
     git: https://github.com/Riddarvid/aoc-utils-haskell/
     name: aoc-utils
     pantry-tree:
-      sha256: 1980ac8c0eeb62ebf598d5faca46087e6be88e33d2fa8d672b43e3afa4bf3d29
-      size: 1088
+      sha256: 4c7ee90d74548dcbc69f459d6dc2de69f228dcf77655d6325759d2d5a3fd811b
+      size: 1151
     version: 0.1.0.0
   original:
-    commit: 6212dfea2f3ef7f8f78e3a796bb64f30d7a75535
+    commit: f5f0534839d3dd5a7683ed4f77bb1a7bd26e4388
     git: https://github.com/Riddarvid/aoc-utils-haskell/
 snapshots:
 - completed:
