@@ -28,6 +28,7 @@ library
       Days.Day2
       Days.Day3
       Days.Day4
+      Days.Day5
       Utils.Days
   other-modules:
       Paths_Haskell
