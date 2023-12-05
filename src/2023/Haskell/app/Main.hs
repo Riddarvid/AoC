@@ -1,6 +1,6 @@
 module Main (main) where
+import           AoCUtils.Config      (mkConfig)
 import           AoCUtils.Interactive (aocMain)
-import AoCUtils.Config (mkConfig)
 import           Utils.Days           (solvers)
 
 main :: IO ()
