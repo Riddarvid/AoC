@@ -4,6 +4,7 @@ import           Data.Char            (digitToInt)
 import           Data.Function        (on)
 import           Data.Functor.Classes (Ord1 (liftCompare))
 import           Data.List            (group, sort, sortBy)
+import           Data.Maybe           (fromMaybe, listToMaybe)
 import           Data.Ord             (Down (Down), comparing)
 
 solve :: Solver
@@ -81,17 +82,17 @@ compareCard1 = compare
 
 typeOf2 :: Hand -> HandType
 typeOf2 (Hand cards)
-  | nJokers == 5 || mostCommon + nJokers >= 5 = FiveKind
+  | mostCommon + nJokers >= 5 = FiveKind
   | mostCommon + nJokers >= 4 = FourKind
   | mostCommon + secondCommon + nJokers >= 5 = FullHouse
   | mostCommon + nJokers >= 3 = ThreeKind
-  | mostCommon + secondCommon + nJokers >= 4 && not (secondCommon == 1 && nJokers == 0) = TwoPair
+  | mostCommon + secondCommon + nJokers >= 4 = TwoPair
   | mostCommon + nJokers >= 2 = OnePair
   | otherwise = HighCard
   where
     nJokers = length $ filter (== Jack) cards
     cardCounts' = cardCounts $ filter (/= Jack) cards
-    mostCommon = head cardCounts'
+    mostCommon = fromMaybe 0 $ listToMaybe cardCounts'
     secondCommon = cardCounts' !! 1
 
 -- Use standard ordering except for J

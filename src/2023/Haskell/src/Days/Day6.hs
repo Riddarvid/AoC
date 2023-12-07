@@ -2,7 +2,6 @@
 module Days.Day6 (solve) where
 import           AoCUtils.Days  (Solver)
 import           AoCUtils.Regex (parseUnsignedInts)
-import           Debug.Trace    (traceShow, traceShowId)
 
 solve :: Solver
 solve input = let
@@ -29,10 +28,10 @@ parseRace input = Race (head times) (head distances)
     distances = parseUnsignedInts $ filter (/= ' ') $ lines' !! 1
 
 solutionProducts :: [Race] -> Integer
-solutionProducts = product . traceShowId . map nSolutions
+solutionProducts = product . map nSolutions
 
 nSolutions :: Race -> Integer
-nSolutions (Race t d) = traceShow (mid, diff, comp) $ floor (mid + diff) - ceiling (mid - diff) + 1 + comp
+nSolutions (Race t d) = floor (mid + diff) - ceiling (mid - diff) + 1 + comp
   where
     mid = fromIntegral t / 2
     diff = sqrt (fromIntegral (t ^ 2 - 4 * d)) / 2
