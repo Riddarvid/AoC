@@ -55,8 +55,7 @@ shortestDistance directions desertMap starts endCond = foldr lcm 1 cycles
 -- Part 1
 
 solve1 :: Directions -> DesertMap -> Integer
-solve1 directions desertMap =
-  shortestDistance directions desertMap ["AAA"] (== "ZZZ")
+solve1 directions desertMap = shortestDistance directions desertMap ["AAA"] (== "ZZZ")
 
 -- Part 2
 
@@ -64,7 +63,6 @@ solve1 directions desertMap =
 -- Assumption after looking at the data: The distance to the first end will always be the
 -- cycle length
 solve2 :: Directions -> DesertMap -> Integer
-solve2 directions desertMap =
-  shortestDistance directions desertMap starts (\s -> last s == 'Z')
+solve2 directions desertMap = shortestDistance directions desertMap starts (\s -> last s == 'Z')
   where
     starts = filter ((== 'A') . last) $ HM.keys desertMap
