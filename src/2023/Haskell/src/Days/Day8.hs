@@ -46,12 +46,17 @@ move desertMap pos (dir :| dirs) = case HM.lookup pos desertMap of
       R -> r
     in pos : move desertMap pos' (NE.fromList dirs)
 
+shortestDistance :: Directions -> DesertMap -> [String] -> (String -> Bool) -> Integer
+shortestDistance directions desertMap starts endCond = foldr lcm 1 cycles
+  where
+    paths = map (\s -> move desertMap s (NE.fromList $ cycle directions)) starts
+    cycles = map (head . map fst . filter (\(_, pos) -> endCond pos) . zip [0 .. ]) paths
+
 -- Part 1
 
-solve1 :: Directions -> DesertMap -> Int
-solve1 directions desertMap = length $ takeWhile (/= "ZZZ") path
-  where
-    path = move desertMap "AAA" (NE.fromList $ cycle directions)
+solve1 :: Directions -> DesertMap -> Integer
+solve1 directions desertMap =
+  shortestDistance directions desertMap ["AAA"] (== "ZZZ")
 
 -- Part 2
 
@@ -59,8 +64,7 @@ solve1 directions desertMap = length $ takeWhile (/= "ZZZ") path
 -- Assumption after looking at the data: The distance to the first end will always be the
 -- cycle length
 solve2 :: Directions -> DesertMap -> Integer
-solve2 directions desertMap = foldr lcm 1 cycles
+solve2 directions desertMap =
+  shortestDistance directions desertMap starts (\s -> last s == 'Z')
   where
-    starts = filter (\s -> last s == 'A') $ HM.keys desertMap
-    paths = map (\s -> move desertMap s (NE.fromList $ cycle directions)) starts
-    cycles = map (head . map fst . filter (\(_, pos) -> last pos == 'Z') . zip [0 .. ]) paths
+    starts = filter ((== 'A') . last) $ HM.keys desertMap
