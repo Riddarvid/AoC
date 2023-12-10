@@ -24,7 +24,9 @@ source-repository head
 
 library
   exposed-modules:
+      Day10.Graphics
       Days.Day1
+      Days.Day10
       Days.Day2
       Days.Day3
       Days.Day4
@@ -44,6 +46,7 @@ library
   build-depends:
       aoc-utils >=0.1.0.0
     , base >=4.7 && <5
+    , gloss >=1.13.2.2
     , parsec >=3.1.16.1
     , regex-pcre >=0.95.0.0
     , unordered-containers >=0.2.19.1
@@ -62,6 +65,7 @@ executable Haskell-exe
       Haskell
     , aoc-utils >=0.1.0.0
     , base >=4.7 && <5
+    , gloss >=1.13.2.2
     , parsec >=3.1.16.1
     , regex-pcre >=0.95.0.0
     , unordered-containers >=0.2.19.1
@@ -81,6 +85,7 @@ test-suite Haskell-test
       Haskell
     , aoc-utils >=0.1.0.0
     , base >=4.7 && <5
+    , gloss >=1.13.2.2
     , parsec >=3.1.16.1
     , regex-pcre >=0.95.0.0
     , unordered-containers >=0.2.19.1
