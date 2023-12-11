@@ -4,9 +4,7 @@ import           AoCUtils.Days     (Solver)
 import           AoCUtils.Geometry (Point2 (p2Y))
 import           AoCUtils.Matrices (matrixToHashMap)
 import qualified Data.HashMap.Lazy as HM
-import           Data.HashSet      (HashSet)
-import qualified Data.HashSet      as HS
-import           Data.List         (sort, transpose)
+import           Data.List         (findIndices, sort, transpose)
 
 data Tile = TEmpty | TGalaxy
   deriving (Eq)
@@ -30,25 +28,28 @@ parseTile _   = error "Invalid character"
 
 findDistanceSum :: Integer -> [[Tile]] -> Integer
 findDistanceSum expFactor rows = let
-  ySum = sum $ galaxyDistances expFactor rows
-  xSum = sum $ galaxyDistances expFactor $ transpose rows
+  ySum = sum $ galaxyRowDistances expFactor rows
+  xSum = sum $ galaxyRowDistances expFactor $ transpose rows
   in xSum + ySum
 
-galaxyDistances :: Integer -> [[Tile]] -> [Integer]
-galaxyDistances expFactor image = map (uncurry $ distance expFactor expandedRows) pairs
+galaxyRowDistances :: Integer -> [[Tile]] -> [Integer]
+galaxyRowDistances expFactor image = map (uncurry $ distance expFactor expandedRows) pairs
   where
     (galaxyMap, _, _) = matrixToHashMap image
-    galaxyPoints = sort $ map p2Y $ HM.keys $ HM.filter (== TGalaxy) galaxyMap
-    expandedRows = HS.fromList $ map fst $ filter (\(_, row) -> all (== TEmpty) row) $ zip [0 ..] image
-    pairs = mkPairs galaxyPoints
+    galaxyYPoints = sort $ map p2Y $ HM.keys $ HM.filter (== TGalaxy) galaxyMap
+    expandedRows = findIndices (all (== TEmpty)) image
+    pairs = mkPairs galaxyYPoints
 
 mkPairs :: [a] -> [(a, a)]
 mkPairs []       = []
 mkPairs (x : xs) = map (x,) xs ++ mkPairs xs
 
--- We assume that p1 <= p2, since we sort in galaxyDistances
-distance :: Integer -> HashSet Int -> Int -> Int -> Integer
+-- We assume that p1 <= p2, since we sort in galaxyDistances.
+-- From looking at the data, we see that there are actually only 5-6 expanded rows/cols
+-- in the entire map. Therefore, it is more efficient to iterate over these, than over the
+-- coordinates between p1 and p2.
+distance :: Integer -> [Int] -> Int -> Int -> Integer
 distance expFactor emptyRows p1 p2 = baseDist + emptyRowsBetween * (expFactor - 1)
   where
     baseDist = toInteger $ p2 - p1
-    emptyRowsBetween = toInteger $ length $ filter (`HS.member` emptyRows) [p1 .. p2]
+    emptyRowsBetween = toInteger $ length $ filter (\p -> p1 <= p && p <= p2) emptyRows
