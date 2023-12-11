@@ -1,7 +1,7 @@
 module Days.Day3 (solve) where
 import           AoCUtils.Days     (Solver)
 import           AoCUtils.Geometry (Point (moveBy), Point2 (P2), leftV)
-import           AoCUtils.Strings  (stringsToCharMap)
+import           AoCUtils.Matrices (matrixToHashMap)
 import           Data.Char         (isDigit)
 import           Data.HashMap.Lazy (HashMap)
 import qualified Data.HashMap.Lazy as HM
@@ -29,7 +29,7 @@ solve input = let
 
 parseInput :: String -> (CharMap, CharMap)
 parseInput input = let
-  (charMap, _, _) = stringsToCharMap $ lines input
+  (charMap, _, _) = matrixToHashMap $ lines input
   digits = HM.filter isDigit charMap
   symbols = HM.filter (\c -> not (isDigit c) && (c /= '.')) charMap
   in (digits, symbols)

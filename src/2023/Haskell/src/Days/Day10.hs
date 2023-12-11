@@ -15,7 +15,7 @@ import           AoCUtils.Geometry (Point2 (P2), downV, leftV, moveBy, rightV,
                                     upV)
 import           AoCUtils.Graphs   (BfsState (bfsNLayers, bfsPreMap),
                                     Goal (GFull), bfsExplore)
-import           AoCUtils.Strings  (stringsToCharMap)
+import           AoCUtils.Matrices (matrixToHashMap)
 import           Data.Foldable     (find)
 import           Data.HashMap.Lazy (HashMap)
 import qualified Data.HashMap.Lazy as HM
@@ -42,7 +42,7 @@ solve input = let
 parseInput :: String -> (Pos, HashMap Pos Tile, Int, Int)
 parseInput input = (start, pipes', maxX, maxY)
   where
-    (chars, maxX, maxY) = stringsToCharMap $ lines input
+    (chars, maxX, maxY) = matrixToHashMap $ lines input
     start = fst $ fromJust $ find (\(_, c) -> c == 'S') $ HM.toList chars
     pipes = HM.map parseTile chars
     pipes' = HM.insert start (determineTile start pipes) pipes
