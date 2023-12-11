@@ -1,4 +1,4 @@
-module Days.Day2 (solve) where
+module Days.Day02 (solve) where
 import           AoCUtils.Days (Solver)
 import           Data.Function (on)
 import           Data.Maybe    (fromMaybe)

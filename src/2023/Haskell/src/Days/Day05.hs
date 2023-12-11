@@ -1,5 +1,5 @@
 {-# LANGUAGE InstanceSigs #-}
-module Days.Day5 (solve) where
+module Days.Day05 (solve) where
 import           AoCUtils.Days  (Solver)
 import           AoCUtils.Regex (parseUnsignedInts)
 import           Data.Foldable  (Foldable (foldl'))

@@ -1,4 +1,4 @@
-module Days.Day9 (solve) where
+module Days.Day09 (solve) where
 import           AoCUtils.Days  (Solver)
 import           AoCUtils.Regex (parseSignedInts)
 

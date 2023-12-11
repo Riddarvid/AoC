@@ -1,21 +1,21 @@
 module Utils.Days (solvers) where
 
 import           AoCUtils.Days (Solver)
-import           Days.Day1     as Day1 (solve)
+import           Days.Day01    as Day01 (solve)
+import           Days.Day02    as Day02 (solve)
+import           Days.Day03    as Day03 (solve)
+import           Days.Day04    as Day04 (solve)
+import           Days.Day05    as Day05 (solve)
+import           Days.Day06    as Day06 (solve)
+import           Days.Day07    as Day07 (solve)
+import           Days.Day08    as Day08 (solve)
+import           Days.Day09    as Day09 (solve)
 import           Days.Day10    as Day10 (solve)
 import           Days.Day11    as Day11 (solve)
-import           Days.Day2     as Day2 (solve)
-import           Days.Day3     as Day3 (solve)
-import           Days.Day4     as Day4 (solve)
-import           Days.Day5     as Day5 (solve)
-import           Days.Day6     as Day6 (solve)
-import           Days.Day7     as Day7 (solve)
-import           Days.Day8     as Day8 (solve)
-import           Days.Day9     as Day9 (solve)
 
 solvers :: [Solver]
 solvers =
   [
-    Day1.solve, Day2.solve, Day3.solve, Day4.solve, Day5.solve, Day6.solve, Day7.solve, Day8.solve,
-    Day9.solve, Day10.solve, Day11.solve
+    Day01.solve, Day02.solve, Day03.solve, Day04.solve, Day05.solve, Day06.solve, Day07.solve,
+    Day08.solve, Day09.solve, Day10.solve, Day11.solve
   ]

@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -Wno-type-defaults #-}
-module Days.Day6 (solve) where
+module Days.Day06 (solve) where
 import           AoCUtils.Days  (Solver)
 import           AoCUtils.Regex (parseUnsignedInts)
 

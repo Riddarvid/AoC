@@ -1,4 +1,4 @@
-module Days.Day1 (solve) where
+module Days.Day01 (solve) where
 import           AoCUtils.Days (Solver)
 import           Data.Char     (isDigit)
 import           Data.Foldable (find)

@@ -1,4 +1,4 @@
-module Days.Day4 (solve) where
+module Days.Day04 (solve) where
 import           AoCUtils.Days  (Solver)
 import           AoCUtils.Regex (parseUnsignedInts)
 import           Data.List      (intersect)

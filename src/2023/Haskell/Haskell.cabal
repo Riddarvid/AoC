@@ -25,17 +25,17 @@ source-repository head
 library
   exposed-modules:
       Day10.Graphics
-      Days.Day1
+      Days.Day01
+      Days.Day02
+      Days.Day03
+      Days.Day04
+      Days.Day05
+      Days.Day06
+      Days.Day07
+      Days.Day08
+      Days.Day09
       Days.Day10
       Days.Day11
-      Days.Day2
-      Days.Day3
-      Days.Day4
-      Days.Day5
-      Days.Day6
-      Days.Day7
-      Days.Day8
-      Days.Day9
       Utils.Days
   other-modules:
       Paths_Haskell

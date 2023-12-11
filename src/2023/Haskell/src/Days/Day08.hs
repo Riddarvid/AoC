@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 {-# HLINT ignore "Use head" #-}
-module Days.Day8 (solve) where
+module Days.Day08 (solve) where
 import           AoCUtils.Days      (Solver)
 import           Data.HashMap.Lazy  (HashMap)
 import qualified Data.HashMap.Lazy  as HM

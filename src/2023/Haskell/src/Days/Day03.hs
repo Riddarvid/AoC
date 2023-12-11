@@ -1,4 +1,4 @@
-module Days.Day3 (solve) where
+module Days.Day03 (solve) where
 import           AoCUtils.Days     (Solver)
 import           AoCUtils.Geometry (Point (moveBy), Point2 (P2), leftV)
 import           AoCUtils.Matrices (matrixToHashMap)
