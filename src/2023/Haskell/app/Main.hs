@@ -3,7 +3,6 @@ import           AoCUtils.Config      (mkConfig)
 import           AoCUtils.Days        (readInput)
 import           AoCUtils.Interactive (aocMain)
 import           Day10.Graphics       (renderDay11Loop, renderDay11LoopScaled)
-import           Days.Day10           (parseInput)
 import           Utils.Days           (solvers)
 
 inputPath :: FilePath

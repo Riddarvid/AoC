@@ -23,7 +23,6 @@ import           Data.HashSet      (HashSet)
 import qualified Data.HashSet      as HS
 import           Data.List         (intersect, sort)
 import           Data.Maybe        (fromJust)
-import           Debug.Trace       (traceShow, traceShowId)
 
 type Pos = Point2 Int
 
