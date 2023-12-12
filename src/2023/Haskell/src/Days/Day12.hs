@@ -7,7 +7,6 @@ import           AoCUtils.Days  (Solver)
 import           AoCUtils.Regex (parseUnsignedInts)
 import           Data.MemoTrie  (HasTrie (..), Reg, enumerateGeneric, memo2,
                                  trieGeneric, untrieGeneric)
-import           Debug.Trace    (traceShowId)
 import           GHC.Generics   (Generic)
 
 data SpringRecord = SROperational | SRDamaged | SRUnkown
@@ -61,7 +60,7 @@ validArrangements' rs'@(r : rs) ns'@(n : ns)
   where
     alternativePlacements = if r == SRDamaged
       then 0
-      else memo2 validArrangements' (dropWhile (== SROperational) rs) ns'
+      else memo2 validArrangements' rs ns'
     childPlacements = memo2 validArrangements' (drop (n + 1) rs') ns
 
 canFit :: Int -> [SpringRecord] -> Bool
