@@ -36,6 +36,7 @@ library
       Days.Day09
       Days.Day10
       Days.Day11
+      Days.Day12
       Utils.Days
   other-modules:
       Paths_Haskell
@@ -45,7 +46,8 @@ library
       src
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
-      aoc-utils >=0.1.0.0
+      MemoTrie >=0.6.11
+    , aoc-utils >=0.1.0.0
     , base >=4.7 && <5
     , gloss >=1.13.2.2
     , parsec >=3.1.16.1
@@ -64,6 +66,7 @@ executable Haskell-exe
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       Haskell
+    , MemoTrie >=0.6.11
     , aoc-utils >=0.1.0.0
     , base >=4.7 && <5
     , gloss >=1.13.2.2
@@ -84,6 +87,7 @@ test-suite Haskell-test
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       Haskell
+    , MemoTrie >=0.6.11
     , aoc-utils >=0.1.0.0
     , base >=4.7 && <5
     , gloss >=1.13.2.2
