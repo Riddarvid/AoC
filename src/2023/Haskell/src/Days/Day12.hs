@@ -1,25 +1,10 @@
-{-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE InstanceSigs  #-}
-{-# LANGUAGE TypeFamilies  #-}
-{-# LANGUAGE TypeOperators #-}
+{-# LANGUAGE TypeFamilies #-}
 module Days.Day12 (solve) where
 import           AoCUtils.Days  (Solver)
 import           AoCUtils.Regex (parseUnsignedInts)
-import           Data.MemoTrie  (HasTrie (..), Reg, enumerateGeneric, memo2,
-                                 trieGeneric, untrieGeneric)
-import           GHC.Generics   (Generic)
 
 data SpringRecord = SROperational | SRDamaged | SRUnkown
-  deriving (Show, Eq, Generic)
-
-instance HasTrie SpringRecord where
-  newtype  SpringRecord :->: b = SRTrie { unSRTrie :: Reg SpringRecord :->: b }
-  trie :: (SpringRecord -> b) -> SpringRecord :->: b
-  trie = trieGeneric SRTrie
-  untrie :: (SpringRecord :->: b) -> SpringRecord -> b
-  untrie = untrieGeneric unSRTrie
-  enumerate :: (SpringRecord :->: b) -> [(SpringRecord, b)]
-  enumerate = enumerateGeneric unSRTrie
+  deriving (Show, Eq)
 
 data Row = Row [SpringRecord] [Int]
   deriving (Show, Eq)
@@ -46,7 +31,7 @@ solve1 :: [Row] -> Integer
 solve1 = sum . map validArrangements
 
 validArrangements :: Row -> Integer
-validArrangements (Row springs ints) = memo2 validArrangements' springs ints
+validArrangements (Row springs ints) = validArrangements' springs ints
 
 validArrangements' :: [SpringRecord] -> [Int] -> Integer
 validArrangements' records []
@@ -60,8 +45,8 @@ validArrangements' rs'@(r : rs) ns'@(n : ns)
   where
     alternativePlacements = if r == SRDamaged
       then 0
-      else memo2 validArrangements' rs ns'
-    childPlacements = memo2 validArrangements' (drop (n + 1) rs') ns
+      else validArrangements' rs ns'
+    childPlacements = validArrangements' (drop (n + 1) rs') ns
 
 canFit :: Int -> [SpringRecord] -> Bool
 canFit 0 []       = True
