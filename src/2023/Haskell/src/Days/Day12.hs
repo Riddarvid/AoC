@@ -70,8 +70,15 @@ canFit 0 (r : _)  = r /= SRDamaged
 canFit n (r : rs) = r /= SROperational && canFit (n - 1) rs
 
 solve2 :: [Row] -> Integer
-solve2 = sum . map (validArrangements . unfoldRow)
+solve2 = sum . map ((\(const', base) -> const' * base ^ (4 :: Integer)) . findConstAndBase)
 
-unfoldRow :: Row -> Row
-unfoldRow (Row rs ns) =
-  Row (rs ++ concat (replicate 4 (SRUnkown : rs))) (concat $ replicate 5 ns)
+findConstAndBase :: Row -> (Integer, Integer)
+findConstAndBase row = (const', base)
+  where
+    const' = validArrangements row
+    constXbase = validArrangements $ unfoldRow 2 row
+    base = constXbase `div` const'
+
+unfoldRow :: Int -> Row -> Row
+unfoldRow n (Row rs ns) =
+  Row (rs ++ concat (replicate (n - 1) (SRUnkown : rs))) (concat $ replicate n ns)
