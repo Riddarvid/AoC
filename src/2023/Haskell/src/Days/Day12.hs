@@ -1,4 +1,3 @@
-{-# LANGUAGE TypeFamilies #-}
 module Days.Day12 (solve) where
 import           AoCUtils.Days  (Solver)
 import           AoCUtils.Regex (parseUnsignedInts)
@@ -56,6 +55,7 @@ canFit n (r : rs) = r /= SROperational && canFit (n - 1) rs
 
 solve2 :: [Row] -> Integer
 solve2 = sum . map ((\(const', base) -> const' * base ^ (4 :: Integer)) . findConstAndBase)
+--solve2 = sum . map (validArrangements . unfoldRow 5)
 
 findConstAndBase :: Row -> (Integer, Integer)
 findConstAndBase row = (const', base)
