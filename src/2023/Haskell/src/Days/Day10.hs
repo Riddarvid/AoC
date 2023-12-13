@@ -1,18 +1,18 @@
 module Days.Day10 (
   solve,
+  findInsideScaled,
+  scaleDownSet,
+  scaleUpMap,
+  scaleUpStart,
+  parseInput,
+  exploreLoop,
+  loopTiles,
   Pos,
-  Tile(..),
-   parseInput,
-   loopTiles,
-   exploreLoop,
-   scaleMap,
-   extendBorder,
-   findOutsidePoints,
-   findInsidePoints
+  Tile(..)
 ) where
 import           AoCUtils.Days     (Solver)
-import           AoCUtils.Geometry (Point2 (P2), downV, leftV, moveBy, rightV,
-                                    upV)
+import           AoCUtils.Geometry (Point (scaleBy), Point2 (P2), downV, leftV,
+                                    moveBy, rightV, upV)
 import           AoCUtils.Graphs   (BfsState (bfsNLayers, bfsPreMap),
                                     Goal (GFull), bfsExplore)
 import           AoCUtils.Matrices (matrixToHashMap)
@@ -126,20 +126,32 @@ faces SW    = [DDown, DLeft]
 faces SE    = [DDown, DRight]
 
 solve2 :: Pos -> HashMap Pos Tile -> Int -> Int -> Int
-solve2 (P2 x y) tiles maxX maxY = length $ HS.filter (\(P2 x' y') -> even x' && even y') $ findInsidePoints outside loop tiles''
+solve2 start tiles maxX maxY = length inside
   where
-    tiles' = scaleMap tiles
-    tiles'' = extendBorder tiles' (maxX * 2 + 1) (maxY * 2 + 1)
-    start' = P2 (x * 2) (y * 2)
-    loop = loopTiles start' $ exploreLoop start' tiles''
-    outside = findOutsidePoints tiles'' loop
+    insideScaled = findInsideScaled start tiles maxX maxY
+    inside = scaleDownSet insideScaled
 
 loopTiles :: Pos -> BfsState Pos -> HashSet Pos
 loopTiles start bfs = HS.insert start $ HM.keysSet $ bfsPreMap bfs
 
+findInsideScaled :: Pos -> HashMap Pos Tile -> Int -> Int -> HashSet Pos
+findInsideScaled start tiles maxX maxY = filterInside outside loop tiles''
+  where
+    tiles' = scaleUpMap tiles
+    tiles'' = extendBorder tiles' (maxX * 2 + 1) (maxY * 2 + 1)
+    start' = scaleUpStart start
+    loop = loopTiles start' $ exploreLoop start' tiles''
+    outside = findOutsidePoints tiles'' loop
+
+scaleDownSet :: HashSet Pos -> HashSet Pos
+scaleDownSet = HS.filter (\(P2 x' y') -> even x' && even y')
+
 -- Scales each point x2 depending on the pipe it corresponds to
-scaleMap :: HashMap Pos Tile -> HashMap Pos Tile
-scaleMap = HM.unions . map (uncurry scalePoint) . HM.toList
+scaleUpMap :: HashMap Pos Tile -> HashMap Pos Tile
+scaleUpMap = HM.unions . map (uncurry scalePoint) . HM.toList
+
+scaleUpStart :: Pos -> Pos
+scaleUpStart pos = scaleBy pos 2
 
 scalePoint :: Pos -> Tile -> HashMap Pos Tile
 scalePoint (P2 x' y') tile = HM.fromList $
@@ -149,14 +161,13 @@ scalePoint (P2 x' y') tile = HM.fromList $
     y = y' * 2
     points = case tile of
       Empty -> [Empty, Empty, Empty, Empty]
-      Start -> [Start, Empty, Empty, Empty] -- TODO fix by determining type of Start tile
       NS    -> [NS, Empty, NS, Empty]
       WE    -> [WE, WE, Empty, Empty]
       NE    -> [NE, WE, Empty, Empty]
       NW    -> [NW, Empty, Empty, Empty]
       SW    -> [SW, Empty, NS, Empty]
       SE    -> [SE, WE, NS, Empty]
-
+      _     -> error "Should not happen"
 
 -- Adds a border of empty spaces around the map
 -- Works since union prioritizes the values from the first map
@@ -180,12 +191,15 @@ findOutsidePoints tiles scaledLoop =
 outsideAdjecency :: HashMap Pos Tile -> HashSet Pos -> Pos -> [Pos]
 outsideAdjecency tiles loop pos = neighbors''
   where
-    neighbors = [moveBy upV pos, moveBy leftV pos, moveBy downV pos, moveBy rightV pos]
+    neighbors = getNeighbors pos
     neighbors' = filter (\pos' -> not $ HS.member pos' loop) neighbors
     neighbors'' = filter (`HM.member` tiles) neighbors'
 
-findInsidePoints :: HashSet Pos -> HashSet Pos -> HashMap Pos Tile -> HashSet Pos
-findInsidePoints outside loop = HM.keysSet . HM.filterWithKey (isInside outside loop)
+getNeighbors :: Pos -> [Pos]
+getNeighbors pos = map (`moveBy` pos) [upV, leftV, downV, rightV]
+
+filterInside :: HashSet Pos -> HashSet Pos -> HashMap Pos Tile -> HashSet Pos
+filterInside outside loop = HM.keysSet . HM.filterWithKey (isInside outside loop)
 
 -- Assumes both outside and loop are scaled x2
 isInside :: HashSet Pos -> HashSet Pos -> Pos -> Tile -> Bool

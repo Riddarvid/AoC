@@ -6,9 +6,9 @@ import qualified Data.HashMap.Lazy            as HM
 import           Data.HashSet                 (HashSet)
 import qualified Data.HashSet                 as HS
 import           Days.Day10                   (Pos, Tile (..), exploreLoop,
-                                               extendBorder, findInsidePoints,
-                                               findOutsidePoints, loopTiles,
-                                               parseInput, scaleMap)
+                                               findInsideScaled, loopTiles,
+                                               parseInput, scaleUpMap,
+                                               scaleUpStart)
 import           Graphics.Gloss               (Display (InWindow), Picture,
                                                blank, blue, circleSolid, color,
                                                display, greyN, line, pictures,
@@ -40,20 +40,17 @@ loopDisplay input =
 loopDisplayScaled :: String -> Picture
 loopDisplayScaled input =
   pictures [
-    color (greyN 0.9) $ renderMap tiles'',
-    color blue $ renderSet tiles'' inside,
-    color red $ renderSet tiles'' loop,
+    color (greyN 0.9) $ renderMap tiles',
+    color blue $ renderSet tiles' inside,
+    color red $ renderSet tiles' loop,
     color blue $ renderStart start'
   ]
   where
-    (P2 x y, tiles, maxX, maxY) = parseInput input
-    start' = P2 (x * 2) (y * 2)
-    tiles' = scaleMap tiles
-    tiles'' = extendBorder tiles' (maxX * 2 + 1) (maxY * 2 + 1)
-    bfs = exploreLoop start' tiles''
-    loop = loopTiles start' bfs
-    outside = findOutsidePoints tiles'' loop
-    inside = findInsidePoints outside loop tiles''
+    (start, tiles, maxX, maxY) = parseInput input
+    start' = scaleUpStart start
+    tiles' = scaleUpMap tiles
+    loop = loopTiles start' $ exploreLoop start' tiles'
+    inside = findInsideScaled start tiles maxX maxY
 
 renderMap :: HashMap Pos Tile -> Picture
 renderMap tiles =
