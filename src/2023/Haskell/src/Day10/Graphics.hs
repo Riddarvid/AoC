@@ -10,11 +10,10 @@ import           Days.Day10                   (Pos, Tile (..), exploreLoop,
                                                findOutsidePoints, loopTiles,
                                                parseInput, scaleMap)
 import           Graphics.Gloss               (Display (InWindow), Picture,
-                                               black, blank, blue, circleSolid,
-                                               color, display, green, greyN,
-                                               line, pictures, rectangleSolid,
-                                               red, scale, translate, white,
-                                               yellow)
+                                               blank, blue, circleSolid, color,
+                                               display, greyN, line, pictures,
+                                               rectangleSolid, red, translate,
+                                               white)
 
 renderDay11Loop :: String -> IO ()
 renderDay11Loop input = display (InWindow "Day 11 loop" (1000, 1000) (10, 10)) white loopDisp

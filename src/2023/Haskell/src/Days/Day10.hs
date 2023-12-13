@@ -80,11 +80,11 @@ solve1 :: Pos -> HashMap Pos Tile -> Integer
 solve1 start pipes = bfsNLayers (exploreLoop start pipes) - 1
 
 exploreLoop :: Pos -> HashMap Pos Tile -> BfsState Pos
-exploreLoop start = fromJust . bfsExplore start GFull . adjacencies
+exploreLoop start = fromJust . bfsExplore start GFull . loopAdjacencies
 
 -- If both pipes face eachother, add the new one
-adjacencies :: HashMap Pos Tile -> Pos -> [Pos]
-adjacencies pipes p = filter (areConnected pipes p) neighbors
+loopAdjacencies :: HashMap Pos Tile -> Pos -> [Pos]
+loopAdjacencies pipes p = filter (areConnected pipes p) neighbors
   where
     neighbors = pipeNeighbors pipes p
 
@@ -162,7 +162,11 @@ scalePoint (P2 x' y') tile = HM.fromList $
 -- Works since union prioritizes the values from the first map
 extendBorder :: HashMap Pos Tile -> Int -> Int -> HashMap Pos Tile
 extendBorder tiles maxX maxY =
-  HM.union tiles $ HM.fromList [(P2 x y, Empty) | x <- [-1 .. maxX + 1], y <- [-1 .. maxY + 1]]
+  HM.union tiles $ HM.fromList $
+   [(P2 x (-1), Empty) | x <- [-1 .. maxX + 1]] ++
+   [(P2 x (maxY + 1), Empty) | x <- [-1 .. maxX + 1]] ++
+   [(P2 (-1) y, Empty) | y <- [-1 .. maxY + 1]] ++
+   [(P2 (maxX + 1) y, Empty) | y <- [-1 .. maxY + 1]]
 
 -- Starting at the top left corner, searches from (-1, -1)
 findOutsidePoints :: HashMap Pos Tile -> HashSet Pos -> HashSet Pos
