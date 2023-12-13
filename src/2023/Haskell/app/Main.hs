@@ -2,7 +2,7 @@ module Main (main) where
 import           AoCUtils.Config      (mkConfig)
 import           AoCUtils.Days        (readInput)
 import           AoCUtils.Interactive (aocMain)
-import           Day10.Graphics       (renderDay11Loop, renderDay11LoopScaled)
+import           Day10.Graphics       (renderDay10Loop, renderDay10LoopScaled)
 import           Utils.Days           (solvers)
 
 inputPath :: FilePath
@@ -21,9 +21,9 @@ visualizations _      = error "No matching visualization"
 vis11Loop :: IO ()
 vis11Loop = do
   input <- readInput inputPath 10
-  renderDay11Loop input
+  renderDay10Loop input
 
 vis11LoopScaled :: IO ()
 vis11LoopScaled = do
   input <- readInput inputPath 10
-  renderDay11LoopScaled input
+  renderDay10LoopScaled input

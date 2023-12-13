@@ -1,4 +1,4 @@
-module Day10.Graphics (renderDay11Loop, renderDay11LoopScaled) where
+module Day10.Graphics (renderDay10Loop, renderDay10LoopScaled) where
 
 import           AoCUtils.Geometry            (Point2 (P2))
 import           Data.HashMap.Internal.Strict (HashMap)
@@ -15,13 +15,13 @@ import           Graphics.Gloss               (Display (InWindow), Picture,
                                                rectangleSolid, red, translate,
                                                white)
 
-renderDay11Loop :: String -> IO ()
-renderDay11Loop input = display (InWindow "Day 11 loop" (1000, 1000) (10, 10)) white loopDisp
+renderDay10Loop :: String -> IO ()
+renderDay10Loop input = display (InWindow "Day 10 loop" (1000, 1000) (10, 10)) white loopDisp
   where
     loopDisp = loopDisplay input
 
-renderDay11LoopScaled :: String -> IO ()
-renderDay11LoopScaled input = display (InWindow "Day 11 loop" (1000, 1000) (10, 10)) white loopDisp
+renderDay10LoopScaled :: String -> IO ()
+renderDay10LoopScaled input = display (InWindow "Day 10 loop scaled" (1000, 1000) (10, 10)) white loopDisp
   where
     loopDisp = loopDisplayScaled input
 
