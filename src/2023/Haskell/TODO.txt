@@ -1,2 +1,3 @@
 Clean up day 10.
 Maybe try to implement a more efficient solution to day 10, but might not be necessary.
+Rewrite general aoc test

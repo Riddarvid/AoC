@@ -1,9 +1,25 @@
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE InstanceSigs  #-}
+{-# LANGUAGE TypeFamilies  #-}
+{-# LANGUAGE TypeOperators #-}
 module Days.Day12 (solve) where
 import           AoCUtils.Days  (Solver)
 import           AoCUtils.Regex (parseUnsignedInts)
+import           Data.MemoTrie  (HasTrie (..), Reg, enumerateGeneric, memo2,
+                                 trieGeneric, untrieGeneric)
+import           GHC.Generics   (Generic)
 
 data SpringRecord = SROperational | SRDamaged | SRUnkown
-  deriving (Show, Eq)
+  deriving (Show, Eq, Generic)
+
+instance HasTrie SpringRecord where
+  newtype  SpringRecord :->: b = SRTrie { unSRTrie :: Reg SpringRecord :->: b }
+  trie :: (SpringRecord -> b) -> SpringRecord :->: b
+  trie = trieGeneric SRTrie
+  untrie :: (SpringRecord :->: b) -> SpringRecord -> b
+  untrie = untrieGeneric unSRTrie
+  enumerate :: (SpringRecord :->: b) -> [(SpringRecord, b)]
+  enumerate = enumerateGeneric unSRTrie
 
 data Row = Row [SpringRecord] [Int]
   deriving (Show, Eq)
@@ -30,7 +46,7 @@ solve1 :: [Row] -> Integer
 solve1 = sum . map validArrangements
 
 validArrangements :: Row -> Integer
-validArrangements (Row springs ints) = validArrangements' springs ints
+validArrangements (Row springs ints) = memo2 validArrangements' springs ints
 
 validArrangements' :: [SpringRecord] -> [Int] -> Integer
 validArrangements' records []
@@ -44,8 +60,8 @@ validArrangements' rs'@(r : rs) ns'@(n : ns)
   where
     alternativePlacements = if r == SRDamaged
       then 0
-      else validArrangements' rs ns'
-    childPlacements = validArrangements' (drop (n + 1) rs') ns
+      else memo2 validArrangements' rs ns'
+    childPlacements = memo2 validArrangements' (drop (n + 1) rs') ns
 
 canFit :: Int -> [SpringRecord] -> Bool
 canFit 0 []       = True
@@ -54,16 +70,8 @@ canFit 0 (r : _)  = r /= SRDamaged
 canFit n (r : rs) = r /= SROperational && canFit (n - 1) rs
 
 solve2 :: [Row] -> Integer
-solve2 = sum . map ((\(const', base) -> const' * base ^ (4 :: Integer)) . findConstAndBase)
---solve2 = sum . map (validArrangements . unfoldRow 5)
+solve2 = sum . map (validArrangements . unfoldRow)
 
-findConstAndBase :: Row -> (Integer, Integer)
-findConstAndBase row = (const', base)
-  where
-    const' = validArrangements row
-    constXbase = validArrangements $ unfoldRow 2 row
-    base = constXbase `div` const'
-
-unfoldRow :: Int -> Row -> Row
-unfoldRow n (Row rs ns) =
-  Row (rs ++ concat (replicate (n - 1) (SRUnkown : rs))) (concat $ replicate n ns)
+unfoldRow :: Row -> Row
+unfoldRow (Row rs ns) =
+  Row (rs ++ concat (replicate 4 (SRUnkown : rs))) (concat $ replicate 5 ns)
