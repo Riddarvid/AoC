@@ -43,25 +43,28 @@ parseRecord '?' = SRUnkown
 parseRecord _   = error "Invalid character"
 
 solve1 :: [Row] -> Integer
-solve1 = sum . map validArrangements
+solve1 = sum . map validArrangementsRow
 
-validArrangements :: Row -> Integer
-validArrangements (Row springs ints) = memo2 validArrangements' springs ints
+validArrangementsRow :: Row -> Integer
+validArrangementsRow (Row springs ints) = validArrangementsMemo springs ints
 
-validArrangements' :: [SpringRecord] -> [Int] -> Integer
-validArrangements' records []
+validArrangementsMemo :: [SpringRecord] -> [Int] -> Integer
+validArrangementsMemo = memo2 validArrangements
+
+validArrangements :: [SpringRecord] -> [Int] -> Integer
+validArrangements records []
   | SRDamaged `notElem` records = 1
   | otherwise = 0
-validArrangements' [] _ = 0
-validArrangements' rs'@(r : rs) ns'@(n : ns)
+validArrangements [] _ = 0
+validArrangements rs'@(r : rs) ns'@(n : ns)
   | length (filter (/= SROperational) rs') < sum ns' = 0
   | canFit n rs' = childPlacements + alternativePlacements
   | otherwise = alternativePlacements
   where
     alternativePlacements = if r == SRDamaged
       then 0
-      else memo2 validArrangements' rs ns'
-    childPlacements = memo2 validArrangements' (drop (n + 1) rs') ns
+      else validArrangementsMemo rs ns'
+    childPlacements = validArrangementsMemo (drop (n + 1) rs') ns
 
 canFit :: Int -> [SpringRecord] -> Bool
 canFit 0 []       = True
@@ -70,7 +73,7 @@ canFit 0 (r : _)  = r /= SRDamaged
 canFit n (r : rs) = r /= SROperational && canFit (n - 1) rs
 
 solve2 :: [Row] -> Integer
-solve2 = sum . map (validArrangements . unfoldRow)
+solve2 = sum . map (validArrangementsRow . unfoldRow)
 
 unfoldRow :: Row -> Row
 unfoldRow (Row rs ns) =
