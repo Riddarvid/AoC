@@ -2,8 +2,8 @@ module Main (main) where
 import           AoCUtils.Config      (mkConfig)
 import           AoCUtils.Days        (readInput)
 import           AoCUtils.Interactive (aocMain)
-import           Day10.Graphics       (renderDay10Loop, renderDay10LoopScaled)
-import           Utils.Days           (solvers)
+import           Days                 (solvers)
+import           Days.Day10.Graphics  (renderDay10Loop, renderDay10LoopScaled)
 
 inputPath :: FilePath
 inputPath = "../../../data/inputs/2023"

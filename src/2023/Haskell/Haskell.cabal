@@ -24,7 +24,7 @@ source-repository head
 
 library
   exposed-modules:
-      Day10.Graphics
+      Days
       Days.Day01
       Days.Day02
       Days.Day03
@@ -35,10 +35,11 @@ library
       Days.Day08
       Days.Day09
       Days.Day10
+      Days.Day10.Graphics
       Days.Day11
       Days.Day12
       Days.Day13
-      Utils.Days
+      Days.Day14
   other-modules:
       Paths_Haskell
   autogen-modules:
@@ -51,6 +52,7 @@ library
     , aoc-utils >=0.1.0.0
     , base >=4.7 && <5
     , gloss >=1.13.2.2
+    , hashable >=1.4.0.2
     , parsec >=3.1.16.1
     , regex-pcre >=0.95.0.0
     , unordered-containers >=0.2.19.1
@@ -71,6 +73,7 @@ executable Haskell-exe
     , aoc-utils >=0.1.0.0
     , base >=4.7 && <5
     , gloss >=1.13.2.2
+    , hashable >=1.4.0.2
     , parsec >=3.1.16.1
     , regex-pcre >=0.95.0.0
     , unordered-containers >=0.2.19.1
@@ -92,6 +95,7 @@ test-suite Haskell-test
     , aoc-utils >=0.1.0.0
     , base >=4.7 && <5
     , gloss >=1.13.2.2
+    , hashable >=1.4.0.2
     , parsec >=3.1.16.1
     , regex-pcre >=0.95.0.0
     , unordered-containers >=0.2.19.1

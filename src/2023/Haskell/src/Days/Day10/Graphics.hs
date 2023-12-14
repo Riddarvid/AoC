@@ -1,4 +1,4 @@
-module Day10.Graphics (renderDay10Loop, renderDay10LoopScaled) where
+module Days.Day10.Graphics (renderDay10Loop, renderDay10LoopScaled) where
 
 import           AoCUtils.Geometry            (Point2 (P2))
 import           Data.HashMap.Internal.Strict (HashMap)
