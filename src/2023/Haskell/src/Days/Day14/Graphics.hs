@@ -7,7 +7,7 @@ import           Data.HashSet      (HashSet)
 import qualified Data.HashSet      as HS
 import           Days.Day14        (Pos, generateMoves)
 import           Graphics.Gloss    (Display (InWindow), Picture, animate, black,
-                                    blue, color, greyN, pictures, red, white)
+                                    greyN, pictures, red, white)
 
 animateDay14 :: String -> IO ()
 animateDay14 input =
