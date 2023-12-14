@@ -1,5 +1,9 @@
 {-# LANGUAGE NumericUnderscores #-}
-module Days.Day14 (solve) where
+module Days.Day14 (
+  solve,
+  generateMoves,
+  Pos
+) where
 import           AoCUtils.Days     (Solver)
 import           AoCUtils.Geometry (Point (moveBy, scaleBy), Point2 (P2),
                                     Vector2, downV, leftV, rightV, upV)
@@ -69,12 +73,31 @@ takeWhileUnique' seen (x : xs)
   | x `HS.member` seen = []
   | otherwise = x : takeWhileUnique' (HS.insert x seen) xs
 
-showRocks :: Int -> Int -> HashSet Pos -> HashSet Pos -> String
-showRocks maxX maxY cubes rounds = unlines $
-  map (\y -> map (\x -> toChar $ P2 x y) [0 .. maxX]) [0 .. maxY]
+-- Graphics
+
+generateMoves :: Int -> Int -> HashSet Pos -> HashSet Pos -> [HashSet Pos]
+generateMoves maxX maxY cubes rounds = rounds : loop (scm rounds)
   where
-    toChar :: Pos -> Char
-    toChar p
-      | p `HS.member` cubes = '#'
-      | p `HS.member` rounds = 'O'
-      | otherwise = '.'
+    scm :: HashSet Pos -> [HashSet Pos]
+    scm = spinCycleMoves maxX maxY cubes
+    loop :: [HashSet Pos] -> [HashSet Pos]
+    loop cycle' = cycle' ++ loop (scm $ last cycle')
+
+spinCycleMoves :: Int -> Int -> HashSet Pos -> HashSet Pos -> [HashSet Pos]
+spinCycleMoves maxX maxY cubes rounds =
+  foldl (\roundss dir -> roundss ++ slideMoves dir maxX maxY cubes (last roundss)) [rounds] [upV, leftV, downV, rightV]
+
+slideMoves :: Vector2 Int -> Int -> Int -> HashSet Pos -> HashSet Pos -> [HashSet Pos]
+slideMoves dir maxX maxY cubes rounds = takeWhileUnique $ iterate (slideStep dir maxX maxY cubes) rounds
+
+slideStep :: Vector2 Int -> Int -> Int -> HashSet Pos -> HashSet Pos -> HashSet Pos
+slideStep dir maxX maxY cubes rounds = HS.map (moveRock' dir maxX maxY cubes rounds) rounds
+
+moveRock' :: Vector2 Int -> Int -> Int -> HashSet Pos -> HashSet Pos -> Pos -> Pos
+moveRock' dir maxX maxY cubes rounds p@(P2 x y)
+  | x < 0 || y < 0 || x > maxX || y > maxY = p
+  | p' `HS.member` cubes = p
+  | p' `HS.member` rounds = p
+  | otherwise = p'
+  where
+    p' = p `moveBy` dir
