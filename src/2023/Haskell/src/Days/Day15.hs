@@ -5,13 +5,10 @@ import           Data.Foldable     (foldl')
 import           Data.Function     (on)
 import           Data.HashMap.Lazy (HashMap)
 import qualified Data.HashMap.Lazy as HM
-import           Data.List         (deleteBy, groupBy)
+import           Data.List         (groupBy)
 import           Data.Maybe        (fromJust)
 
-data Step = Step {
-  sLabel :: String,
-  sOp    :: Operation
-}
+data Step = Step String Operation
 
 data Operation = Remove | Insert Int
 
