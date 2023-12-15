@@ -15,10 +15,12 @@ import           Days.Day11    as Day11 (solve)
 import           Days.Day12    as Day12 (solve)
 import           Days.Day13    as Day13 (solve)
 import           Days.Day14    as Day14 (solve)
+import           Days.Day15    as Day15 (solve)
 
 solvers :: [Solver]
 solvers =
   [
     Day01.solve, Day02.solve, Day03.solve, Day04.solve, Day05.solve, Day06.solve, Day07.solve,
-    Day08.solve, Day09.solve, Day10.solve, Day11.solve, Day12.solve, Day13.solve, Day14.solve
+    Day08.solve, Day09.solve, Day10.solve, Day11.solve, Day12.solve, Day13.solve, Day14.solve,
+    Day15.solve
   ]
