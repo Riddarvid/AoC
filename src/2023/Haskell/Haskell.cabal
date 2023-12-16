@@ -42,6 +42,7 @@ library
       Days.Day14
       Days.Day14.Graphics
       Days.Day15
+      Days.Day16
   other-modules:
       Paths_Haskell
   autogen-modules:
