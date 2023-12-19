@@ -27,6 +27,7 @@ dependencies:
   - gloss >= 1.13.2.2
   - MemoTrie >= 0.6.11
   - hashable >= 1.4.0.2
+  - heaps >= 0.4
 
 ghc-options:
   - -Wall

@@ -43,6 +43,8 @@ library
       Days.Day14.Graphics
       Days.Day15
       Days.Day16
+      Days.Day17
+      Utils.Dijkstra
   other-modules:
       Paths_Haskell
   autogen-modules:
@@ -56,6 +58,7 @@ library
     , base >=4.7 && <5
     , gloss >=1.13.2.2
     , hashable >=1.4.0.2
+    , heaps >=0.4
     , parsec >=3.1.16.1
     , regex-pcre >=0.95.0.0
     , unordered-containers >=0.2.19.1
@@ -77,6 +80,7 @@ executable Haskell-exe
     , base >=4.7 && <5
     , gloss >=1.13.2.2
     , hashable >=1.4.0.2
+    , heaps >=0.4
     , parsec >=3.1.16.1
     , regex-pcre >=0.95.0.0
     , unordered-containers >=0.2.19.1
@@ -99,6 +103,7 @@ test-suite Haskell-test
     , base >=4.7 && <5
     , gloss >=1.13.2.2
     , hashable >=1.4.0.2
+    , heaps >=0.4
     , parsec >=3.1.16.1
     , regex-pcre >=0.95.0.0
     , unordered-containers >=0.2.19.1
