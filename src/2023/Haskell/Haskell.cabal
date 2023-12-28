@@ -61,6 +61,7 @@ library
     , gloss >=1.13.2.2
     , hashable >=1.4.0.2
     , heaps >=0.4
+    , mtl >=2.2.2
     , parsec >=3.1.16.1
     , regex-pcre >=0.95.0.0
     , unordered-containers >=0.2.19.1
@@ -83,6 +84,7 @@ executable Haskell-exe
     , gloss >=1.13.2.2
     , hashable >=1.4.0.2
     , heaps >=0.4
+    , mtl >=2.2.2
     , parsec >=3.1.16.1
     , regex-pcre >=0.95.0.0
     , unordered-containers >=0.2.19.1
@@ -106,6 +108,7 @@ test-suite Haskell-test
     , gloss >=1.13.2.2
     , hashable >=1.4.0.2
     , heaps >=0.4
+    , mtl >=2.2.2
     , parsec >=3.1.16.1
     , regex-pcre >=0.95.0.0
     , unordered-containers >=0.2.19.1
