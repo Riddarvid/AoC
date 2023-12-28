@@ -8,7 +8,6 @@ import           Data.Function      (on)
 import           Data.List          (sort, sortOn, (\\))
 import           Data.List.NonEmpty (NonEmpty ((:|)), (<|))
 import qualified Data.List.NonEmpty as NE
-import           Debug.Trace        (traceShow)
 
 type Pos = Point2 Int
 
