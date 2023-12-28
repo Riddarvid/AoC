@@ -1,3 +1,7 @@
 Clean up day 10.
 Maybe try to implement a more efficient solution to day 10, but might not be necessary.
 Rewrite general aoc test
+
+Day17:
+ - Idea for detecting inside: Track lowest x position. For that position, also track lowest y
+   position. That position must be an L, where the inside is to the top right.
