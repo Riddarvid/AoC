@@ -1,17 +1,13 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 {-# HLINT ignore "Use <$>" #-}
-{-# LANGUAGE DeriveFunctor              #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 module Days.Day19 (solve) where
 import           AoCUtils.Days        (Solver)
 import           AoCUtils.Regex       (parseSignedInts)
 import           Control.Monad.Reader (MonadReader (ask), Reader, runReader)
-import           Control.Monad.State  (MonadState (get), StateT, evalStateT,
-                                       gets)
 import           Data.HashMap.Lazy    (HashMap)
 import qualified Data.HashMap.Lazy    as HM
 import           Data.Maybe           (fromJust)
-import           Debug.Trace          (traceShowId)
 import           Prelude              hiding (GT, LT)
 import           Text.Parsec          (Parsec, between, char, digit, letter,
                                        many1, oneOf, optionMaybe, optional,
@@ -28,9 +24,6 @@ data Part = Part {
 
 xmasScore :: Part -> Int
 xmasScore (Part x m a s) = x + m + a + s
-
-getPartFun :: PartType -> Part -> Int
-getPartFun X = px
 
 -- Workflows
 
