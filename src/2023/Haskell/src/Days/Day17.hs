@@ -10,7 +10,7 @@ import           Data.HashMap.Lazy (HashMap)
 import qualified Data.HashMap.Lazy as HM
 import           Data.Maybe        (fromJust, mapMaybe)
 import           GHC.Generics      (Generic)
-import           Utils.Dijkstra    (distanceTo)
+import           Utils.Dijkstra    (findTarget)
 
 type Pos = Point2 Int
 
@@ -37,16 +37,19 @@ solve input = let
   in (show part1, show part2)
 
 solve1 :: WeightMap -> Int -> Int -> Int
-solve1 weights maxX maxY = fromJust $
-  distanceTo [start] (\s -> sPos s == P2 maxX maxY) (getNeighbors weights)
+solve1 weights maxX maxY = fromJust $ HM.lookup node dists
   where
     start = State (P2 0 0) DDown 0
+    (node, dists) = fromJust $
+      findTarget [start] (\s -> sPos s == P2 maxX maxY) (getNeighbors weights)
+
 
 solve2 :: WeightMap -> Int -> Int -> Int
-solve2 weights maxX maxY = fromJust $
-  distanceTo starts (\s -> sPos s == P2 maxX maxY && sSteps s >= 4) (getUltraNeighbors weights)
+solve2 weights maxX maxY = fromJust $ HM.lookup node dists
   where
     starts = [State (P2 0 0) DDown 0, State (P2 0 0) DRight 0]
+    (node, dists) = fromJust $ findTarget starts
+      (\s -> sPos s == P2 maxX maxY && sSteps s >= 4) (getUltraNeighbors weights)
 
 getNeighbors :: WeightMap -> State -> [(State, Int)]
 getNeighbors weights s = mapMaybe (addCost weights) neighbors

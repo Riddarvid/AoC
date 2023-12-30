@@ -4,7 +4,7 @@
 {-# LANGUAGE TupleSections              #-}
 {-# OPTIONS_GHC -Wno-unused-top-binds #-}
 
-module Utils.Dijkstra (findTarget) where
+module Utils.Dijkstra (findTarget, exploreFully) where
 
 import           Control.Monad        (when)
 import           Control.Monad.Except (Except, MonadError (throwError),
@@ -21,6 +21,7 @@ import           Data.HashSet         (HashSet)
 import qualified Data.HashSet         as HS
 import           Data.Heap            (Entry (Entry), Heap)
 import qualified Data.Heap            as Heap
+import           Data.Maybe           (fromJust)
 
 data DijkstraEnv d n = DE {
   deEndCond   :: EndCond d n,
@@ -56,6 +57,12 @@ evalDijkstra env state m = fst <$> runDijkstra env state m
 
 execDijkstra :: DijkstraEnv d n -> DijkstraState d n -> Dijkstra d n a -> Maybe (DijkstraState d n)
 execDijkstra env state m = snd <$> runDijkstra env state m
+
+exploreFully :: (Ord d, Num d, Hashable n) => [n] -> NeighborsOf d n -> HashMap n d
+exploreFully starts neighborsOf = dsDists endState
+  where
+    endCond state = Heap.size (dsHeap state) == 0
+    endState = fromJust $ execDijkstra (mkEnv endCond neighborsOf) (mkState starts) dijkstraLoop
 
 findTarget ::
   (Hashable n, Ord d, Num d) => [n] -> (n -> Bool) -> NeighborsOf d n -> Maybe (n, HashMap n d)
