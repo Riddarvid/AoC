@@ -48,6 +48,7 @@ library
       Days.Day19
       Days.Day20
       Days.Day21
+      Days.Day21.Graphics
       Utils.Dijkstra
   other-modules:
       Paths_Haskell
