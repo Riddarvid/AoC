@@ -4,7 +4,7 @@
 {-# LANGUAGE TupleSections              #-}
 {-# OPTIONS_GHC -Wno-unused-top-binds #-}
 
-module Utils.Dijkstra (findTarget, exploreFully) where
+module Utils.Dijkstra (findTarget, exploreFully, exploreWithin) where
 
 import           Control.Monad        (when)
 import           Control.Monad.Except (Except, MonadError (throwError),
@@ -62,6 +62,15 @@ exploreFully :: (Ord d, Num d, Hashable n) => [n] -> NeighborsOf d n -> HashMap 
 exploreFully starts neighborsOf = dsDists endState
   where
     endCond state = Heap.size (dsHeap state) == 0
+    endState = fromJust $ execDijkstra (mkEnv endCond neighborsOf) (mkState starts) dijkstraLoop
+
+exploreWithin :: (Ord d, Num d, Hashable n, Integral a) =>
+  a -> [n] -> NeighborsOf d n -> HashMap n d
+exploreWithin limit starts neighborsOf = dsDists endState
+  where
+    endCond state =
+      Heap.size (dsHeap state) == 0 ||
+      fromJust (HM.lookup (dsLastVisited state) (dsDists state)) > fromIntegral limit
     endState = fromJust $ execDijkstra (mkEnv endCond neighborsOf) (mkState starts) dijkstraLoop
 
 findTarget ::

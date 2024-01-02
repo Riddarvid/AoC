@@ -9,7 +9,7 @@ import qualified Data.HashMap.Lazy as HM
 import           Data.HashSet      (HashSet)
 import qualified Data.HashSet      as HS
 import           Data.Maybe        (fromJust)
-import           Utils.Dijkstra    (exploreFully)
+import           Utils.Dijkstra    (exploreFully, exploreWithin)
 
 type Pos = Point2 Int
 
@@ -47,7 +47,7 @@ nExactReachableSearch parity steps start = HS.size . findExactReachableSearch pa
 findExactReachableSearch :: Integral a => Parity -> a -> Pos -> HashMap Pos Tile -> HashSet Pos
 findExactReachableSearch parity steps start tiles = exactReachable
   where
-    dists = exploreFully [start] (mkAdjacency tiles)
+    dists = exploreWithin steps [start] (mkAdjacency tiles)
     reachable = HM.keysSet $ HM.filter (\d -> toInteger d <= toInteger steps) dists
     exactReachable = HS.filter (isExactReachable parity start) reachable
 
@@ -58,6 +58,7 @@ isExactReachable parity (P2 startX startY) (P2 x y) = (x + y) `mod` 2 == parityB
       then (startX + startY + 1) `mod` 2
       else (startX + startY) `mod` 2
 
+-- Imporvement: In dijkstra, add condition for stopping when distance becomes too high
 mkAdjacency :: HashMap Pos Tile -> Pos -> [(Pos, Int)]
 mkAdjacency tiles p = map (, 1) plotNeighbors
   where
@@ -67,28 +68,6 @@ mkAdjacency tiles p = map (, 1) plotNeighbors
     isOpen p' = case HM.lookup p' tiles of
       Nothing   -> False
       Just tile -> tile == Plot
-
-solveGraphics :: String -> (Int, Int, HashMap Pos Tile, HashSet Pos)
-solveGraphics input = (maxX, maxY, tiles, exactReachable)
-  where
-    (maxX, maxY, start, tiles) = scaleMap 1 input
-    exactReachable = findExactReachableSearch Odd (65 :: Int) start tiles
-
--- Factor must be odd for start position scaling to work
-scaleMap :: Int -> String -> (Int, Int, Pos, HashMap Pos Tile)
-scaleMap factor input = (maxX, maxY, startScaled, HM.map parseTile scaledChars)
-  where
-    baseGrid = lines input
-    row = map (concat . replicate factor) baseGrid
-    scaledGrid = concat $ replicate factor row
-    (scaledChars, maxX, maxY) = matrixToHashMap scaledGrid
-    (chars, _, _) = matrixToHashMap $ lines input
-    start = head $ HM.keys $ HM.filter (== 'S') chars
-    startScaled = start `moveBy`
-      (rightV `scaleBy` (length (head (lines input)) * (factor `div` 2)))
-      `moveBy`
-      (downV `scaleBy` (length (lines input) * (factor `div` 2)))
-
 
 -- Part 2
 
@@ -123,3 +102,26 @@ solveGeneral' side steps tiles = a * na + a' * na' + bb' * nbb'
     na = (2 * n + 1) ^ (2 :: Integer)
     na' = (2 * n) ^ (2 :: Integer)
     nbb' = ((4 * n + 1) ^ (2 :: Integer) - na - na') `div` 2
+
+-- Graphics
+
+solveGraphics :: String -> (Int, Int, HashMap Pos Tile, HashSet Pos)
+solveGraphics input = (maxX, maxY, tiles, exactReachable)
+  where
+    (maxX, maxY, start, tiles) = scaleMap 1 input
+    exactReachable = findExactReachableSearch Odd (65 :: Int) start tiles
+
+-- Factor must be odd for start position scaling to work
+scaleMap :: Int -> String -> (Int, Int, Pos, HashMap Pos Tile)
+scaleMap factor input = (maxX, maxY, startScaled, HM.map parseTile scaledChars)
+  where
+    baseGrid = lines input
+    row = map (concat . replicate factor) baseGrid
+    scaledGrid = concat $ replicate factor row
+    (scaledChars, maxX, maxY) = matrixToHashMap scaledGrid
+    (chars, _, _) = matrixToHashMap $ lines input
+    start = head $ HM.keys $ HM.filter (== 'S') chars
+    startScaled = start `moveBy`
+      (rightV `scaleBy` (length (head (lines input)) * (factor `div` 2)))
+      `moveBy`
+      (downV `scaleBy` (length (lines input) * (factor `div` 2)))
