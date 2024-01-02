@@ -9,7 +9,7 @@ import qualified Data.HashMap.Lazy as HM
 import           Data.HashSet      (HashSet)
 import qualified Data.HashSet      as HS
 import           Data.Maybe        (fromJust)
-import           Utils.Dijkstra    (exploreFully, exploreWithin)
+import           Utils.Dijkstra    (exploreWithin)
 
 type Pos = Point2 Int
 
