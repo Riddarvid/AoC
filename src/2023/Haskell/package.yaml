@@ -29,6 +29,7 @@ dependencies:
   - hashable >= 1.4.0.2
   - heaps >= 0.4
   - mtl >= 2.2.2
+  - QuickCheck >= 2.14.3
 
 ghc-options:
   - -Wall

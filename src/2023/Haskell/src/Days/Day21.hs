@@ -39,7 +39,7 @@ parseTile '#' = Rock
 parseTile _   = error "Invalid tile"
 
 solve1 :: Pos -> HashMap Pos Tile -> Int
-solve1 = nExactReachableSearch Even (64 :: Int)
+solve1 = nExactReachableSearch Odd (65 :: Int)
 
 nExactReachableSearch :: Integral a => Parity -> a -> Pos -> HashMap Pos Tile -> Int
 nExactReachableSearch parity steps start = HS.size . findExactReachableSearch parity steps start
@@ -72,7 +72,7 @@ mkAdjacency tiles p = map (, 1) plotNeighbors
 -- Part 2
 
 solve2 :: Int -> Int -> Pos -> HashMap Pos Tile -> Integer
-solve2 maxX maxY start = fromJust . solveGeneral maxX maxY 26501365 start
+solve2 maxX maxY start = fromJust . solveGeneral maxX maxY (65 + 131 * 2) start
 
 -- Checks that the input is a square, that the starting position is in the middle of it,
 -- and that the steps value can be expressed as n * 2 * side + mid
@@ -108,8 +108,8 @@ solveGeneral' side steps tiles = a * na + a' * na' + bb' * nbb'
 solveGraphics :: String -> (Int, Int, HashMap Pos Tile, HashSet Pos)
 solveGraphics input = (maxX, maxY, tiles, exactReachable)
   where
-    (maxX, maxY, start, tiles) = scaleMap 1 input
-    exactReachable = findExactReachableSearch Odd (65 :: Int) start tiles
+    (maxX, maxY, start, tiles) = scaleMap 5 input
+    exactReachable = findExactReachableSearch Odd (65 + 131 * 2 :: Int) start tiles
 
 -- Factor must be odd for start position scaling to work
 scaleMap :: Int -> String -> (Int, Int, Pos, HashMap Pos Tile)
