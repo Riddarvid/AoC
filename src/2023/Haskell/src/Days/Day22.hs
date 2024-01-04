@@ -17,7 +17,7 @@ import qualified Data.HashMap.Lazy as HM
 import           Data.HashSet      (HashSet)
 import qualified Data.HashSet      as HS
 import           Data.Ix           (Ix (inRange))
-import           Data.List         (nub, partition, (\\))
+import           Data.List         (nub, partition)
 import           Data.Maybe        (fromJust)
 import           GHC.Generics      (Generic)
 import           Test.QuickCheck   (Arbitrary (arbitrary), Gen, Property,
@@ -50,22 +50,17 @@ data Brick = Brick Pos Pos
 
 instance Hashable Brick
 
-instance Show Brick where
-  show :: Brick -> String
-  show (Brick p1 p2) = showPoint p1 ++ "~" ++ showPoint p2
-
 data Orientation = X | Y | Z | Any
   deriving (Eq, Show)
-
-showPoint :: Pos -> String
-showPoint (P3 x y z) = show x ++ "," ++ show y ++ "," ++ show z
 
 solve :: Solver
 solve input = let
   bricks = map parseBrick $ lines input
   landed = stackBricks bricks
-  part1 = solve1 landed
-  part2 = solve2 landed
+  supporting = mapSupporting landed
+  supportedBy = mapSupportedBy landed
+  part1 = solve1 supportedBy
+  part2 = solve2 supporting supportedBy
   in (show part1, show part2)
 
 -- Parsing
@@ -92,12 +87,11 @@ orderPoints p1 p2 = case comparePoints p1 p2 of
 
 -- Part 1
 
-solve1 :: [Brick] -> Int
-solve1 landed = length safe
+solve1 :: HashMap Brick [Brick] -> Int
+solve1 supportedBy = HS.size safe
   where
-    supporting = map (\b -> filter (b `isSupportedBy`) landed) landed
-    essential = nub $ concat $ filter (\bs -> length bs == 1) supporting
-    safe = landed \\ essential
+    essential = HS.fromList $ concat $ HM.elems $ HM.filter (\bs -> length bs == 1) supportedBy
+    safe = HS.difference (HM.keysSet supportedBy) essential
 
 stackBricks :: [Brick] -> [Brick]
 stackBricks = stackBricks' []
@@ -291,11 +285,9 @@ tryAddBrick brick bricks
   | any (intersects brick) bricks = bricks
   | otherwise = brick : bricks
 
-solve2 :: [Brick] -> Int
-solve2 landed = sum $ map (nWouldFall supporting supportedBy) landed
-  where
-    supporting = mapSupporting landed
-    supportedBy = mapSupportedBy landed
+solve2 :: HashMap Brick [Brick] -> HashMap Brick [Brick] -> Int
+solve2 supporting supportedBy =
+  sum $ map (nWouldFall supporting supportedBy) $ HM.keys supportedBy
 
 mapSupporting :: [Brick] -> HashMap Brick [Brick]
 mapSupporting landed = HM.fromList $ map (\l -> (l, filter (`isSupportedBy` l) landed)) landed
