@@ -21,7 +21,7 @@ import qualified Data.HashMap.Lazy as HM
 import           Data.HashSet      (HashSet)
 import qualified Data.HashSet      as HS
 import           Data.Ix           (Ix (inRange))
-import           Data.List         (nub, partition)
+import           Data.List         (insertBy, nub, sortOn)
 import           Data.Maybe        (fromJust)
 import           GHC.Generics      (Generic)
 
@@ -97,36 +97,40 @@ orderPoints p1 p2 = case comparePoints p1 p2 of
 -- Functions for stacking the bricks and building the support maps
 
 stackBricks :: [Brick] -> [Brick]
-stackBricks = stackBricks' []
+stackBricks = foldl insertBrick [] . sortOn (\(Brick (P3 _ _ z) _) -> z)
 
-stackBricks' :: [Brick] -> [Brick] -> [Brick]
-stackBricks' landed [] = landed
-stackBricks' landed falling = stackBricks' landed' falling''
+-- Bricks is built in such a way that it is always sorted with regards to the highest point
+-- of the bricks
+insertBrick :: [Brick] -> Brick -> [Brick]
+insertBrick bricks brick = insertBy (flip compareHighest) brick' bricks
   where
-    (landed', falling') = detectLanded falling landed
-    falling'' = map moveDownOneStep falling'
+    brick' = fall brick bricks
+    compareHighest :: Brick -> Brick -> Ordering
+    compareHighest (Brick _ (P3 _ _ z1)) (Brick _ (P3 _ _ z2)) = compare z1 z2
+
+fall :: Brick -> [Brick] -> Brick
+fall brick [] = fallToHeight 1 brick
+fall brick (highest : bricks)
+  | brick' `isSupportedBy` highest = brick'
+  | otherwise = fall brick bricks
+  where
+    brick' = fallToBrick highest brick
+
+fallToBrick :: Brick -> Brick -> Brick
+fallToBrick (Brick _ (P3 _ _ z)) = fallToHeight (z + 1)
+
+fallToHeight :: Int -> Brick -> Brick
+fallToHeight newZ brick@(Brick (P3 _ _ oldZ) _) = moveBrickBy (P3 0 0 (newZ - oldZ)) brick
 
 -- Moving bricks
 
 moveUpOneStep :: Brick -> Brick
 moveUpOneStep = moveBrickBy (P3 0 0 1)
 
-moveDownOneStep :: Brick -> Brick
-moveDownOneStep = moveBrickBy (P3 0 0 (-1))
-
 moveBrickBy :: Vector3 Int -> Brick -> Brick
 moveBrickBy v (Brick p1 p2) = Brick (p1 `moveBy` v) (p2 `moveBy` v)
 
 -- Intersections
-
--- Call recursively if you find at least one new
-detectLanded :: [Brick] -> [Brick] -> ([Brick], [Brick])
-detectLanded falling landed = case landed' of
-  [] -> (landed, falling)
-  _  -> detectLanded falling' (landed' ++ landed)
-  where
-    (landed', falling') =
-      partition (\f -> isOnGround f || any (\l -> f `isSupportedBy` l) landed) falling
 
 isOnGround :: Brick -> Bool
 isOnGround (Brick (P3 _ _ z) _) = z == 1
