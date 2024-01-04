@@ -4,9 +4,13 @@
 {-# LANGUAGE InstanceSigs  #-}
 module Days.Day22 (
   solve,
-  propNoCollisionsLanded,
-  propRemoveCollisions,
-  propLandedSupported
+  Brick (Brick),
+  Orientation (..),
+  Pos,
+  stackBricks,
+  isOnGround,
+  isSupportedBy,
+  intersects
 ) where
 import           AoCUtils.Days     (Solver)
 import           AoCUtils.Geometry (Point (moveBy), Point3 (P3), Vector3)
@@ -20,8 +24,6 @@ import           Data.Ix           (Ix (inRange))
 import           Data.List         (nub, partition)
 import           Data.Maybe        (fromJust)
 import           GHC.Generics      (Generic)
-import           Test.QuickCheck   (Arbitrary (arbitrary), Gen, Property,
-                                    Testable (property), chooseInt, elements)
 
 
 -- A naive solution is of course to simply check for each point if it is contained within the
@@ -47,6 +49,13 @@ type Pos = Point3 Int
 -- The higher of the varying coordinate should always be in the second entry.
 data Brick = Brick Pos Pos
   deriving (Eq, Generic)
+
+instance Show Brick where
+  show :: Brick -> String
+  show (Brick p1 p2) = showPoint p1 ++ "~" ++ showPoint p2
+
+showPoint :: Pos -> String
+showPoint (P3 x y z) = show x ++ "," ++ show y ++ "," ++ show z
 
 instance Hashable Brick
 
@@ -85,13 +94,7 @@ orderPoints p1 p2 = case comparePoints p1 p2 of
   GT -> (p2, p1)
   EQ -> (p1, p2)
 
--- Part 1
-
-solve1 :: HashMap Brick [Brick] -> Int
-solve1 supportedBy = HS.size safe
-  where
-    essential = HS.fromList $ concat $ HM.elems $ HM.filter (\bs -> length bs == 1) supportedBy
-    safe = HS.difference (HM.keysSet supportedBy) essential
+-- Functions for stacking the bricks and building the support maps
 
 stackBricks :: [Brick] -> [Brick]
 stackBricks = stackBricks' []
@@ -222,78 +225,25 @@ intersectsRange (min1, max1) (min2, max2) =
   (min1 <= max2) &&
   (min2 <= max1)
 
-instance Arbitrary Brick where
-  arbitrary :: Gen Brick
-  arbitrary = do
-    p1 <- choosePoint
-    p2 <- chooseComplementPoint p1
-    return $ Brick p1 p2
-
-choosePoint :: Gen Pos
-choosePoint = do
-  x <- chooseXY 0
-  y <- chooseXY 0
-  z <- chooseZ 1
-  return $ P3 x y z
-
-chooseComplementPoint :: Pos -> Gen Pos
-chooseComplementPoint (P3 x y z) = do
-  orientation <- chooseOrientation
-  case orientation of
-    X -> do
-      x' <- chooseXY x
-      return $ P3 x' y z
-    Y -> do
-      y' <- chooseXY y
-      return $ P3 x y' z
-    Z -> do
-      z' <- chooseZ z
-      return $ P3 x y z'
-    Any -> error "Should not be able to generate an Any value"
-
-chooseOrientation :: Gen Orientation
-chooseOrientation = elements [X, Y, Z]
-
-chooseXY :: Int -> Gen Int
-chooseXY n = chooseInt (n, 9)
-
-chooseZ :: Int -> Gen Int
-chooseZ n = chooseInt (n, n + 10)
-
-propRemoveCollisions :: [Brick] -> Property
-propRemoveCollisions = property . not . hasCollisions . removeCollisions
-
-propNoCollisionsLanded :: [Brick] -> Property
-propNoCollisionsLanded bricks = property $ not $ hasCollisions landed
-  where
-    bricks' = removeCollisions bricks
-    landed = stackBricks bricks'
-
-propLandedSupported :: [Brick] -> Property
-propLandedSupported bricks = property $ all (\l -> isOnGround l || any (l `isSupportedBy`) landed) landed
-  where
-    landed = stackBricks $ removeCollisions bricks
-
-hasCollisions :: [Brick] -> Bool
-hasCollisions bricks = any (\b -> any (\b' -> b /= b' && intersects b b') bricks) bricks
-
-removeCollisions :: [Brick] -> [Brick]
-removeCollisions = foldr tryAddBrick []
-
-tryAddBrick :: Brick -> [Brick] -> [Brick]
-tryAddBrick brick bricks
-  | any (intersects brick) bricks = bricks
-  | otherwise = brick : bricks
-
-solve2 :: HashMap Brick [Brick] -> HashMap Brick [Brick] -> Int
-solve2 supporting supportedBy =
-  sum $ map (nWouldFall supporting supportedBy) $ HM.keys supportedBy
-
 mapSupporting :: [Brick] -> HashMap Brick [Brick]
 mapSupporting landed = HM.fromList $ map (\l -> (l, filter (`isSupportedBy` l) landed)) landed
 
 mapSupportedBy :: [Brick] -> HashMap Brick [Brick]
 mapSupportedBy landed = HM.fromList $ map (\l -> (l, filter (isSupportedBy l) landed)) landed
+
+-- Part 1
+
+solve1 :: HashMap Brick [Brick] -> Int
+solve1 supportedBy = HS.size safe
+  where
+    essential = HS.fromList $ concat $ HM.elems $ HM.filter (\bs -> length bs == 1) supportedBy
+    safe = HS.difference (HM.keysSet supportedBy) essential
+
+-- Part 2
+
+solve2 :: HashMap Brick [Brick] -> HashMap Brick [Brick] -> Int
+solve2 supporting supportedBy =
+  sum $ map (nWouldFall supporting supportedBy) $ HM.keys supportedBy
 
 nWouldFall :: HashMap Brick [Brick] -> HashMap Brick [Brick] -> Brick -> Int
 nWouldFall supporting supported brick =

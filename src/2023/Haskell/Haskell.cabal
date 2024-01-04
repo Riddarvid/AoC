@@ -50,6 +50,7 @@ library
       Days.Day21
       Days.Day21.Graphics
       Days.Day22
+      Days.Day22.Test
       Utils.Dijkstra
   other-modules:
       Paths_Haskell
