@@ -5,3 +5,5 @@ Rewrite general aoc test
 Day17:
  - Idea for detecting inside: Track lowest x position. For that position, also track lowest y
    position. That position must be an L, where the inside is to the top right.
+
+Undersök varför linear kompilerar med system-ghc men inte annars

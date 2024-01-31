@@ -52,6 +52,8 @@ library
       Days.Day22
       Days.Day22.Test
       Days.Day23
+      Days.Day24
+      Days.Day24.Graphics
       Utils.Dijkstra
   other-modules:
       Paths_Haskell
@@ -61,16 +63,18 @@ library
       src
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
-      MemoTrie >=0.6.11
+      MemoTrie >=0.6.10
     , QuickCheck >=2.14.3
     , aoc-utils >=0.1.0.0
     , base >=4.7 && <5
     , gloss >=1.13.2.2
     , hashable >=1.4.0.2
     , heaps >=0.4
+    , linear
     , mtl >=2.2.2
-    , parsec >=3.1.16.1
+    , parsec >=3.1.15.0
     , regex-pcre >=0.95.0.0
+    , spoon >=0.3.1
     , unordered-containers >=0.2.19.1
   default-language: Haskell2010
 
@@ -85,16 +89,18 @@ executable Haskell-exe
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       Haskell
-    , MemoTrie >=0.6.11
+    , MemoTrie >=0.6.10
     , QuickCheck >=2.14.3
     , aoc-utils >=0.1.0.0
     , base >=4.7 && <5
     , gloss >=1.13.2.2
     , hashable >=1.4.0.2
     , heaps >=0.4
+    , linear
     , mtl >=2.2.2
-    , parsec >=3.1.16.1
+    , parsec >=3.1.15.0
     , regex-pcre >=0.95.0.0
+    , spoon >=0.3.1
     , unordered-containers >=0.2.19.1
   default-language: Haskell2010
 
@@ -110,15 +116,17 @@ test-suite Haskell-test
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       Haskell
-    , MemoTrie >=0.6.11
+    , MemoTrie >=0.6.10
     , QuickCheck >=2.14.3
     , aoc-utils >=0.1.0.0
     , base >=4.7 && <5
     , gloss >=1.13.2.2
     , hashable >=1.4.0.2
     , heaps >=0.4
+    , linear
     , mtl >=2.2.2
-    , parsec >=3.1.16.1
+    , parsec >=3.1.15.0
     , regex-pcre >=0.95.0.0
+    , spoon >=0.3.1
     , unordered-containers >=0.2.19.1
   default-language: Haskell2010

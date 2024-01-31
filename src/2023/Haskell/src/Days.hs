@@ -24,6 +24,7 @@ import           Days.Day20    as Day20 (solve)
 import           Days.Day21    as Day21 (solve)
 import           Days.Day22    as Day22 (solve)
 import           Days.Day23    as Day23 (solve)
+import           Days.Day24    as Day24 (solve)
 
 solvers :: [Solver]
 solvers =
@@ -31,5 +32,5 @@ solvers =
     Day01.solve, Day02.solve, Day03.solve, Day04.solve, Day05.solve, Day06.solve, Day07.solve,
     Day08.solve, Day09.solve, Day10.solve, Day11.solve, Day12.solve, Day13.solve, Day14.solve,
     Day15.solve, Day16.solve, Day17.solve, Day18.solve, Day19.solve, Day20.solve, Day21.solve,
-    Day22.solve, Day23.solve
+    Day22.solve, Day23.solve, Day24.solve
   ]
