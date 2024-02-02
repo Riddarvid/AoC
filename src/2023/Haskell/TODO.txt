@@ -7,3 +7,6 @@ Day17:
    position. That position must be an L, where the inside is to the top right.
 
 Undersök varför linear kompilerar med system-ghc men inte annars
+
+Dag 25: Total tid: 5220 sekunder. Räkna på hur många iterationer det blir för att hitta bra 
+vilket random seed som gav svaret.

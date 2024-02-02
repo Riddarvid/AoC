@@ -54,6 +54,7 @@ library
       Days.Day23
       Days.Day24
       Days.Day24.Graphics
+      Days.Day25
       Utils.Dijkstra
   other-modules:
       Paths_Haskell
@@ -73,6 +74,7 @@ library
     , linear
     , mtl >=2.2.2
     , parsec >=3.1.15.0
+    , random >=1.2.1.1
     , regex-pcre >=0.95.0.0
     , spoon >=0.3.1
     , unordered-containers >=0.2.19.1
@@ -99,6 +101,7 @@ executable Haskell-exe
     , linear
     , mtl >=2.2.2
     , parsec >=3.1.15.0
+    , random >=1.2.1.1
     , regex-pcre >=0.95.0.0
     , spoon >=0.3.1
     , unordered-containers >=0.2.19.1
@@ -126,6 +129,7 @@ test-suite Haskell-test
     , linear
     , mtl >=2.2.2
     , parsec >=3.1.15.0
+    , random >=1.2.1.1
     , regex-pcre >=0.95.0.0
     , spoon >=0.3.1
     , unordered-containers >=0.2.19.1

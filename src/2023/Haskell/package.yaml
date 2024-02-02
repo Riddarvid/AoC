@@ -32,6 +32,7 @@ dependencies:
   - QuickCheck >= 2.14.3
   - linear
   - spoon >= 0.3.1
+  - random >= 1.2.1.1
 
 ghc-options:
   - -Wall
