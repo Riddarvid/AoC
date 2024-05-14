@@ -35,12 +35,10 @@ library
       Days.Day08
       Days.Day09
       Days.Day10
-      Days.Day10.Graphics
       Days.Day11
       Days.Day12
       Days.Day13
       Days.Day14
-      Days.Day14.Graphics
       Days.Day15
       Days.Day16
       Days.Day17
@@ -48,12 +46,10 @@ library
       Days.Day19
       Days.Day20
       Days.Day21
-      Days.Day21.Graphics
       Days.Day22
       Days.Day22.Test
       Days.Day23
       Days.Day24
-      Days.Day24.Graphics
       Days.Day25
       Utils.Dijkstra
   other-modules:
@@ -68,7 +64,6 @@ library
     , QuickCheck >=2.14.3
     , aoc-utils >=0.1.0.0
     , base >=4.7 && <5
-    , gloss >=1.13.2.2
     , hashable >=1.4.0.2
     , heaps >=0.4
     , linear
@@ -95,7 +90,6 @@ executable Haskell-exe
     , QuickCheck >=2.14.3
     , aoc-utils >=0.1.0.0
     , base >=4.7 && <5
-    , gloss >=1.13.2.2
     , hashable >=1.4.0.2
     , heaps >=0.4
     , linear
@@ -123,7 +117,6 @@ test-suite Haskell-test
     , QuickCheck >=2.14.3
     , aoc-utils >=0.1.0.0
     , base >=4.7 && <5
-    , gloss >=1.13.2.2
     , hashable >=1.4.0.2
     , heaps >=0.4
     , linear

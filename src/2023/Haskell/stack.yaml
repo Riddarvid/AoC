@@ -17,7 +17,7 @@
 #
 # resolver: ./custom-snapshot.yaml
 # resolver: https://example.com/snapshots/2018-01-01.yaml
-resolver: lts-21.21
+resolver: lts-21.25
 
 # User packages to be built.
 # Various formats can be used as shown in the example below.
@@ -41,7 +41,7 @@ packages:
 #
 extra-deps:
   - git: https://github.com/Riddarvid/aoc-utils-haskell/
-    commit: 06f3ab429f30ed69785adec8d12987f41560e984
+    commit: 6d56e4ec73745dadff2249999d65e9fc43ed1741
 # Override default flag values for local packages and extra-deps
 # flags: {}
 
