@@ -68,6 +68,7 @@ library
     , heaps >=0.4
     , linear
     , mtl >=2.2.2
+    , parallel >=3.2.2.0
     , parsec >=3.1.15.0
     , random >=1.2.1.1
     , regex-pcre >=0.95.0.0
@@ -94,6 +95,7 @@ executable Haskell-exe
     , heaps >=0.4
     , linear
     , mtl >=2.2.2
+    , parallel >=3.2.2.0
     , parsec >=3.1.15.0
     , random >=1.2.1.1
     , regex-pcre >=0.95.0.0
@@ -121,6 +123,7 @@ test-suite Haskell-test
     , heaps >=0.4
     , linear
     , mtl >=2.2.2
+    , parallel >=3.2.2.0
     , parsec >=3.1.15.0
     , random >=1.2.1.1
     , regex-pcre >=0.95.0.0

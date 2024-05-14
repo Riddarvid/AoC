@@ -8,6 +8,7 @@ import           AoCUtils.Regex (parseUnsignedInts)
 import           Data.MemoTrie  (HasTrie (..), Reg, enumerateGeneric, memo2,
                                  trieGeneric, untrieGeneric)
 import           GHC.Generics   (Generic)
+import Control.Parallel.Strategies (Strategy, using, parListChunk, rseq)
 
 data SpringRecord = SROperational | SRDamaged | SRUnkown
   deriving (Show, Eq, Generic)
@@ -73,8 +74,14 @@ canFit 0 (r : _)  = r /= SRDamaged
 canFit n (r : rs) = r /= SROperational && canFit (n - 1) rs
 
 solve2 :: [Row] -> Integer
-solve2 = sum . map (validArrangementsRow . unfoldRow)
+solve2 rows = sum (arrangementsList `using` evalStrat)
+  where
+    arrangementsList = map (validArrangementsRow . unfoldRow) rows
 
 unfoldRow :: Row -> Row
 unfoldRow (Row rs ns) =
   Row (rs ++ concat (replicate 4 (SRUnkown : rs))) (concat $ replicate 5 ns)
+
+-- Using this strategy results in ~2x speedup with 7 threads!
+evalStrat :: Strategy [a]
+evalStrat = parListChunk 100 rseq
