@@ -7,9 +7,8 @@ import           Solvers              (solvers)
 inputPath :: FilePath
 inputPath = "../../../data/inputs/2024"
 
-
 resultsPath :: FilePath
-resultsPath = "../../../data/results/2023"
+resultsPath = "../../../data/results/2024"
 
 main :: IO ()
 main = aocMain $ mkConfig solvers inputPath resultsPath

@@ -21,6 +21,7 @@ description: Please see the README on GitHub at <https://github.com/Riddarvid/Ha
 dependencies:
   - base >= 4.7 && < 5
   - aoc-utils >= 1.1.0
+  - containers
 
 ghc-options:
   - -Wall
