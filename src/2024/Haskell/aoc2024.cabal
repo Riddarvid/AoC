@@ -27,6 +27,7 @@ library
       Days.Day1
       Days.Day2
       Days.Day3
+      Days.Day4
       Solvers
   other-modules:
       Paths_aoc2024
@@ -41,6 +42,7 @@ library
     , containers
     , megaparsec
     , regex-with-pcre
+    , unordered-containers
   default-language: Haskell2010
 
 executable Haskell-exe
@@ -59,6 +61,7 @@ executable Haskell-exe
     , containers
     , megaparsec
     , regex-with-pcre
+    , unordered-containers
   default-language: Haskell2010
 
 test-suite Haskell-test
@@ -78,4 +81,5 @@ test-suite Haskell-test
     , containers
     , megaparsec
     , regex-with-pcre
+    , unordered-containers
   default-language: Haskell2010
