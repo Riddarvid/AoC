@@ -28,6 +28,8 @@ library
       Days.Day2
       Days.Day3
       Days.Day4
+      Days.Day5
+      Days.Day5Alt
       Solvers
   other-modules:
       Paths_aoc2024
