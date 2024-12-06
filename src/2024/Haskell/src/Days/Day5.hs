@@ -33,9 +33,10 @@ type OrderRelation = Set (Int, Int)
 
 solve :: Solver
 solve input = let
-  (rules, updates) = parseInput input
-  part1 = solve1 rules updates
-  part2 = solve2 rules updates
+  (order, updates) = parseInput input
+  ordersAndUpdates = map (\update -> (buildOrderRelation order update, update)) updates
+  part1 = solve1 ordersAndUpdates
+  part2 = solve2 ordersAndUpdates
   in (show part1, show part2)
 
 -- Parsing and building the order relation -----------------
@@ -59,10 +60,11 @@ parseUpdates = map parseSignedInts
 -------- Building the order relation --------------
 
 -- From the given relation, complete it using the transitive property.
-buildOrderRelation :: OrderRelation -> Set Int -> OrderRelation
+buildOrderRelation :: OrderRelation -> [Int] -> OrderRelation
 buildOrderRelation order members = buildOrderRelation' order' Set.empty $ Set.toList order'
   where
-    order' = Set.filter (\(a, b) -> Set.member a members && Set.member b members) order
+    order' = Set.filter (\(a, b) -> Set.member a memberSet && Set.member b memberSet) order
+    memberSet = Set.fromList members
 
 buildOrderRelation' :: OrderRelation -> Set (Int, Int) -> [(Int, Int)] -> OrderRelation
 buildOrderRelation' order _ [] = order
@@ -90,25 +92,25 @@ fromTransitive (a, b) (c, d)
 
 -- solve1
 
-solve1 :: OrderRelation -> [Update] -> Int
-solve1 rules updates = sum $
-  map (middleNumber . fst) $
-  filter (uncurry isOrdered) updatesAndOrders
-  where
-    updatesAndOrders = map (\update -> (update, buildOrderRelation rules $ Set.fromList update)) updates
+solve1 :: [(OrderRelation, Update)] -> Int
+solve1 = sum .
+  map (middleNumber . snd) .
+  filter (uncurry isOrdered)
 
-solve2 :: OrderRelation -> [Update] -> Int
-solve2 rules updates =
-  sum $
-  map (middleNumber . uncurry (flip sortUsingRelation)) $
-  filter (\(update, order) -> not $ isOrdered update order) updatesAndOrders
-  where
-    updatesAndOrders = map (\update -> (update, buildOrderRelation rules $ Set.fromList update)) updates
-
-sortUsingRelation :: OrderRelation -> Update -> Update
-sortUsingRelation order = sortBy (compareUsing order)
+solve2 :: [(OrderRelation, Update)] -> Int
+solve2 =
+  sum .
+  map (middleNumber . uncurry sortUsing) .
+  filter (not . uncurry isOrdered)
 
 -------- Utils -----------------------
+
+isOrdered :: OrderRelation -> Update -> Bool
+isOrdered orderRelation update =
+  all (uncurry $ lessThanUsing orderRelation) $ zip update (tail update)
+
+sortUsing :: OrderRelation -> Update -> Update
+sortUsing order = sortBy (compareUsing order)
 
 compareUsing :: Ord a => Set (a, a) -> a -> a -> Ordering
 compareUsing relation a b
@@ -118,10 +120,6 @@ compareUsing relation a b
 
 lessThanUsing :: Ord a => Set (a, a) -> a -> a -> Bool
 lessThanUsing relation a b = (== LT) $ compareUsing relation a b
-
-isOrdered :: Update -> OrderRelation -> Bool
-isOrdered update orderRelation =
-  all (uncurry $ lessThanUsing orderRelation) $ zip update (tail update)
 
 middleNumber :: Update -> Int
 middleNumber update = case drop (n `div` 2) update of
