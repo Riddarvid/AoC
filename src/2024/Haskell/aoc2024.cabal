@@ -30,7 +30,10 @@ library
       Days.Day4
       Days.Day5
       Days.Day5Alt
+      Days.Day5Alt2
+      Days.Day6
       Solvers
+      Utils
   other-modules:
       Paths_aoc2024
   autogen-modules:
