@@ -1,10 +1,10 @@
 module Days.Day4 (solve) where
 import           AoCUtils.Days       (Solver)
 import           AoCUtils.Geometry   (Point2 (P2))
-import           AoCUtils.Matrices   (matrixToHashMap)
-import           Data.HashMap.Strict (HashMap)
-import qualified Data.HashMap.Strict as HM
+import           AoCUtils.Matrices   (matrixToMapList)
 import           Data.List           (transpose)
+import           Data.Map            (Map)
+import qualified Data.Map            as Map
 import           Data.Maybe          (fromJust)
 import           Text.RE.PCRE.String (RE, compileRegex, countMatches, (*=~))
 
@@ -49,24 +49,25 @@ nDiagonal2 = nDiagonal1 . reverse
 solve2 :: [String] -> Int
 solve2 puzzle = length $ filter (isXmas charMap) aPoints
   where
-    (charMap, _, _) = matrixToHashMap puzzle
-    aPoints = HM.keys $ HM.filter (== 'A') charMap
+    (charMapList, _, _) = matrixToMapList puzzle
+    charMap = Map.fromList charMapList
+    aPoints = Map.keys $ Map.filter (== 'A') charMap
 
-isXmas :: HashMap (Point2 Int) Char -> Point2 Int -> Bool
+isXmas :: Map (Point2 Int) Char -> Point2 Int -> Bool
 isXmas aPoints p = isMasDiagonal1 aPoints p && isMasDiagonal2 aPoints p
 
-isMasDiagonal1 :: HashMap (Point2 Int) Char -> Point2 Int -> Bool
+isMasDiagonal1 :: Map (Point2 Int) Char -> Point2 Int -> Bool
 isMasDiagonal1 charMap (P2 x y) =
   (c1 == Just 'M' && c2 == Just 'S') ||
   (c1 == Just 'S' && c2 == Just 'M')
   where
-    c1 = HM.lookup (P2 (x - 1) (y - 1)) charMap
-    c2 = HM.lookup (P2 (x + 1) (y + 1)) charMap
+    c1 = Map.lookup (P2 (x - 1) (y - 1)) charMap
+    c2 = Map.lookup (P2 (x + 1) (y + 1)) charMap
 
-isMasDiagonal2 :: HashMap (Point2 Int) Char -> Point2 Int -> Bool
+isMasDiagonal2 :: Map (Point2 Int) Char -> Point2 Int -> Bool
 isMasDiagonal2 charMap (P2 x y) =
   (c1 == Just 'M' && c2 == Just 'S') ||
   (c1 == Just 'S' && c2 == Just 'M')
   where
-    c1 = HM.lookup (P2 (x - 1) (y + 1)) charMap
-    c2 = HM.lookup (P2 (x + 1) (y - 1)) charMap
+    c1 = Map.lookup (P2 (x - 1) (y + 1)) charMap
+    c2 = Map.lookup (P2 (x + 1) (y - 1)) charMap

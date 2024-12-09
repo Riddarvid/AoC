@@ -5,6 +5,7 @@ import qualified Days.Day2     as D2
 import qualified Days.Day3     as D3
 import qualified Days.Day4     as D4
 import qualified Days.Day5     as D5
+import qualified Days.Day6     as D6
 
 solvers :: [Solver]
-solvers = [D1.solve, D2.solve, D3.solve, D4.solve, D5.solve]
+solvers = [D1.solve, D2.solve, D3.solve, D4.solve, D5.solve, D6.solve]

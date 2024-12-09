@@ -61,15 +61,15 @@ solve2 =
   sum .
   map (middleNumber . fst) .
   filter snd .
-  map (uncurry sortIfNotOrdered)
+  map (uncurry sortWithFlag)
 
 -------- Utils -----------------------
 
 isOrdered :: PredecessorMap -> Update -> Bool
-isOrdered predecessorMap = not . snd . sortIfNotOrdered predecessorMap
+isOrdered predecessorMap = not . snd . sortWithFlag predecessorMap
 
-sortIfNotOrdered :: PredecessorMap -> Update -> (Update, Bool)
-sortIfNotOrdered predecessorMap update
+sortWithFlag :: PredecessorMap -> Update -> (Update, Bool)
+sortWithFlag predecessorMap update
   | update == update' = (update', False)
   | otherwise = (update', True)
   where

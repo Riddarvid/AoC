@@ -42,7 +42,7 @@ packages:
 #
 extra-deps:
   - git: https://github.com/Riddarvid/aoc-utils-haskell/
-    commit: 79508d9ff3cbbb5ed4bccb1bf1ee550d2c7880c5
+    commit: 9cd63f2f82afd8e276acd536a1df4e2d760261f8
 # Override default flag values for project packages and extra-deps
 # flags: {}
 

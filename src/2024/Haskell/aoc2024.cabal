@@ -29,8 +29,6 @@ library
       Days.Day3
       Days.Day4
       Days.Day5
-      Days.Day5Alt
-      Days.Day5Alt2
       Days.Day6
       Solvers
       Utils
@@ -42,7 +40,7 @@ library
       src
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
-      aoc-utils >=1.1.0
+      aoc-utils >=1.2.0
     , base >=4.7 && <5
     , containers
     , megaparsec
@@ -60,7 +58,7 @@ executable Haskell-exe
       app
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      aoc-utils >=1.1.0
+      aoc-utils >=1.2.0
     , aoc2024
     , base >=4.7 && <5
     , containers
@@ -80,7 +78,7 @@ test-suite Haskell-test
       test
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      aoc-utils >=1.1.0
+      aoc-utils >=1.2.0
     , aoc2024
     , base >=4.7 && <5
     , containers
