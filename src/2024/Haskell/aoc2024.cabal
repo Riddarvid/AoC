@@ -25,6 +25,7 @@ source-repository head
 library
   exposed-modules:
       Days.Day1
+      Days.Day10
       Days.Day2
       Days.Day3
       Days.Day4
@@ -32,6 +33,7 @@ library
       Days.Day6
       Days.Day7
       Days.Day8
+      Days.Day9
       Solvers
       Utils
   other-modules:
