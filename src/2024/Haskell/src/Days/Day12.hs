@@ -1,6 +1,6 @@
 module Days.Day12 (solve) where
 import           AoCUtils.Days     (Solver)
-import           AoCUtils.Geometry (Point (moveBy), Point2, downV, leftV,
+import           AoCUtils.Geometry (Point (moveBy), Point2 (p2Y), downV, leftV,
                                     rightV, upV)
 import           AoCUtils.Graphs   (BfsState (bfsPreMap), Goal (GFull),
                                     bfsExplore)
@@ -11,7 +11,7 @@ import qualified Data.Map          as Map
 import           Data.Maybe        (fromJust)
 import           Data.Set          (Set)
 import qualified Data.Set          as Set
-import           Debug.Trace       (traceShow, traceShowId)
+import           Debug.Trace       (trace, traceShow, traceShowId)
 import           Utils             (Direction, moveByDir, neighborDirections,
                                     neighborsOf, turnDirLeft, turnDirRight)
 
@@ -64,7 +64,7 @@ solve1 :: [Region] -> Integer
 solve1 = sum . map fencePrice1
 
 solve2 :: [Region] -> Integer
-solve2 = sum . map fencePrice2
+solve2 = sum . map (traceShowId . fencePrice2)
 
 ------ Pricing ----------------------------------------
 
@@ -110,40 +110,59 @@ totalSides' region = go
         in sides + go outsidePerimeter'
 
 extractSides :: Region -> Set (Point2 Int) -> Point2 Int -> (Integer, Set (Point2 Int))
-extractSides region outsidePerimeter outsideStart = (sides, outsidePerimeter')
+extractSides region outsidePerimeter start = (sides, outsidePerimeter')
   where
-    (start, startDir) = determineStart region outsideStart
-    (sides, visitedPerimeter) = extractSides' outsidePerimeter start startDir
-    outsidePerimeter' = traceShow visitedPerimeter $ Set.difference outsidePerimeter visitedPerimeter
+    startDir = determineStartDir region start
+    (sides, visitedOutsidePerimeter) = extractSides' region start startDir
+    visitedOutsidePerimeter' = Set.map fst visitedOutsidePerimeter
+    outsidePerimeter' = Set.difference outsidePerimeter visitedOutsidePerimeter'
 
-determineStart :: Region -> Point2 Int -> (Point2 Int, Direction)
-determineStart region outsidePoint = (perimeterPoint, moveDirection)
+determineStartDir :: Region -> Point2 Int -> Direction
+determineStartDir region start = turnDirLeft direction
   where
-    neighbors = zip (neighborsOf outsidePoint) neighborDirections
-    (perimeterPoint, direction) = fromJust $ find (\(p, _) -> Set.member p region) neighbors
-    moveDirection = turnDirLeft direction
+    direction = fromJust $ find (\dir -> Set.member (moveByDir start dir) region) neighborDirections
 
-extractSides' :: Set (Point2 Int) -> Point2 Int -> Direction -> (Integer, Set (Point2 Int))
-extractSides' outsidePerimeter start startDir = go start startDir
+extractSides' :: Region -> Point2 Int -> Direction -> (Integer, Set (Point2 Int, Direction))
+extractSides' region start startDir = go 0 Set.empty start startDir
   where
-    go point dir
-      | (nextPoint, nextDir) == (start, startDir) = (turnTerm, Set.singleton outsidePoint)
-      | otherwise = let
-        (sides, visited) = go nextPoint nextDir
-        in (turnTerm + sides, Set.insert outsidePoint visited)
+    go sides visited point dir
+      -- | traceShow (point, dir) (p2Y point < -50) = undefined
+      | (nextPoint, nextDir) == (start, startDir) = (sides', visited')
+      | otherwise = go sides' visited' nextPoint nextDir
       where
-        (nextPoint, nextDir) = moveOne outsidePerimeter point dir
-        turnTerm = if dir == nextDir then 0 else 1
-        outsidePoint = point `moveByDir` turnDirRight dir
+        (nextPoint, nextDir) = moveOne region visited point dir
+        visited' = Set.insert (point, dir) visited
+        sides' = sides + if dir == nextDir then 0 else 1
 
--- Hug the left wall
-moveOne :: Set (Point2 Int) -> Point2 Int -> Direction -> (Point2 Int, Direction)
-moveOne outsidePerimeter point direction
-  | Set.member left = undefined
-  | Set.member forwardRight outsidePerimeter = (forward, direction)
-  | otherwise = (forwardRight, turnDirRight direction)
+-- The idea is to walk along the outside, following the right wall.
+-- We only move forward, and only if the right path is blocked and the forward path is free.
+-- Basically, choose the first that applies:
+-- 1) If right is free, we're turning around a corner, and have not been here with this direction before, turn right
+-- 2) If forward is free, move forward
+-- 3) Turn left
+moveOne :: Region -> Set (Point2 Int, Direction) -> Point2 Int -> Direction -> (Point2 Int, Direction)
+moveOne region visited point direction
+  | canTurnRight region visited point direction = (point, rightDir)
+  | not $ Set.member forwardPoint region = (forwardPoint, direction)
+  | otherwise = (point, leftDir)
   where
-    left = point `moveByDir` turnDirLeft direction
-    forwardRight = point `moveByDir` direction `moveByDir` turnDirRight direction
-    forward = point `moveByDir` direction
+    rightDir = turnDirRight direction
+    leftDir = turnDirLeft direction
+    forwardPoint = point `moveByDir` direction
 
+canTurnRight :: Region -> Set (Point2 Int, Direction) -> Point2 Int -> Direction -> Bool
+canTurnRight region visited point direction =
+  isRightCorner region point direction &&
+  not (Set.member (point, direction) visited)
+
+isRightCorner :: Region -> Point2 Int -> Direction -> Bool
+isRightCorner region point direction =
+  Set.member rightBehindPoint region &&
+  not (Set.member rightPoint region) &&
+  not (Set.member behindPoint region)
+  where
+    rightDir = turnDirRight direction
+    behindDir = turnDirRight rightDir
+    rightBehindPoint = point `moveByDir` rightDir `moveByDir` behindDir
+    rightPoint = point `moveByDir` rightDir
+    behindPoint = point `moveByDir` behindDir

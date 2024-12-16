@@ -28,6 +28,7 @@ library
       Days.Day10
       Days.Day11
       Days.Day12
+      Days.Day13
       Days.Day2
       Days.Day3
       Days.Day4
@@ -46,12 +47,13 @@ library
       src
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
-      aoc-utils >=1.2.0
+      aoc-utils >=1.3.0
     , base >=4.7 && <5
     , containers
     , megaparsec
     , memoize >=1.1.2
     , regex-with-pcre
+    , split
     , unordered-containers
   default-language: Haskell2010
 
@@ -65,13 +67,14 @@ executable Haskell-exe
       app
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      aoc-utils >=1.2.0
+      aoc-utils >=1.3.0
     , aoc2024
     , base >=4.7 && <5
     , containers
     , megaparsec
     , memoize >=1.1.2
     , regex-with-pcre
+    , split
     , unordered-containers
   default-language: Haskell2010
 
@@ -86,12 +89,13 @@ test-suite Haskell-test
       test
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      aoc-utils >=1.2.0
+      aoc-utils >=1.3.0
     , aoc2024
     , base >=4.7 && <5
     , containers
     , megaparsec
     , memoize >=1.1.2
     , regex-with-pcre
+    , split
     , unordered-containers
   default-language: Haskell2010
