@@ -1,19 +1,16 @@
 module Days.Day12 (solve) where
 import           AoCUtils.Days     (Solver)
-import           AoCUtils.Geometry (Point (moveBy), Point2 (p2Y), downV, leftV,
-                                    rightV, upV)
+import           AoCUtils.Geometry (Point (moveBy), Point2 (p2X, p2Y), downV,
+                                    leftV, rightV, upV)
 import           AoCUtils.Graphs   (BfsState (bfsPreMap), Goal (GFull),
                                     bfsExplore)
 import           AoCUtils.Matrices (matrixToMapList)
-import           Data.Foldable     (find)
 import           Data.Map          (Map)
 import qualified Data.Map          as Map
 import           Data.Maybe        (fromJust)
 import           Data.Set          (Set)
 import qualified Data.Set          as Set
-import           Debug.Trace       (trace, traceShow, traceShowId)
-import           Utils             (Direction, moveByDir, neighborDirections,
-                                    neighborsOf, turnDirLeft, turnDirRight)
+import           Utils             (neighborsOf)
 
 solve :: Solver
 solve input = let
@@ -64,7 +61,7 @@ solve1 :: [Region] -> Integer
 solve1 = sum . map fencePrice1
 
 solve2 :: [Region] -> Integer
-solve2 = sum . map (traceShowId . fencePrice2)
+solve2 = sum . map fencePrice2
 
 ------ Pricing ----------------------------------------
 
@@ -72,7 +69,7 @@ fencePrice1 :: Region -> Integer
 fencePrice1 region = area region * totalPerimeter region
 
 fencePrice2 :: Region -> Integer
-fencePrice2 region = area region * totalSides region
+fencePrice2 region = area region * toInteger (totalSidesAlt region)
 
 area :: Set a -> Integer
 area = toInteger . Set.size
@@ -83,86 +80,69 @@ totalPerimeter region = sum $ map (toInteger . perimeterSides region) $ Set.toLi
 perimeterSides :: Region -> Point2 Int -> Int
 perimeterSides region = length . filter (\p -> not $ Set.member p region) . neighborsOf
 
--- Idea for part 2:
--- Each turn represents a side.
--- Start by filtering all the tiles that are part of the perimeter.
--- Start at some point at the perimeter, looking out from the region (upwards).
--- Move to the "right" until we encounter a turn. Increase turn counter by one.
--- Repeat until back at start position and start direction.
--- Remove all traversed tiles from perimeter set. If there are any left, pick a new random start point.
--- This last step is to account for the fact that we can have perimeters "on the inside" as well.
+----------------------------------------------------------
 
-totalSides :: Region -> Integer
-totalSides region = totalSides' region outsidePerimeter
+data Side = Vertical Int (Int, Int) | Horizontal Int (Int, Int)
+  deriving (Eq, Ord, Show)
+
+-- TODO count sides, taking into account intersections
+totalSidesAlt :: Region -> Int
+totalSidesAlt region = sum $ map (subSides sides) $ Set.toList sides
   where
-    outsidePerimeter = Set.unions $ Set.map (outsidePoints region) region
+    sides = regionSides region
 
-outsidePoints :: Region -> Point2 Int -> Set (Point2 Int)
-outsidePoints region = Set.fromList . filter (\p -> not $ Set.member p region) . neighborsOf
+subSides :: Set Side -> Side -> Int
+subSides sides side = 1 + length (Set.filter (intersect side) sides)
 
-totalSides' :: Region -> Set (Point2 Int) -> Integer
-totalSides' region = go
+intersect :: Side -> Side -> Bool
+intersect (Vertical x (yLow, yHigh)) (Horizontal y (xLow, xHigh)) =
+  xLow < x && x < xHigh && yLow < y && y < yHigh
+intersect h@(Horizontal _ _) v@(Vertical _ _) = intersect v h
+intersect _ _                                 = False
+
+regionSides :: Region -> Set Side
+regionSides region = Set.fold mergeSide Set.empty singleSides
   where
-    go outsidePerimeter = case Set.toList outsidePerimeter of
-      [] -> 0
-      (point : _) -> let
-        (sides, outsidePerimeter') = extractSides region outsidePerimeter point
-        in sides + go outsidePerimeter'
+    singleSides = Set.unions $ Set.map (tileSides region) region
 
-extractSides :: Region -> Set (Point2 Int) -> Point2 Int -> (Integer, Set (Point2 Int))
-extractSides region outsidePerimeter start = (sides, outsidePerimeter')
+tileSides :: Region -> Point2 Int -> Set Side
+tileSides region point = Set.fromList $ map snd $ filter (\(p, _) -> not $ Set.member p region) neighborSides
   where
-    startDir = determineStartDir region start
-    (sides, visitedOutsidePerimeter) = extractSides' region start startDir
-    visitedOutsidePerimeter' = Set.map fst visitedOutsidePerimeter
-    outsidePerimeter' = Set.difference outsidePerimeter visitedOutsidePerimeter'
+    x = p2X point
+    y = p2Y point
+    neighbors = neighborsOf point
+    sides = [
+      Horizontal y (x, x + 1),
+      Vertical (x  + 1) (y, y + 1),
+      Horizontal (y + 1) (x, x +1),
+      Vertical x (y, y + 1)
+      ]
+    neighborSides = zip neighbors sides
 
-determineStartDir :: Region -> Point2 Int -> Direction
-determineStartDir region start = turnDirLeft direction
+mergeSide :: Side -> Set Side -> Set Side
+mergeSide side acc = Set.insert side' acc'
   where
-    direction = fromJust $ find (\dir -> Set.member (moveByDir start dir) region) neighborDirections
+    connected = Set.filter (connectsWith side) acc
+    acc' = Set.difference acc connected
+    side' = combineSides connected side
 
-extractSides' :: Region -> Point2 Int -> Direction -> (Integer, Set (Point2 Int, Direction))
-extractSides' region start startDir = go 0 Set.empty start startDir
-  where
-    go sides visited point dir
-      -- | traceShow (point, dir) (p2Y point < -50) = undefined
-      | (nextPoint, nextDir) == (start, startDir) = (sides', visited')
-      | otherwise = go sides' visited' nextPoint nextDir
-      where
-        (nextPoint, nextDir) = moveOne region visited point dir
-        visited' = Set.insert (point, dir) visited
-        sides' = sides + if dir == nextDir then 0 else 1
+combineSides :: Set Side -> Side -> Side
+combineSides sides side = case side of
+  Vertical x (yLow, yHigh)   -> case Set.toList sides of
+    [] -> side
+    [Vertical _ (y1Low, y1High)] -> Vertical x (min yLow y1Low, max yHigh y1High)
+    [Vertical _ (y1Low, y1High), Vertical _ (y2Low, y2High)] -> Vertical x (min y1Low y2Low, max y1High y2High)
+    _ -> error ("Invalid connections: " ++ show (sides, side))
+  Horizontal y (xLow, xHigh) -> case Set.toList sides of
+    [] -> side
+    [Horizontal _ (x1Low, x1High)] -> Horizontal y (min xLow x1Low, max xHigh x1High)
+    [Horizontal _ (x1Low, x1High), Horizontal _ (x2Low, x2High)] -> Horizontal y (min x1Low x2Low, max x1High x2High)
+    _ -> error ("Invalid connections: " ++ show (sides, side))
 
--- The idea is to walk along the outside, following the right wall.
--- We only move forward, and only if the right path is blocked and the forward path is free.
--- Basically, choose the first that applies:
--- 1) If right is free, we're turning around a corner, and have not been here with this direction before, turn right
--- 2) If forward is free, move forward
--- 3) Turn left
-moveOne :: Region -> Set (Point2 Int, Direction) -> Point2 Int -> Direction -> (Point2 Int, Direction)
-moveOne region visited point direction
-  | canTurnRight region visited point direction = (point, rightDir)
-  | not $ Set.member forwardPoint region = (forwardPoint, direction)
-  | otherwise = (point, leftDir)
-  where
-    rightDir = turnDirRight direction
-    leftDir = turnDirLeft direction
-    forwardPoint = point `moveByDir` direction
 
-canTurnRight :: Region -> Set (Point2 Int, Direction) -> Point2 Int -> Direction -> Bool
-canTurnRight region visited point direction =
-  isRightCorner region point direction &&
-  not (Set.member (point, direction) visited)
-
-isRightCorner :: Region -> Point2 Int -> Direction -> Bool
-isRightCorner region point direction =
-  Set.member rightBehindPoint region &&
-  not (Set.member rightPoint region) &&
-  not (Set.member behindPoint region)
-  where
-    rightDir = turnDirRight direction
-    behindDir = turnDirRight rightDir
-    rightBehindPoint = point `moveByDir` rightDir `moveByDir` behindDir
-    rightPoint = point `moveByDir` rightDir
-    behindPoint = point `moveByDir` behindDir
+connectsWith :: Side -> Side -> Bool
+connectsWith (Vertical x1 (y1Low, y1High)) (Vertical x2 (y2Low, y2High)) =
+  x1 == x2 && (y1Low == y2High || y1High == y2Low)
+connectsWith (Horizontal y1 (x1Low, x1High)) (Horizontal y2 (x2Low, x2High)) =
+  y1 == y2 && (x1Low == x2High || x1High == x2Low)
+connectsWith _ _ = False
