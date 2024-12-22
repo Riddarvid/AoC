@@ -5,6 +5,7 @@ import qualified Days.Day10    as D10
 import qualified Days.Day11    as D11
 import qualified Days.Day12    as D12
 import qualified Days.Day13    as D13
+import qualified Days.Day14    as D14
 import qualified Days.Day2     as D2
 import qualified Days.Day3     as D3
 import qualified Days.Day4     as D4
@@ -18,5 +19,5 @@ solvers :: [Solver]
 solvers =
   [
     D1.solve, D2.solve, D3.solve, D4.solve, D5.solve, D6.solve, D7.solve, D8.solve,
-    D9.solve, D10.solve, D11.solve, D12.solve, D13.solve
+    D9.solve, D10.solve, D11.solve, D12.solve, D13.solve, D14.solve
   ]
