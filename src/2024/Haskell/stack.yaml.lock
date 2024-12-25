@@ -12,15 +12,15 @@ packages:
   original:
     hackage: memoize-1.1.2
 - completed:
-    commit: 912ac991bac22c4e3ca190b1b95faf46b0d3f2a1
+    commit: b40bf210b14fb6f0873733c18563babd4b024991
     git: https://github.com/Riddarvid/aoc-utils-haskell/
     name: aoc-utils
     pantry-tree:
-      sha256: 9052ce873def5595780a367234a97553dea22fa6a344b31a349546c503853a09
-      size: 1088
+      sha256: 923adf5e4e01d692b73ed2d73b7ccbb0559c63e924439160132ae138293eb09d
+      size: 1153
     version: 1.3.0
   original:
-    commit: 912ac991bac22c4e3ca190b1b95faf46b0d3f2a1
+    commit: b40bf210b14fb6f0873733c18563babd4b024991
     git: https://github.com/Riddarvid/aoc-utils-haskell/
 snapshots:
 - completed:

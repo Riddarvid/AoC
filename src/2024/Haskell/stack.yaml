@@ -43,7 +43,7 @@ packages:
 extra-deps:
   - memoize-1.1.2
   - git: https://github.com/Riddarvid/aoc-utils-haskell/
-    commit: 912ac991bac22c4e3ca190b1b95faf46b0d3f2a1
+    commit: b40bf210b14fb6f0873733c18563babd4b024991
 # Override default flag values for project packages and extra-deps
 # flags: {}
 

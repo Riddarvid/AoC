@@ -1,6 +1,7 @@
 module Utils (
   topologicalSort,
   Direction(..),
+  directions,
   neighborsOf,
   neighborDirections,
   turnDirLeft,
@@ -30,6 +31,9 @@ neighborsOf point = map (moveBy point) [upV, rightV, downV, leftV]
 
 data Direction = North | East | South | West
   deriving (Eq, Ord, Show)
+
+directions :: [Direction]
+directions = [North, East, South, West]
 
 turnDirLeft :: Direction -> Direction
 turnDirLeft North = West
