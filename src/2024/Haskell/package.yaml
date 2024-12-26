@@ -27,6 +27,7 @@ dependencies:
   - megaparsec
   - memoize >= 1.1.2
   - split
+  - mtl
 
 ghc-options:
   - -Wall

@@ -32,6 +32,7 @@ library
       Days.Day14
       Days.Day15
       Days.Day16
+      Days.Day17
       Days.Day2
       Days.Day3
       Days.Day4
@@ -55,6 +56,7 @@ library
     , containers
     , megaparsec
     , memoize >=1.1.2
+    , mtl
     , regex-with-pcre
     , split
     , unordered-containers
@@ -76,6 +78,7 @@ executable Haskell-exe
     , containers
     , megaparsec
     , memoize >=1.1.2
+    , mtl
     , regex-with-pcre
     , split
     , unordered-containers
@@ -98,6 +101,7 @@ test-suite Haskell-test
     , containers
     , megaparsec
     , memoize >=1.1.2
+    , mtl
     , regex-with-pcre
     , split
     , unordered-containers
