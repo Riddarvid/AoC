@@ -1,3 +1,4 @@
+{-# LANGUAGE LambdaCase #-}
 module Utils (
   topologicalSort,
   Direction(..),
@@ -6,10 +7,11 @@ module Utils (
   neighborDirections,
   turnDirLeft,
   turnDirRight,
-  moveByDir
+  moveByDir,
+  dirVector
 ) where
-import           AoCUtils.Geometry (Point (moveBy), Point2, downV, leftV,
-                                    rightV, upV)
+import           AoCUtils.Geometry (Point (moveBy), Point2, Vector2, downV,
+                                    leftV, rightV, upV)
 import           Data.Foldable     (find)
 import           Data.Map          (Map)
 import qualified Data.Map          as Map
@@ -47,14 +49,15 @@ turnDirRight East  = South
 turnDirRight South = West
 turnDirRight West  = North
 
+dirVector :: Num a => Direction -> Vector2 a
+dirVector = \case
+  North -> upV
+  East  -> rightV
+  South -> downV
+  West  -> leftV
+
 moveByDir :: Num a => Point2 a -> Direction -> Point2 a
-moveByDir p dir = moveBy p v
-  where
-    v = case dir of
-      North -> upV
-      East  -> rightV
-      South -> downV
-      West  -> leftV
+moveByDir p = moveBy p . dirVector
 
 neighborDirections :: [Direction]
 neighborDirections = [North, East, South, West]
