@@ -1,4 +1,5 @@
-{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE LambdaCase          #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 module Utils (
   topologicalSort,
   Direction(..),
@@ -8,7 +9,8 @@ module Utils (
   turnDirLeft,
   turnDirRight,
   moveByDir,
-  dirVector
+  dirVector,
+  shortestPaths
 ) where
 import           AoCUtils.Geometry (Point (moveBy), Point2, Vector2, downV,
                                     leftV, rightV, upV)
@@ -61,3 +63,15 @@ moveByDir p = moveBy p . dirVector
 
 neighborDirections :: [Direction]
 neighborDirections = [North, East, South, West]
+
+shortestPaths :: forall a. Ord a => Map a [a] -> a -> a -> [[a]]
+shortestPaths preMap start = go [[]]
+  where
+    go :: [[a]] -> a -> [[a]]
+    go acc x
+      | x == start = acc'
+      | otherwise = case Map.lookup x preMap of
+        Just preds -> concatMap (go acc') preds
+        Nothing    -> error "Invalid premap"
+      where
+        acc' = map (x :) acc
