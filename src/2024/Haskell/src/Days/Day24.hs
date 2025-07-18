@@ -1,17 +1,16 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 {-# HLINT ignore "Use head" #-}
 {-# LANGUAGE LambdaCase #-}
+{-# OPTIONS_GHC -Wno-unused-top-binds #-}
 module Days.Day24 (solve) where
 import           AoCUtils.Days        (Solver)
 import           Control.Monad        (filterM)
 import           Control.Monad.Reader (MonadReader (ask), Reader, runReader)
-import           Control.Monad.State  (State)
 import           Data.HashMap.Strict  (HashMap)
 import qualified Data.HashMap.Strict  as HM
-import           Data.List            (find, intercalate, sort)
+import           Data.List            (intercalate, sort)
 import           Data.List.Split      (splitOn)
-import           Data.Maybe           (catMaybes, fromJust, mapMaybe)
-import           Debug.Trace          (trace, traceShow)
+import           Data.Maybe           (catMaybes, isNothing)
 
 data Gate = Gate Operator String String
   deriving Show
@@ -22,9 +21,11 @@ data Operator = AND | OR | XOR
 solve :: Solver
 solve input = let
   (wires, gates, n) = parseInput input
-  -- part1 = solve1 zWires
+  part1 = solve1 wires gates n
   part2 = solve2 gates n
-  in ("", part2)
+  in (show part1, part2)
+
+-- Parsing
 
 parseInput :: String -> (HashMap String Bool, HashMap String Gate, Int)
 parseInput input = (wires, gates, maxN)
@@ -38,7 +39,6 @@ parseInput input = (wires, gates, maxN)
     zKeys = sort $ HM.keys zGateMap
     maxKey = last zKeys
     maxN = read $ tail maxKey
-
 
 parseWires :: [String] -> HashMap String Bool
 parseWires = HM.fromList . map parseWire
@@ -70,6 +70,34 @@ parseOperator = \case
   "OR" -> OR
   "XOR" -> XOR
   s -> error $ "Undefinded operator " ++ s
+
+-- Part 1
+
+solve1 :: HashMap String Bool -> HashMap String Gate -> Int -> Integer
+solve1 varMap gateMap maxN = binToDec zBinary
+  where
+    zVars = map (var "z") [0 .. maxN]
+    zBinary = map (eval varMap gateMap) zVars
+
+binToDec :: [Bool] -> Integer
+binToDec = foldr (\b acc -> 2 * acc + if b then 1 else 0) 0
+
+eval :: HashMap String Bool -> HashMap String Gate -> String -> Bool
+eval varMap gateMap = go
+  where
+    go wire = case HM.lookup wire varMap of
+      Just v -> v
+      Nothing -> case HM.lookup wire gateMap of
+        Nothing             -> error $ "Can't find wire" ++ wire
+        Just (Gate operator operand1 operand2) -> let
+          res1 = go operand1
+          res2 = go operand2
+          in case operator of
+            AND -> res1 && res2
+            OR  -> res1 || res2
+            XOR -> res1 `xor` res2
+      where
+        xor p q = (p && not q) || (q && not p)
 
 -- Part 2
 
@@ -144,6 +172,7 @@ identifyError gatePred gateName = case gatePred of
       Nothing                                 -> return errorObject
       Just (Gate operator' operand1 operand2) -> if operator /= operator'
         then return errorObject
+        -- Order does not matter so we have to check both possible configurations
         else do
           res1 <- identifyError p1 operand1
           res2 <- identifyError p2 operand2
@@ -163,15 +192,7 @@ identifyError gatePred gateName = case gatePred of
     errorObject = Just (gateName, gatePred)
 
 gateMatchesPred :: GatePred -> String -> GateReader Bool
-gateMatchesPred gatePred gateName = case gatePred of
-  GPVar varName -> return $ gateName == varName
-  GPGate operator p1 p2 -> do
-    GD gateMap <- ask
-    case HM.lookup gateName gateMap of
-      Nothing                         -> return False
-      Just (Gate operator' op1 op2) -> if operator /= operator'
-        then return False
-        else compareWithoutOrderM (gateMatchesPred p1) (gateMatchesPred p2) op1 op2
+gateMatchesPred gatePred gateName = isNothing <$> identifyError gatePred gateName
 
 -- Predicates ---------------------------
 
@@ -204,15 +225,6 @@ var :: String -> Int -> String
 var prefix n
   | n < 10 = prefix ++ "0" ++ show n
   | otherwise = prefix ++ show n
-
--- Should be an applicative but I was lazy
-compareWithoutOrderM :: Monad m => (a -> m Bool) -> (a -> m Bool) -> a -> a -> m Bool
-compareWithoutOrderM cmp1 cmp2 a b = do
-  res1a <- cmp1 a
-  res2b <- cmp2 b
-  res1b <- cmp1 b
-  res2a <- cmp2 a
-  return $ (res1a && res2b) || (res1b && res2a)
 
 swapOutputWires :: String -> String -> HashMap String Gate -> HashMap String Gate
 swapOutputWires g1 g2 = HM.mapKeys swapFun
