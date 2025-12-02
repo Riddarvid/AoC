@@ -21,6 +21,7 @@ description: Please see the README on GitHub at <https://github.com/Riddarvid/Ao
 dependencies:
   - base >= 4.7 && < 5
   - aoc-utils >= 1.3.0
+  - ghc
 
 ghc-options:
   - -Wall

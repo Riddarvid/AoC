@@ -25,7 +25,9 @@ source-repository head
 library
   exposed-modules:
       Days.Day1
+      Days.Day2
       Solvers
+      Utils
   other-modules:
       Paths_aoc2025
   autogen-modules:
@@ -36,6 +38,7 @@ library
   build-depends:
       aoc-utils >=1.3.0
     , base >=4.7 && <5
+    , ghc
   default-language: Haskell2010
 
 executable aoc2025-exe
@@ -51,6 +54,7 @@ executable aoc2025-exe
       aoc-utils >=1.3.0
     , aoc2025
     , base >=4.7 && <5
+    , ghc
   default-language: Haskell2010
 
 test-suite aoc2025-test
@@ -67,4 +71,5 @@ test-suite aoc2025-test
       aoc-utils >=1.3.0
     , aoc2025
     , base >=4.7 && <5
+    , ghc
   default-language: Haskell2010
