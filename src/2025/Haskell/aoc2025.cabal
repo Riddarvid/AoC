@@ -36,9 +36,9 @@ library
       src
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
-      aoc-utils >=1.3.0
+      QuickCheck
+    , aoc-utils >=1.3.0
     , base >=4.7 && <5
-    , ghc
   default-language: Haskell2010
 
 executable aoc2025-exe
@@ -51,10 +51,10 @@ executable aoc2025-exe
       app
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      aoc-utils >=1.3.0
+      QuickCheck
+    , aoc-utils >=1.3.0
     , aoc2025
     , base >=4.7 && <5
-    , ghc
   default-language: Haskell2010
 
 test-suite aoc2025-test
@@ -68,8 +68,8 @@ test-suite aoc2025-test
       test
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      aoc-utils >=1.3.0
+      QuickCheck
+    , aoc-utils >=1.3.0
     , aoc2025
     , base >=4.7 && <5
-    , ghc
   default-language: Haskell2010
