@@ -27,6 +27,7 @@ library
       Days.Day1
       Days.Day2
       Days.Day3
+      Days.Day4
       Solvers
       Utils
   other-modules:
@@ -40,6 +41,7 @@ library
       QuickCheck
     , aoc-utils >=1.3.0
     , base >=4.7 && <5
+    , unordered-containers
   default-language: Haskell2010
 
 executable aoc2025-exe
@@ -56,6 +58,7 @@ executable aoc2025-exe
     , aoc-utils >=1.3.0
     , aoc2025
     , base >=4.7 && <5
+    , unordered-containers
   default-language: Haskell2010
 
 test-suite aoc2025-test
@@ -73,4 +76,5 @@ test-suite aoc2025-test
     , aoc-utils >=1.3.0
     , aoc2025
     , base >=4.7 && <5
+    , unordered-containers
   default-language: Haskell2010
