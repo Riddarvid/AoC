@@ -1,4 +1,8 @@
-module Utils (split, chunks) where
+module Utils (
+  split,
+  chunks,
+  flattenSingletonPartial
+) where
 
 split :: Eq a => a -> [a] -> [[a]]
 split delim xs = case remainder of
@@ -13,3 +17,7 @@ chunks chunkLength xs = case xs' of
   _  -> chunk : chunks chunkLength xs'
   where
     (chunk, xs') = splitAt chunkLength xs
+
+flattenSingletonPartial :: [a] -> a
+flattenSingletonPartial [x] = x
+flattenSingletonPartial _   = error "List not singleton"
