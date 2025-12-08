@@ -1,7 +1,8 @@
 module Utils (
   split,
   chunks,
-  flattenSingletonPartial
+  flattenSingletonPartial,
+  iterateEmit
 ) where
 
 split :: Eq a => a -> [a] -> [[a]]
@@ -21,3 +22,11 @@ chunks chunkLength xs = case xs' of
 flattenSingletonPartial :: [a] -> a
 flattenSingletonPartial [x] = x
 flattenSingletonPartial _   = error "List not singleton"
+
+iterateEmit :: (a -> (a, b)) -> a -> b -> [(a, b)]
+iterateEmit f x y = (x, y) : iterateEmit'  f x
+
+iterateEmit' :: (a -> (a, b)) -> a -> [(a, b)]
+iterateEmit' f x = (x', y') : iterateEmit' f x'
+  where
+    (x', y') = f x

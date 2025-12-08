@@ -23,6 +23,7 @@ dependencies:
   - aoc-utils >= 1.3.0
   - QuickCheck
   - unordered-containers
+  - memoize
 
 ghc-options:
   - -Wall
