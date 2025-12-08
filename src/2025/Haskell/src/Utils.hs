@@ -2,7 +2,8 @@ module Utils (
   split,
   chunks,
   flattenSingletonPartial,
-  iterateEmit
+  iterateEmit,
+  generalRecursionStep
 ) where
 
 split :: Eq a => a -> [a] -> [[a]]
@@ -30,3 +31,18 @@ iterateEmit' :: (a -> (a, b)) -> a -> [(a, b)]
 iterateEmit' f x = (x', y') : iterateEmit' f x'
   where
     (x', y') = f x
+
+generalRecursionStep ::
+  (a -> Maybe b) ->
+  (a -> [a]) ->
+  (a -> [b] -> b) ->
+  (a -> b) ->
+  (a -> b)
+generalRecursionStep stopCond splitProblem combineSolutions rec' x =
+  case stopCond x of
+    Just y -> y
+    Nothing -> let
+      subProblems = splitProblem x
+      subSolutions = map rec' subProblems
+      solution = combineSolutions x subSolutions
+      in solution
