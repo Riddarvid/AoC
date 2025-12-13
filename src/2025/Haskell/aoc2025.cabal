@@ -31,8 +31,10 @@ library
       Days.Day5
       Days.Day6
       Days.Day7
+      Days.Day8
       Solvers
       TemplateHaskell
+      UnionFind
       Utils
   other-modules:
       Paths_aoc2025
@@ -45,6 +47,7 @@ library
       QuickCheck
     , aoc-utils >=1.3.0
     , base >=4.7 && <5
+    , hashable
     , memoize
     , unordered-containers
   default-language: Haskell2010
@@ -63,6 +66,7 @@ executable aoc2025-exe
     , aoc-utils >=1.3.0
     , aoc2025
     , base >=4.7 && <5
+    , hashable
     , memoize
     , unordered-containers
   default-language: Haskell2010
@@ -82,6 +86,7 @@ test-suite aoc2025-test
     , aoc-utils >=1.3.0
     , aoc2025
     , base >=4.7 && <5
+    , hashable
     , memoize
     , unordered-containers
   default-language: Haskell2010

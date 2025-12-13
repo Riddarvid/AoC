@@ -24,6 +24,7 @@ dependencies:
   - QuickCheck
   - unordered-containers
   - memoize
+  - hashable
 
 ghc-options:
   - -Wall
