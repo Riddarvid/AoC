@@ -1,9 +1,11 @@
+{-# LANGUAGE TupleSections #-}
 module Utils (
   split,
   chunks,
   flattenSingletonPartial,
   iterateEmit,
-  generalRecursionStep
+  generalRecursionStep,
+  mkUniquePairs
 ) where
 
 split :: Eq a => a -> [a] -> [[a]]
@@ -46,3 +48,7 @@ generalRecursionStep stopCond splitProblem combineSolutions rec' x =
       subSolutions = map rec' subProblems
       solution = combineSolutions x subSolutions
       in solution
+
+mkUniquePairs :: [a] -> [(a, a)]
+mkUniquePairs []       = []
+mkUniquePairs (x : xs) = map (x,) xs ++ mkUniquePairs xs

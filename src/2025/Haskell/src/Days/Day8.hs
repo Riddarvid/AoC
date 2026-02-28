@@ -1,4 +1,3 @@
-{-# LANGUAGE TupleSections #-}
 module Days.Day8 (solve) where
 import           AoCUtils.Days     (Solver)
 import           AoCUtils.Geometry (Point, Point3 (P3))
@@ -9,6 +8,7 @@ import           Data.Maybe        (fromJust)
 import           Data.Ord          (comparing)
 import qualified UnionFind         as UF
 import           UnionFind         (UnionFind)
+import           Utils             (mkUniquePairs)
 
 -- I interpret in part 1 that we should do the first 1000
 -- connection attempts, even if nothing happens.
@@ -64,10 +64,6 @@ mkSortedPairs xs = map fst sortedPairDistances
     pairs = mkUniquePairs xs
     pairDistances = map (\p -> (p, uncurry euclidianDistanceBetween p :: Double)) pairs
     sortedPairDistances = sortBy (comparing snd) pairDistances
-
-mkUniquePairs :: [a] -> [(a, a)]
-mkUniquePairs []       = []
-mkUniquePairs (x : xs) = map (x,) xs ++ mkUniquePairs xs
 
 euclidianDistanceBetween :: (Point p, Floating b, Integral a) => p a -> p a -> b
 euclidianDistanceBetween p1 p2 =
