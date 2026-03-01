@@ -49,6 +49,7 @@ library
     , aoc-utils >=1.3.0
     , base >=4.7 && <5
     , containers
+    , gloss
     , hashable
     , memoize
     , unordered-containers
@@ -69,6 +70,7 @@ executable aoc2025-exe
     , aoc2025
     , base >=4.7 && <5
     , containers
+    , gloss
     , hashable
     , memoize
     , unordered-containers
@@ -90,6 +92,7 @@ test-suite aoc2025-test
     , aoc2025
     , base >=4.7 && <5
     , containers
+    , gloss
     , hashable
     , memoize
     , unordered-containers

@@ -11,4 +11,4 @@ resultsPath :: FilePath
 resultsPath = "../../../data/results/2025"
 
 main :: IO ()
-main = aocMain $ mkConfig solvers inputPath resultsPath
+main = aocMain $ mkConfig solvers inputPath resultsPath undefined

@@ -5,15 +5,15 @@
 
 packages:
 - completed:
-    commit: b40bf210b14fb6f0873733c18563babd4b024991
+    commit: 59764fb47a105f4febd4342dd4ef0e65b7006001
     git: https://github.com/Riddarvid/aoc-utils-haskell/
     name: aoc-utils
     pantry-tree:
-      sha256: 923adf5e4e01d692b73ed2d73b7ccbb0559c63e924439160132ae138293eb09d
-      size: 1153
+      sha256: f37c15ae858b95450ac282d40e5f608ea7357a6884d242ca62f5299d61e2672b
+      size: 1217
     version: 1.3.0
   original:
-    commit: b40bf210b14fb6f0873733c18563babd4b024991
+    commit: 59764fb47a105f4febd4342dd4ef0e65b7006001
     git: https://github.com/Riddarvid/aoc-utils-haskell/
 - completed:
     hackage: memoize-1.1.2@sha256:d7701b55ed63434d1e8b507d0a76bb58f2fe31b7ce329132e1ca808c7001da49,1928
