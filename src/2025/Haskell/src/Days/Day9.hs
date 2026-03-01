@@ -1,8 +1,10 @@
 module Days.Day9 (
+  Rectangle,
   solve,
   parsePoint,
   findLargestRectangle,
-  Rectangle
+  filterNonIntersected,
+  mkAllRectangles
 ) where
 import           AoCUtils.Days     (Solver)
 import           AoCUtils.Geometry (Point2 (P2))
@@ -28,10 +30,14 @@ parsePoint input = case split ',' input of
   [xString, yString] -> P2 (read xString) (read yString)
   _                  -> error "Could not parse point"
 
-solve1 :: (Ord a, Num a) => [Point2 a] -> a
-solve1 points = maximum $ map (uncurry area) rectangles
-  where
-    rectangles = mkUniquePairs points
+solve1 :: (Num a, Ord a) =>[Point2 a] -> a
+solve1 = uncurry area . findLargestRectangle . mkAllRectangles
+
+mkAllRectangles :: [Point2 a] -> [Rectangle a]
+mkAllRectangles = mkUniquePairs
+
+findLargestRectangle :: (Ord a, Num a) => [Rectangle a] -> Rectangle a
+findLargestRectangle = maximumBy (comparing $ uncurry area)
 
 area :: Num a => Point2 a -> Point2 a -> a
 area (P2 x1 y1) (P2 x2 y2) = dx * dy
@@ -40,16 +46,21 @@ area (P2 x1 y1) (P2 x2 y2) = dx * dy
     dy = abs (y1 - y2) + 1
 
 solve2 :: (Num a, Ord a) => [Point2 a] -> a
-solve2 = uncurry area . findLargestRectangle
+solve2 points = uncurry area $
+  findLargestRectangle $
+  filterNonIntersected points $
+  mkAllRectangles points
 
--- By looking at the data, it seems like the largest recatngle will never be on the
--- outside. So we only check for intersection.
-findLargestRectangle :: (Num a, Ord a) => [Point2 a] -> Rectangle a
-findLargestRectangle points = maximumBy (comparing $ uncurry area) nonIntersected
+filterNonIntersected :: Ord a => [Point2 a] -> [Rectangle a] -> [Rectangle a]
+filterNonIntersected points = filter (\rect -> not $ any (`intersects` rect) lines')
   where
-    allRectangles = mkUniquePairs points
     lines' = mkLines points
-    nonIntersected = filter (\rect -> not $ any (`intersects` rect) lines') allRectangles
+
+rectDimensions :: Ord a => Rectangle a -> (a, a, a, a)
+rectDimensions (P2 x1 y1, P2 x2 y2) = (minX, minY, maxX, maxY)
+  where
+    (minX, maxX) = orderPair x1 x2
+    (minY, maxY) = orderPair y1 y2
 
 intersects :: Ord a => Line a -> Rectangle a -> Bool
 intersects line rect = case line of
@@ -62,12 +73,6 @@ intersects line rect = case line of
   where
     (rectMinX, rectMinY, rectMaxX, rectMaxY) = rectDimensions rect
 
-rectDimensions :: Ord a => Rectangle a -> (a, a, a, a)
-rectDimensions (P2 x1 y1, P2 x2 y2) = (minX, minY, maxX, maxY)
-  where
-    (minX, maxX) = orderPair x1 x2
-    (minY, maxY) = orderPair y1 y2
-
 intersects1D :: Ord a => (a, a) -> (a, a) -> Bool
 intersects1D (min1, max1) (min2, max2) =
   max1 > min2 &&
@@ -79,15 +84,15 @@ liesWithin x (minX, maxX) = minX < x && x < maxX
 mkLines :: (Ord a) =>[Point2 a] -> [Line a]
 mkLines points = map (uncurry mkLine) $ mkPairs (points ++ [head points])
 
-mkPairs :: [a] -> [(a, a)]
-mkPairs (x : y : zs) = (x, y) : mkPairs (y : zs)
-mkPairs _            = []
-
 mkLine :: (Ord a) =>Point2 a -> Point2 a -> Line a
 mkLine (P2 x1 y1) (P2 x2 y2)
   | x1 == x2 = VLine x1 (orderPair y1 y2)
   | y1 == y2 = HLine y1 (orderPair x1 x2)
   | otherwise = error "Not a line"
+
+mkPairs :: [a] -> [(a, a)]
+mkPairs (x : y : zs) = (x, y) : mkPairs (y : zs)
+mkPairs _            = []
 
 orderPair :: Ord a => a -> a -> (a, a)
 orderPair x y

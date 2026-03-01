@@ -2,7 +2,8 @@
 module Days.Day9.Graphics (drawTiles) where
 import           AoCUtils.Geometry (Point2 (P2))
 import           AoCUtils.Graphics (square)
-import           Days.Day9         (findLargestRectangle, parsePoint)
+import           Days.Day9         (filterNonIntersected, findLargestRectangle,
+                                    mkAllRectangles, parsePoint)
 import qualified Days.Day9         as D9
 import           Graphics.Gloss    (Display (InWindow), Picture, blue, color,
                                     display, green, pictures, rectangleSolid,
@@ -10,10 +11,11 @@ import           Graphics.Gloss    (Display (InWindow), Picture, blue, color,
 
 drawTiles :: String -> IO ()
 drawTiles input = do
-  let basePoints = map parsePoint $ lines input :: [Point2 Integer]
-  let !baseSolution = findLargestRectangle basePoints
-  let disp = drawDisplay basePoints baseSolution
   display (InWindow "Day 9 tiles" (1000, 1000) (10, 10)) white disp
+  where
+    basePoints = map parsePoint $ lines input :: [Point2 Integer]
+    !baseSolution = findLargestRectangle $ filterNonIntersected basePoints $ mkAllRectangles basePoints
+    disp = drawDisplay basePoints baseSolution
 
 drawDisplay :: Real a => [Point2 a] -> D9.Rectangle a -> Picture
 drawDisplay basePoints baseSolution = translate (- realToFrac baseX) (- realToFrac baseY) pic
