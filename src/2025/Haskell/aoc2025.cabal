@@ -33,6 +33,7 @@ library
       Days.Day7
       Days.Day8
       Days.Day9
+      Days.Day9.Graphics
       Solvers
       TemplateHaskell
       UnionFind
