@@ -25,6 +25,9 @@ source-repository head
 library
   exposed-modules:
       Days.Day1
+      Days.Day10
+      Days.Day10.GLPK
+      Days.Day10.Types
       Days.Day2
       Days.Day3
       Days.Day4
@@ -50,9 +53,12 @@ library
     , aoc-utils >=1.3.0
     , base >=4.7 && <5
     , containers
+    , filepath
     , gloss
     , hashable
+    , megaparsec
     , memoize
+    , process
     , unordered-containers
   default-language: Haskell2010
 
@@ -71,9 +77,12 @@ executable aoc2025-exe
     , aoc2025
     , base >=4.7 && <5
     , containers
+    , filepath
     , gloss
     , hashable
+    , megaparsec
     , memoize
+    , process
     , unordered-containers
   default-language: Haskell2010
 
@@ -93,8 +102,11 @@ test-suite aoc2025-test
     , aoc2025
     , base >=4.7 && <5
     , containers
+    , filepath
     , gloss
     , hashable
+    , megaparsec
     , memoize
+    , process
     , unordered-containers
   default-language: Haskell2010

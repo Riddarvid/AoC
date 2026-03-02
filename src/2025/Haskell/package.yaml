@@ -27,6 +27,9 @@ dependencies:
   - memoize
   - hashable
   - gloss
+  - megaparsec
+  - filepath
+  - process
 
 ghc-options:
   - -Wall
