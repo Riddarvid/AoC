@@ -28,6 +28,7 @@ library
       Days.Day10
       Days.Day10.GLPK
       Days.Day10.Types
+      Days.Day11
       Days.Day2
       Days.Day3
       Days.Day4
